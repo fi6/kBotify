@@ -8,7 +8,7 @@ import {
     CommandTypes,
     FuncResult,
 } from './command.types';
-import { KBot } from 'init/setupBot';
+import { KBot } from 'init/KBot';
 
 /**
  * Class of menu command.

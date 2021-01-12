@@ -1,4 +1,4 @@
-import { KBot } from 'init/setupBot';
+import { KBot } from 'init/KBot';
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
