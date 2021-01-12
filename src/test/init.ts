@@ -1,6 +1,6 @@
 // import { echoKmd } from 'test/echo/echo.kmd.app';
 // import { echo } from 'test/echo/echo.menu';
-import { KBotify } from 'init/KBot';
+import { KBotify } from 'utils/kbotify';
 // import { echo } from "../commands/echo/echo.menu";
 
 const kBot = new KBotify({
