@@ -8,7 +8,7 @@ import {
     CommandTypes,
     FuncResult,
 } from './types';
-import { KBotify } from 'init/KBot';
+import { KBotify } from 'utils/kbotify';
 
 /**
  * Class of menu command.
