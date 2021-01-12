@@ -24,12 +24,13 @@ export declare class AppCommand<T extends BaseData> implements BaseCommand {
     aliases: string[];
     help: string;
     intro: string;
-    bot: KBotify;
+    private bot;
     parent: MenuCommand<any> | null;
     func: (_data: BaseData) => Promise<FuncResult<T> | ResultTypes>;
     msgSender: AppMsgSender;
-    constructor();
-    exec(command: string, args: string[], msg: TextMessage): Promise<ResultTypes | void>;
     readonly type = CommandTypes.APP;
+    constructor();
+    assignBot: (bot: KBotify) => void;
+    exec(command: string, args: string[], msg: TextMessage): Promise<ResultTypes | void>;
 }
 export {};

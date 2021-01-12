@@ -45,20 +45,21 @@ export class AppCommand<T extends BaseData> implements BaseCommand {
     aliases = ['alias'];
     help = 'help';
     intro = 'intro';
-    bot = new KBotify({
-        mode: 'webhook',
-        token: 'token',
-        ignoreDecryptError: true,
-    });
+    private bot: KBotify | undefined;
     parent: MenuCommand<any> | null = null;
     func = async (_data: BaseData): Promise<FuncResult<T> | ResultTypes> => {
         throw new Error(`${this.code}的func尚未定义`);
     };
     msgSender = new AppMsgSender();
-
+    readonly type = CommandTypes.APP;
     constructor() {
-        this.msgSender.bot = this.bot;
+        //
     }
+
+    assignBot = (bot: KBotify): void => {
+        this.bot = bot;
+        this.msgSender.assignBot(bot);
+    };
 
     async exec(
         command: string,
@@ -66,6 +67,11 @@ export class AppCommand<T extends BaseData> implements BaseCommand {
         msg: TextMessage
     ): Promise<ResultTypes | void> {
         console.debug('running command: ', command, args, msg);
+        if (!this.bot)
+            throw new Error(
+                "'Command used before assigning a bot instance or message sender.'"
+            );
+
         try {
             if (args[0] === '帮助') {
                 this.bot.sendChannelMessage(
@@ -92,7 +98,6 @@ export class AppCommand<T extends BaseData> implements BaseCommand {
             return ResultTypes.ERROR;
         }
     }
-    readonly type = CommandTypes.APP;
 }
 
 export {};

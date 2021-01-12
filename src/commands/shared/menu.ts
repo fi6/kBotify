@@ -22,21 +22,21 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
     code = 'code';
     aliases = ['alias'];
     help = 'help';
-    commandMap = new Map<string, AppCommand<T>>();
-    bot = new KBotify({
-        mode: 'webhook',
-        token: 'token',
-        ignoreDecryptError: true,
-    });
+    appMap = new Map<string, AppCommand<T>>();
+    bot: KBotify | undefined;
     constructor(...apps: AppCommand<T>[]) {
         apps.forEach((app) => {
             app.aliases.forEach((alias) => {
-                this.commandMap.set(alias, app);
+                this.appMap.set(alias, app);
                 app.parent = this;
             });
         });
     }
     readonly type = CommandTypes.MENU;
+
+    assignBot = (bot: KBotify): void => {
+        this.bot = bot;
+    };
 
     /**
      * Find given command by its class and run exec. If given no args(no subcommand) or given '帮助' as subcommand, it will return the help string.
@@ -65,7 +65,7 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
 
             command = args.shift() as string;
 
-            const app = this.commandMap.get(command);
+            const app = this.appMap.get(command);
             if (!app) {
                 this.defaultMessageSender(
                     null,
@@ -103,6 +103,9 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
                 ? inputContent
                 : (result.returnData.content as string);
         }
+
+        if(!this.bot) throw new Error('Menu command used before bot assigned:');
+        
         this.bot.sendChannelMessage(9, msg.channelId, content, msg.msgId);
 
         return result ? result.resultType : ResultTypes.SUCCESS;

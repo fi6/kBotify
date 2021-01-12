@@ -14,10 +14,11 @@ export declare class MenuCommand<T extends BaseData> implements BaseCommand {
     code: string;
     aliases: string[];
     help: string;
-    commandMap: Map<string, AppCommand<T>>;
-    bot: KBotify;
+    appMap: Map<string, AppCommand<T>>;
+    bot: KBotify | undefined;
     constructor(...apps: AppCommand<T>[]);
     readonly type = CommandTypes.MENU;
+    assignBot: (bot: KBotify) => void;
     /**
      * Find given command by its class and run exec. If given no args(no subcommand) or given '帮助' as subcommand, it will return the help string.
      *

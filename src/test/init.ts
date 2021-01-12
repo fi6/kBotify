@@ -1,17 +1,19 @@
-import { echoKmd } from 'commands/echo/echo.kmd.app';
-import { echo } from 'commands/echo/echo.menu';
+// import { echoKmd } from 'test/echo/echo.kmd.app';
+// import { echo } from 'test/echo/echo.menu';
 import { KBotify } from 'init/KBot';
 // import { echo } from "../commands/echo/echo.menu";
 
 const kBot = new KBotify({
+    key: 'key',
     mode: 'webhook',
-    token: 'your token',
+    token: 'token',
     ignoreDecryptError: true,
+    verifyToken: 'verifyToken',
 });
 
-kBot.addCommand(echo);
+// kBot.addCommand(echo);
 // kBot.addCommand(echoKmd)
 
 kBot.listen();
 
-export { kBot };
+

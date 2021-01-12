@@ -18,11 +18,7 @@ export class AppMsgSender {
     withMention = false;
     withReply = false;
     messageType = MessageType.kmarkdown;
-    bot = new KBotify({
-        mode: 'webhook',
-        token: 'token',
-        ignoreDecryptError: true,
-    });
+    private bot: KBotify | undefined;
     constructor(
         withMention = false,
         withReply = false,
@@ -33,6 +29,11 @@ export class AppMsgSender {
         if (withMention === false) this.withMention = false;
         if (withReply === false) this.withReply = false;
         if (messageType) this.messageType = messageType;
+    }
+
+    assignBot = (bot:KBotify):void=>{
+        // console.debug('msg sender bot assigned')
+        this.bot = bot
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -122,6 +123,8 @@ export class AppMsgSender {
             sendOptions?.msgType !== undefined
                 ? sendOptions.msgType
                 : this.messageType;
+        if (!this.bot)
+            throw new Error('message sender used before bot assigned.');
 
         const msgSent = this.bot.sendChannelMessage(
             msgType,

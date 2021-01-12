@@ -1,6 +1,6 @@
 import { MenuCommand } from 'commands/shared/menu';
 import { BaseData } from 'commands/shared/types';
-import { echoKmd } from './echo.kmd.app';
+// import { echoKmd } from './echo.kmd.app';
 
 class Echo extends MenuCommand<BaseData> {
     code = 'echo';
@@ -9,4 +9,4 @@ class Echo extends MenuCommand<BaseData> {
     intro = '复读菜单';
 }
 
-export const echo = new Echo(echoKmd);
+// export const echo = new Echo(echoKmd);

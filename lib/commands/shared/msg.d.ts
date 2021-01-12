@@ -9,8 +9,9 @@ export declare class AppMsgSender {
     withMention: boolean;
     withReply: boolean;
     messageType: MessageType;
-    bot: KBotify;
+    private bot;
     constructor(withMention?: boolean, withReply?: boolean, replyChannelId?: string, messageType?: MessageType);
+    assignBot: (bot: KBotify) => void;
     wrongArgs: <T extends BaseData>(data: T, resultType?: ResultTypes) => Promise<FuncResult<T>>;
     /**
      * Reply with mention with default message type of msgSender.

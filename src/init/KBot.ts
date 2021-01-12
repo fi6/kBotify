@@ -2,6 +2,7 @@ import { AppCommand } from '../commands/shared/app';
 import { MenuCommand } from '../commands/shared/menu';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
+import { AppMsgSender } from 'commands/shared/msg';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
@@ -27,8 +28,12 @@ export class KBotify extends KaiheilaBot {
         return [''];
     }
     addCommand = (command: AppCommand<any> | MenuCommand<any>): void => {
-        command.bot = this;
-
+        command.assignBot(this);
+        if (command instanceof MenuCommand) {
+            for (const app of command.appMap.values()) {
+                app.assignBot(this)
+            }
+        }
         command.aliases.forEach((alias) => {
             this.commandMap.set(alias, command);
         });

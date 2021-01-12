@@ -8,8 +8,8 @@ class EchoKmd extends AppCommand<BaseData> {
     help = '`.echo kmd 内容`';
     intro = '复读你所说的文字, 并用kmarkdown格式返回。';
     func: AppCommandFunc<BaseData> = async (data) => {
-        return this.msgSender.reply(data.msg.content, data);
+        return this.msgSender.reply(`${data.args}`, data);
     };
 }
 
-export const echoKmd = new EchoKmd();
+// export const echoKmd = new EchoKmd();
