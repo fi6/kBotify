@@ -1,0 +1,35 @@
+{
+  "name": "kbotify",
+  "version": "0.0.1",
+  "description": "kaiheila bot framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fi6/kBotify.git"
+  },
+  "keywords": [
+    "kaiheila",
+    "bot",
+    "typescript",
+    "framework"
+  ],
+  "author": "FlappyIce",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fi6/kBotify/issues"
+  },
+  "homepage": "https://github.com/fi6/kBotify#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "eslint": "^7.17.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "kaiheila-bot-root": "0.0.8"
+  }
+}
