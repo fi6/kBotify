@@ -1,6 +1,6 @@
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
-import { AppCommand } from './command.app';
-import { BaseData, BaseCommand, ResultTypes, CommandTypes, FuncResult } from './command.types';
+import { AppCommand } from './app';
+import { BaseData, BaseCommand, ResultTypes, CommandTypes, FuncResult } from './types';
 import { KBotify } from 'init/KBot';
 /**
  * Class of menu command.

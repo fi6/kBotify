@@ -1,14 +1,14 @@
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
-import { AppCommand } from './command.app';
+import { AppCommand } from './app';
 import {
     BaseData,
     BaseCommand,
     ResultTypes,
     CommandTypes,
     FuncResult,
-} from './command.types';
-import { KBot } from 'init/KBot';
+} from './types';
+import { KBotify } from 'init/KBot';
 
 /**
  * Class of menu command.
@@ -23,7 +23,7 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
     aliases = ['alias'];
     help = 'help';
     commandMap = new Map<string, AppCommand<T>>();
-    bot = new KBot({
+    bot = new KBotify({
         mode: 'webhook',
         token: 'token',
         ignoreDecryptError: true,
@@ -32,6 +32,7 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
         apps.forEach((app) => {
             app.aliases.forEach((alias) => {
                 this.commandMap.set(alias, app);
+                app.parent = this;
             });
         });
     }

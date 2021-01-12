@@ -1,5 +1,5 @@
-import { AppCommand } from './command.app';
-import { BaseData } from './command.types';
+import { AppCommand } from './app';
+import { BaseData } from './types';
 
 
 /**

@@ -1,5 +1,5 @@
-import { AppMsgSender } from './command.msg';
-import { BaseData, FuncResult, ResultTypes } from './command.types';
+import { AppMsgSender } from './msg';
+import { BaseData, FuncResult, ResultTypes } from './types';
 
 /**
  * Params for initializing AppCommand class.

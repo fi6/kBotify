@@ -1,6 +1,6 @@
-import { KBot } from 'index';
+import { KBotify } from 'init/KBot';
 import { MessageType } from 'kaiheila-bot-root/dist/types';
-import { BaseData, ResultTypes, FuncResult, SendOptions } from './command.types';
+import { BaseData, ResultTypes, FuncResult, SendOptions } from './types';
 interface sendFunc {
     <T extends BaseData>(content: string | (() => string) | string | (() => Promise<string>), data: T, resultType?: ResultTypes, sendOptions?: SendOptions): Promise<FuncResult<T>>;
 }
@@ -9,7 +9,7 @@ export declare class AppMsgSender {
     withMention: boolean;
     withReply: boolean;
     messageType: MessageType;
-    bot: KBot;
+    bot: KBotify;
     constructor(withMention?: boolean, withReply?: boolean, replyChannelId?: string, messageType?: MessageType);
     wrongArgs: <T extends BaseData>(data: T, resultType?: ResultTypes) => Promise<FuncResult<T>>;
     /**

@@ -1,15 +1,16 @@
-import { KBot } from 'init/KBot';
+import { KBotify } from 'init/KBot';
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
-import { AppMsgSender } from './command.msg';
+import { MenuCommand } from './menu';
+import { AppMsgSender } from './msg';
 import {
     BaseData,
     BaseCommand,
     ResultTypes,
     CommandTypes,
     FuncResult,
-} from './command.types';
+} from './types';
 
 export function initFuncResult<T extends BaseData>(
     data: T,
@@ -44,15 +45,20 @@ export class AppCommand<T extends BaseData> implements BaseCommand {
     aliases = ['alias'];
     help = 'help';
     intro = 'intro';
-    bot = new KBot({
+    bot = new KBotify({
         mode: 'webhook',
         token: 'token',
         ignoreDecryptError: true,
     });
+    parent: MenuCommand<any> | null = null;
     func = async (_data: BaseData): Promise<FuncResult<T> | ResultTypes> => {
         throw new Error(`${this.code}的func尚未定义`);
     };
     msgSender = new AppMsgSender();
+
+    constructor() {
+        this.msgSender.bot = this.bot;
+    }
 
     async exec(
         command: string,

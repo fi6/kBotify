@@ -1,5 +1,5 @@
-import { MenuCommand } from 'commands/shared/command.menu';
-import { BaseData } from 'commands/shared/command.types';
+import { MenuCommand } from 'commands/shared/menu';
+import { BaseData } from 'commands/shared/types';
 declare class Echo extends MenuCommand<BaseData> {
     code: string;
     aliases: string[];

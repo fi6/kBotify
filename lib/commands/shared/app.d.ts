@@ -1,8 +1,8 @@
 import { KBotify } from 'init/KBot';
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
-import { MenuCommand } from './command.menu';
-import { AppMsgSender } from './command.msg';
-import { BaseData, BaseCommand, ResultTypes, CommandTypes, FuncResult } from './command.types';
+import { MenuCommand } from './menu';
+import { AppMsgSender } from './msg';
+import { BaseData, BaseCommand, ResultTypes, CommandTypes, FuncResult } from './types';
 export declare function initFuncResult<T extends BaseData>(data: T, resultType?: ResultTypes, msgSent?: unknown): FuncResult<T>;
 /**
  * Class of functional command.

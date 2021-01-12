@@ -1,14 +1,8 @@
+import { KBotify } from 'init/KBot';
 import { MessageType } from 'kaiheila-bot-root/dist/types';
 import { mentionById } from '../../utils/mention-by-id';
-import { initFuncResult } from './command.app';
-import {
-    BaseData,
-    ResultTypes,
-    FuncResult,
-    SendOptions,
-} from './command.types';
-
-
+import { initFuncResult } from './app';
+import { BaseData, ResultTypes, FuncResult, SendOptions } from './types';
 
 interface sendFunc {
     <T extends BaseData>(
@@ -24,6 +18,11 @@ export class AppMsgSender {
     withMention = false;
     withReply = false;
     messageType = MessageType.kmarkdown;
+    bot = new KBotify({
+        mode: 'webhook',
+        token: 'token',
+        ignoreDecryptError: true,
+    });
     constructor(
         withMention = false,
         withReply = false,
@@ -41,19 +40,19 @@ export class AppMsgSender {
         data: T,
         resultType = ResultTypes.WRONG_ARGS
     ) => {
-        const content = `输入的参数数量不正确。如需查看帮助，请直接输入\`[命令] [帮助]\`, 如：\`.账户 绑定 帮助\``
+        const content = `输入的参数数量不正确。如需查看帮助，请直接输入\`[命令] [帮助]\`, 如：\`.账户 绑定 帮助\``;
         return this.send(content, data, resultType, {
             reply: true,
             mention: true,
         });
     };
-/**
- * Reply with mention with default message type of msgSender.
- * 
- * @param content content of the message. By default it's in kmarkdown.
- * @param data data.
- * @param [resultType] Optional. If you would like to track the result of your command, please specify. Otherwise it will return success by default.
- */
+    /**
+     * Reply with mention with default message type of msgSender.
+     *
+     * @param content content of the message. By default it's in kmarkdown.
+     * @param data data.
+     * @param [resultType] Optional. If you would like to track the result of your command, please specify. Otherwise it will return success by default.
+     */
     reply: sendFunc = async (
         content,
         data,
@@ -124,7 +123,7 @@ export class AppMsgSender {
                 ? sendOptions.msgType
                 : this.messageType;
 
-        const msgSent = bot.sendChannelMessage(
+        const msgSent = this.bot.sendChannelMessage(
             msgType,
             replyChannelId,
             (withMention ? `${mentionById(data.msg.authorId)} ` : '') + content,

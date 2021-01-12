@@ -1,5 +1,5 @@
 import { MessageType, TextMessage } from 'kaiheila-bot-root/dist/types';
-import { AppCommand } from './command.app';
+import { AppCommand } from './app';
 
 /**
  * MenuCommand and AppCommand comes from this.
