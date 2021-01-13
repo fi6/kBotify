@@ -14,8 +14,14 @@ export class KBotify extends KaiheilaBot {
             this.execute(command.toLowerCase(), args, msg);
         });
     }
-
-    private processMsg(msg: TextMessage | KMarkDownMessage): string[] {
+    /**
+     * Process the msg object and generate [command, ...args]
+     *
+     * @param msg
+     * @return string
+     * @memberof KBotify
+     */
+    processMsg(msg: TextMessage | KMarkDownMessage): string[] {
         if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
             // console.log(msg)
             return msg.content.slice(1).trim().split(/ +/);
@@ -66,7 +72,14 @@ export class KBotify extends KaiheilaBot {
         }
         this.commandMap.set(alias, command);
     };
-
+    /**
+     * Process the command.
+     *
+     * @param command
+     * @param args
+     * @param msg
+     * @memberof KBotify
+     */
     execute = async (command: string, args: string[], msg: TextMessage) => {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;
