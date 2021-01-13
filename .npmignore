@@ -8,3 +8,4 @@ tslint.json
 tsconfig.json
 note.md
 *.log
+/tools/
