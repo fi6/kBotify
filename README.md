@@ -40,7 +40,7 @@ bot.addCommands(echoMenu, echoKmd)
 
 添加Alias
 ```ts
-bot.addCommands(echoMenu, '复读')
+bot.addAlias(echoMenu, '复读')
 ```
 
 启动Bot
