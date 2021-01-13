@@ -1,5 +1,5 @@
-import { MenuCommand } from 'commands/shared/menu';
-import { BaseData } from 'commands/shared/types';
+import { MenuCommand } from '../../commands/shared/menu';
+import { BaseData } from '../../commands/shared/types';
 import { echoKmd } from './echo.kmd.app';
 
 class EchoMenu extends MenuCommand<BaseData> {
