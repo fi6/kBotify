@@ -13,3 +13,4 @@ class EchoKmd extends AppCommand<BaseData> {
 }
 
 export const echoKmd = new EchoKmd();
+

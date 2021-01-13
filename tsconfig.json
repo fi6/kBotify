@@ -29,9 +29,9 @@
         "skipLibCheck": true,
     },
     "include": [
-        // "./src/commands/shared/*.ts",
-        // "./src/utils/*.ts",
+        "./src/commands/shared/*.ts",
+        "./src/utils/*.ts",
         "./src/index.ts",
-        // "./src/**/*.ts"
+        "./src/**/*.ts"
     ]
 }
