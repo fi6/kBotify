@@ -9,3 +9,4 @@ tsconfig.json
 note.md
 *.log
 /tools/
+/src/
