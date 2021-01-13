@@ -2,7 +2,6 @@ import { AppCommand } from '../commands/shared/app';
 import { MenuCommand } from '../commands/shared/menu';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
-import { AppMsgSender } from 'commands/shared/msg';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
@@ -27,16 +26,45 @@ export class KBotify extends KaiheilaBot {
         }
         return [''];
     }
-    addCommand = (command: AppCommand<any> | MenuCommand<any>): void => {
+
+    /**
+     * Add menu/app to this bot.
+     *
+     * @param commands array of instances of menu/app command
+     * @memberof KBotify
+     */
+    addCommands = (
+        ...commands: MenuCommand<any>[] | AppCommand<any>[]
+    ): void => {
+        for (const command of commands) {
+            command.assignBot(this);
+            if (command instanceof MenuCommand) {
+                for (const app of command.appMap.values()) {
+                    app.assignBot(this);
+                }
+            }
+            this.commandMap.set(command.trigger, command);
+        }
+    };
+
+    /**
+     * Add alias for certain menu/app
+     *
+     * @param command instance of menu/app command
+     * @param alias
+     * @memberof KBotify
+     */
+    addAlias = (
+        command: MenuCommand<any> | AppCommand<any>,
+        alias: string
+    ): void => {
         command.assignBot(this);
         if (command instanceof MenuCommand) {
             for (const app of command.appMap.values()) {
-                app.assignBot(this)
+                app.assignBot(this);
             }
         }
-        command.aliases.forEach((alias) => {
-            this.commandMap.set(alias, command);
-        });
+        this.commandMap.set(alias, command);
     };
 
     execute = async (command: string, args: string[], msg: TextMessage) => {
