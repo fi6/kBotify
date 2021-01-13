@@ -20,16 +20,14 @@ import { KBotify } from 'utils/kbotify';
  */
 export class MenuCommand<T extends BaseData> implements BaseCommand {
     code = 'code';
-    aliases = ['alias'];
+    trigger = 'alias';
     help = 'help';
     appMap = new Map<string, AppCommand<T>>();
     bot: KBotify | undefined;
     constructor(...apps: AppCommand<T>[]) {
         apps.forEach((app) => {
-            app.aliases.forEach((alias) => {
-                this.appMap.set(alias, app);
-                app.parent = this;
-            });
+            this.appMap.set(app.trigger, app);
+            app.parent = this;
         });
     }
     readonly type = CommandTypes.MENU;
@@ -37,6 +35,17 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
     assignBot = (bot: KBotify): void => {
         this.bot = bot;
     };
+    /**
+     * Add alias for a certain app to this menu.
+     *
+     * @param app instance of app command.
+     * @param alias
+     * @memberof MenuCommand
+     */
+    addAlias(app: AppCommand<T>, alias: string): void {
+        this.appMap.set(alias, app);
+        app.parent = this;
+    }
 
     /**
      * Find given command by its class and run exec. If given no args(no subcommand) or given '帮助' as subcommand, it will return the help string.
@@ -71,7 +80,7 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
                     null,
                     msg,
                     '未找到对应命令。如需查看菜单请发送`.' +
-                        `${this.aliases[0]}` +
+                        `${this.trigger[0]}` +
                         '`'
                 );
                 return ResultTypes.WRONG_ARGS;
@@ -104,8 +113,9 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
                 : (result.returnData.content as string);
         }
 
-        if(!this.bot) throw new Error('Menu command used before bot assigned:');
-        
+        if (!this.bot)
+            throw new Error('Menu command used before bot assigned:');
+
         this.bot.sendChannelMessage(9, msg.channelId, content, msg.msgId);
 
         return result ? result.resultType : ResultTypes.SUCCESS;

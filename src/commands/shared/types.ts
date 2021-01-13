@@ -9,7 +9,7 @@ import { AppCommand } from './app';
  */
 export interface BaseCommand {
     readonly code: string;
-    readonly aliases: string[];
+    readonly trigger: string;
     readonly type: CommandTypes;
     readonly exec: (...args: any) => unknown;
 }
@@ -61,26 +61,6 @@ export interface BaseData {
     content?: string;
     other?: any;
 }
-
-export type replyKv = [
-    string | number,
-    [
-        string | (() => Promise<string>) | (() => string),
-        ResultTypes,
-        SendOptions?
-    ]
-];
-
-export type ReplyMap = Map<
-    string | number,
-    [
-        string | (() => Promise<string>) | (() => string),
-        ResultTypes,
-        SendOptions?
-    ]
->;
-
-export type replyMapUnit = replyKv;
 
 export interface SendOptions {
     mention?: boolean;

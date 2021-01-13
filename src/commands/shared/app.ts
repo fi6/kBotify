@@ -42,7 +42,7 @@ export function initFuncResult<T extends BaseData>(
  */
 export class AppCommand<T extends BaseData> implements BaseCommand {
     code = 'code';
-    aliases = ['alias'];
+    trigger = 'alias';
     help = 'help';
     intro = 'intro';
     private bot: KBotify | undefined;
