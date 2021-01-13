@@ -32,6 +32,6 @@
         "./src/commands/shared/*.ts",
         "./utils/*.ts",
         "./src/index.ts",
-        // "./src/**/*.ts"
+        "./src/**/*.ts"
     ]
 }
