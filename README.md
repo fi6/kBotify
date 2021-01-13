@@ -1,6 +1,13 @@
 # kBotify
 基于botRoot的开黑啦Bot开发框架
 
+
+## TODO
+- [ ] 文档
+- [ ] 精简不必要的代码
+- [ ] 自动生成Menu
+- [ ] 增加context··
+
 ## 简单说明
 请善用ts的自动补全。
 ### 结构
@@ -76,10 +83,3 @@ class EchoKmd extends AppCommand<BaseData> {
 export const echoKmd = new EchoKmd();
 ```
 
-
-
-## TODO
-- [ ] 文档
-- [ ] 精简不必要的代码
-- [ ] 自动生成Menu
-- [ ] 增加context··
