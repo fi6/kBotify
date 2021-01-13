@@ -30,7 +30,7 @@
     },
     "include": [
         "./src/commands/shared/*.ts",
-        "./utils/*.ts",
+        "./src/utils/*.ts",
         "./src/index.ts",
         "./src/**/*.ts"
     ]
