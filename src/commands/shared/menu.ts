@@ -34,6 +34,9 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
 
     assignBot = (bot: KBotify): void => {
         this.bot = bot;
+        for (const app of this.appMap.values()) {
+            app.assignBot(bot);
+        }
     };
     /**
      * Add alias for a certain app to this menu.
@@ -45,6 +48,11 @@ export class MenuCommand<T extends BaseData> implements BaseCommand {
     addAlias(app: AppCommand<T>, alias: string): void {
         this.appMap.set(alias, app);
         app.parent = this;
+        if (!this.bot)
+            throw new Error(
+                'You must assign a bot to this menu before adding alias to apps.'
+            );
+        app.assignBot(this.bot);
     }
 
     /**

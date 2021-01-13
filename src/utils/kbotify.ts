@@ -34,7 +34,7 @@ export class KBotify extends KaiheilaBot {
      * @memberof KBotify
      */
     addCommands = (
-        ...commands: MenuCommand<any>[] | AppCommand<any>[]
+        ...commands: (MenuCommand<any> | AppCommand<any>)[]
     ): void => {
         for (const command of commands) {
             command.assignBot(this);
