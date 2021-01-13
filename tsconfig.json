@@ -17,7 +17,7 @@
         "lib": [
             "es2018"
         ],
-        "outDir": "./lib",
+        "outDir": "./dist",
         "strict": true,
         "baseUrl": "./src/",
         "typeRoots": [
@@ -29,6 +29,8 @@
         "skipLibCheck": true,
     },
     "include": [
+        "./src/commands/shared/*.ts",
+        "./utils/*.ts",
         "./src/**/*.ts"
     ]
 }
