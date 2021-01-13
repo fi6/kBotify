@@ -10,7 +10,9 @@ export class KBotify extends KaiheilaBot {
     constructor(config: BotConfig) {
         super(config);
         this.on('message', (msg) => {
-            const [command, ...args] = this.processMsg(msg);
+            const res = this.processMsg(msg);
+            if (!res) return;
+            const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
         });
     }
@@ -21,7 +23,7 @@ export class KBotify extends KaiheilaBot {
      * @return string
      * @memberof KBotify
      */
-    processMsg(msg: TextMessage | KMarkDownMessage): string[] {
+    processMsg(msg: TextMessage | KMarkDownMessage): string[] | void {
         if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
             // console.log(msg)
             return msg.content.slice(1).trim().split(/ +/);
@@ -30,7 +32,6 @@ export class KBotify extends KaiheilaBot {
             const [, command, ...rest] = msg.content.trim().split(/ +/);
             return [command ? command.toLowerCase() : '', ...rest];
         }
-        return [''];
     }
 
     /**
