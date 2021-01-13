@@ -1,6 +1,6 @@
 {
   "name": "kbotify",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "kaiheila bot framework",
   "main": "./dist/index.ts",
   "types": "./dist/index.d.ts",
