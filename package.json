@@ -2,7 +2,7 @@
   "name": "kbotify",
   "version": "0.0.11",
   "description": "kaiheila bot framework",
-  "main": "./dist/index.ts",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": " npx ts-node -r tsconfig-paths/register src/tests/init.ts"

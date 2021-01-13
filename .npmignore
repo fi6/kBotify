@@ -4,6 +4,7 @@
 .gitignore
 .prettierrc
 .editorconfig
+.env
 tslint.json
 tsconfig.json
 note.md
