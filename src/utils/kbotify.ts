@@ -27,8 +27,8 @@ export class KBotify extends KaiheilaBot {
             return msg.content.slice(1).trim().split(/ +/);
         }
         if (msg.mention.user[0] === this.botId && msg.content.startsWith('@')) {
-            const [, ...rest] = msg.content.trim().split(/ +/);
-            return rest;
+            const [, command, ...rest] = msg.content.trim().split(/ +/);
+            return [command ? command.toLowerCase() : '', ...rest];
         }
         return [''];
     }

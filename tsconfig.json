@@ -10,12 +10,14 @@
         "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "target": "es2018",
+        "target": "es2020",
         "module": "commonjs",
         "moduleResolution": "node",
         "lib": [
-            "es2018"
+            "es2020"
         ],
+        "baseUrl": "./src",
+        "rootDirs": ["src"],
         "outDir": "./dist",
         "strict": true,
         "typeRoots": [
@@ -25,6 +27,7 @@
         "esModuleInterop": true,
         "sourceMap": true,
         "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     },
     "include": [
         "./src/commands/shared/*.ts",
