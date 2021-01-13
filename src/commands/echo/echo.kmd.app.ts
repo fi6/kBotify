@@ -1,6 +1,6 @@
-import { AppCommand } from 'commands/shared/app';
-import { AppCommandFunc } from 'commands/shared/app.types';
-import { BaseData } from 'commands/shared/types';
+import { AppCommand } from '../../commands/shared/app';
+import { AppCommandFunc } from '../../commands/shared/app.types';
+import { BaseData } from '../../commands/shared/types';
 
 class EchoKmd extends AppCommand<BaseData> {
     code = 'kmd';

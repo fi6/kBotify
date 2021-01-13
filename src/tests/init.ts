@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { KBotify } from 'utils/kbotify';
+import { KBotify } from '../utils/kbotify';
 import * as dotenv from 'dotenv';
-import { echoMenu } from 'commands/echo/echo.menu';
-import { echoKmd } from 'commands/echo/echo.kmd.app';
+import { echoMenu } from '../commands/echo/echo.menu';
+import { echoKmd } from '../commands/echo/echo.kmd.app';
 
 dotenv.config();
 

@@ -10,7 +10,6 @@
         "declaration": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "rootDir": "./src",
         "target": "es2018",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -19,7 +18,6 @@
         ],
         "outDir": "./dist",
         "strict": true,
-        "baseUrl": "./src/",
         "typeRoots": [
             "./typings",
             "node_modules/@types"
