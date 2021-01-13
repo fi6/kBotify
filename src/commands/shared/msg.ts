@@ -147,4 +147,3 @@ export class AppMsgSender {
 //     return [event, [content, resultType, { mention: mention, ...sendOptions }]];
 // }
 
-export {};
