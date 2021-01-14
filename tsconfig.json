@@ -1,0 +1,42 @@
+{
+    "ts-node": {
+        // these options are overrides used only by ts-node
+        // same as our --compilerOptions flag and our TS_NODE_COMPILER_OPTIONS environment variable
+        "compilerOptions": {
+            "module": "commonjs"
+        }
+    },
+    "compilerOptions": {
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es2020",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": [
+            "es2020"
+        ],
+        "baseUrl": "./src",
+        "rootDirs": ["src"],
+        "outDir": "./dist",
+        // "outFile": "./dist/kbotify.js",
+        "strict": true,
+        "typeRoots": [
+            "./typings",
+            "node_modules/@types"
+        ],
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+        // "./src/commands/shared/*.ts",
+        // "./src/utils/*.ts",
+        // "./src/index.ts",
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "./src/tests/*.ts"
+    ]
+}
