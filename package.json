@@ -1,6 +1,6 @@
 {
   "name": "kbotify",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "kaiheila bot framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,5 +36,7 @@
     "dotenv": "^8.2.0",
     "kaiheila-bot-root": "0.0.8"
   },
-  "files": ["./dist"]
+  "files": [
+    "./dist"
+  ]
 }
