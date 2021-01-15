@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": " npx ts-node -r tsconfig-paths/register src/tests/init.ts",
-    "build": "@powershell rd .\\dist\\* -r; tsc -p tsconfig.production.json",
+    "build": "@powershell rd .\\dist\\* -r -Force; tsc -p tsconfig.production.json",
     "publish-patch": "@powershell npm run build; npm version patch; npm publish"
   },
   "repository": {
