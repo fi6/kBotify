@@ -2,6 +2,7 @@ import { AppCommand } from '../commands/core/app.command';
 import { MenuCommand } from '../commands/core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
+import { BaseSession } from '../commands/core/session';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
@@ -44,10 +45,10 @@ export class KBotify extends KaiheilaBot {
         ...commands: (MenuCommand<any> | AppCommand<any>)[]
     ): void => {
         for (const command of commands) {
-            command.assignBot(this);
+            command.init(this);
             if (command instanceof MenuCommand) {
                 for (const app of command.appMap.values()) {
-                    app.assignBot(this);
+                    app.init(this);
                 }
             }
             this.commandMap.set(command.trigger, command);
@@ -65,10 +66,10 @@ export class KBotify extends KaiheilaBot {
         command: MenuCommand<any> | AppCommand<any>,
         ...aliases: string[]
     ): void => {
-        command.assignBot(this);
+        command.init(this);
         if (command instanceof MenuCommand) {
             for (const app of command.appMap.values()) {
-                app.assignBot(this);
+                app.init(this);
             }
         }
         aliases.forEach((alias) => {
@@ -91,7 +92,9 @@ export class KBotify extends KaiheilaBot {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;
         const cmd = this.commandMap.get(command);
-        if (cmd) return cmd.exec(command, args, msg);
+
+        if (cmd) return cmd.exec(new BaseSession(cmd, args, msg, this));
+
         if (regex.test(command)) {
             return this.sendChannelMessage(
                 1,

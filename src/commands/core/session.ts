@@ -1,33 +1,72 @@
-import {  TextMessage } from 'kaiheila-bot-root/dist/types';
+import { TextMessage } from 'kaiheila-bot-root/dist/types';
 import { KBotify } from '../../utils/kbotify';
 import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
-import { BaseData, FuncResult } from './app.types';
+import { BaseData } from './app.types';
+import { MenuCommand } from './menu.command';
 import { SessionSendFunc } from './session.type.';
 import { ResultTypes } from './types';
 
 export class BaseSession implements BaseData {
-    cmdCode: string;
     cmdString?: string | undefined;
-    command: AppCommand<any>;
+    command: AppCommand<any> | MenuCommand<any>;
     args: string[];
     msg: TextMessage;
     content?: string | undefined;
     other?: any;
     bot: KBotify;
-    constructor(command: AppCommand<any>, args: string[], msg: TextMessage) {
+    constructor(
+        command: AppCommand<any> | MenuCommand<any>,
+        args: string[],
+        msg: TextMessage,
+        bot?: KBotify
+    ) {
         this.command = command;
-        this.cmdCode = command.code;
         this.args = args;
         this.msg = msg;
-        this.bot = this.command.bot!;
+        this.bot = bot ?? this.command.bot!;
     }
-    reply = (content: string): Promise<FuncResult<any>> => {
-        return this.command.msgSender.reply(content, this);
+
+    reply: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this.send(content, resultType, {
+            reply: true,
+            mention: true,
+        });
     };
-    sendOnly = (content: string): Promise<FuncResult<any>> => {
-        return this.command.msgSender.sendOnly(content, this);
+
+    replyOnly: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this.send(content, resultType, {
+            reply: true,
+            mention: false,
+        });
     };
+
+    mention: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this.send(content, resultType, {
+            reply: false,
+            mention: true,
+        });
+    };
+
+    sendOnly: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this.send(content, resultType, {
+            reply: false,
+            mention: false,
+        });
+    };
+
     /**
      * If reply match the condition, trigger callback(once)
      *
@@ -81,7 +120,7 @@ export class BaseSession implements BaseData {
         const msgSent = this.bot.sendChannelMessage(
             msgType,
             replyChannelId,
-            (withMention ? `${mentionById(this.msg.authorId)} ` : '') + content,
+            (withMention ? `${mentionById(this.msg.authorId)}` : '') + content,
             sendOptions?.reply ? this.msg.msgId : undefined
         );
         return initFuncResult(this, resultType, msgSent);

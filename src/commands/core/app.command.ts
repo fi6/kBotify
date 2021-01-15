@@ -3,7 +3,7 @@ import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
-import { AppMsgSender } from './msg.sender';
+import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, BaseData, FuncResult } from './app.types';
 import { BaseSession } from './session';
@@ -46,16 +46,16 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
     func: AppCommandFunc<T> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
-    msgSender = new AppMsgSender();
+    msgSender = new MsgSender();
     readonly type = CommandTypes.APP;
 
     constructor() {
         //
     }
 
-    assignBot = (bot: KBotify): void => {
+    init = (bot: KBotify): void => {
         this.bot = bot;
-        this.msgSender = new AppMsgSender(this.bot);
+        this.msgSender = new MsgSender(this.bot);
     };
 
     setTriggerOnce(trigger: string | RegExp, timeout: number): void {
@@ -70,12 +70,10 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
         });
     }
 
-    async exec(
-        command: string,
-        args: string[],
-        msg: TextMessage
-    ): Promise<ResultTypes | void> {
-        console.debug('running command: ', command, args, msg);
+    async exec(session: BaseSession): Promise<ResultTypes | void> {
+        const args = session.args;
+        const msg = session.msg;
+        console.debug('running command: ', session.cmdString, args, msg);
         if (!this.bot)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
@@ -91,7 +89,6 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
                 );
                 return ResultTypes.HELP;
             }
-            const session = new BaseSession(this, args, msg);
 
             const result = await this.func(session);
             if (typeof result === 'string') return result;

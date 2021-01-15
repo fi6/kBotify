@@ -50,6 +50,11 @@ bot.addCommands(echoMenu, echoKmd)
 bot.addAlias(echoMenu, '复读', '重复')
 ```
 
+启用@bot发送指令（官方接口开放后会做成内置，无需单独指定）
+```ts
+bot.botId = 'your bot id'
+```
+
 启动Bot
 ```ts
 bot.listen()
@@ -70,7 +75,7 @@ class EchoMenu extends MenuCommand<BaseSession> {
 }
 
 export const echoMenu = new EchoMenu(echoKmd);
-echoMenu.addAlias(echoKmd, 'kmarkdown'， '富文本')
+echoMenu.addAlias(echoKmd, 'kmarkdown', '富文本')
 ```
 
 ```ts

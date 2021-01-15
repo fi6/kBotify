@@ -4,6 +4,8 @@ import { AppCommand } from './app.command';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { KBotify } from '../../utils/kbotify';
 import { BaseData, FuncResult } from './app.types';
+import { MsgSender } from './msg.sender';
+import { BaseSession } from './session';
 
 /**
  * Class of menu command.
@@ -20,8 +22,10 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
     code = 'code';
     abstract trigger: string;
     help = 'help';
+    menu = 'menu';
     appMap = new Map<string, AppCommand<any>>();
-    private bot: KBotify | undefined;
+    msgSender = new MsgSender();
+    bot: KBotify | undefined;
     readonly type = CommandTypes.MENU;
 
     /**
@@ -38,10 +42,11 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
         });
     }
 
-    assignBot = (bot: KBotify): void => {
+    init = (bot: KBotify): void => {
         this.bot = bot;
+        this.msgSender.init(bot);
         for (const app of this.appMap.values()) {
-            app.assignBot(bot);
+            app.init(bot);
         }
     };
 
@@ -57,29 +62,19 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
     addAlias(app: AppCommand<any>, ...aliases: string[]): void {
         if (!this.bot)
             throw new Error(
-                'You must assign a bot to this menu before adding alias to apps.'
+                `You must init menu ${this.code} with a bot before adding alias to apps.`
             );
         aliases.forEach((alias) => {
             this.appMap.set(alias, app);
             app.parent = this;
-            app.assignBot(this.bot!);
+            app.init(this.bot!);
         });
     }
 
-    /**
-     * Find given command by its class and run exec. If given no args(no subcommand) or given '帮助' as subcommand, it will return the help string.
-     *
-     * @param command
-     * @param args
-     * @param msg
-     * @return {*}
-     * @memberof MenuCommand
-     */
-    async exec(
-        command: string,
-        args: string[],
-        msg: TextMessage
-    ): Promise<ResultTypes | void> {
+    async func(session: BaseSession): Promise<ResultTypes | void> {
+        const command = session.command;
+        const args = session.args;
+        const msg = session.msg;
         if (!command || args === undefined || !msg) {
             throw new Error(
                 `command/args/msg is missing when exec MenuCommand ${this.code}.`
@@ -87,58 +82,69 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
         }
         try {
             if (!args.length) {
-                this.defaultMessageSender(null, msg, this.help);
+                this.msgSender.reply(this.menu, session);
                 return ResultTypes.HELP;
             }
+            if (args[0] === '帮助') {
+                this.msgSender.reply(this.help, session);
+            }
 
-            command = args.shift() as string;
+            session.cmdString = args.shift() as string;
 
-            const app = this.appMap.get(command);
+            const app = this.appMap.get(session.cmdString);
             if (!app) {
-                this.defaultMessageSender(
-                    null,
-                    msg,
+                this.msgSender.reply(
                     '未找到对应命令。如需查看菜单请发送`.' +
                         `${this.trigger[0]}` +
-                        '`'
+                        '`',
+                    session
                 );
                 return ResultTypes.WRONG_ARGS;
             }
-            return app.exec(command, args, msg);
-        } catch (error) {
-            console.error(error);
-            return ResultTypes.ERROR;
+            return app.exec(session);
+        } catch (err) {
+            console.error(err);
         }
     }
+    /**
+     * If you want to have something done before executing app command, please overwrite this.
+     *
+     * @param session
+     * @return {*}
+     * @memberof MenuCommand
+     */
+    async exec(session: BaseSession): Promise<ResultTypes | void> {
+        return this.func(session);
+    }
 
-    defaultMessageSender = async <T extends BaseData>(
-        result: FuncResult<T> | null,
-        inputMsg?: TextMessage,
-        inputContent?: string
-    ): Promise<FuncResult<T> | ResultTypes> => {
-        let msg, content;
-        if (!result?.returnData) {
-            if (inputMsg && inputContent) {
-                msg = inputMsg;
-                content = inputContent;
-            } else {
-                throw new Error();
-            }
-        } else {
-            msg = inputMsg ? inputMsg : result.returnData.msg;
+    // defaultMessageSender = async <T extends BaseData>(
+    //     result: FuncResult<T> | null,
+    //     inputMsg?: TextMessage,
+    //     inputContent?: string
+    // ): Promise<FuncResult<T> | ResultTypes> => {
+    //     let msg, content;
+    //     if (!result?.returnData) {
+    //         if (inputMsg && inputContent) {
+    //             msg = inputMsg;
+    //             content = inputContent;
+    //         } else {
+    //             throw new Error();
+    //         }
+    //     } else {
+    //         msg = inputMsg ? inputMsg : result.returnData.msg;
 
-            content = inputContent
-                ? inputContent
-                : (result.returnData.content as string);
-        }
+    //         content = inputContent
+    //             ? inputContent
+    //             : (result.returnData.content as string);
+    //     }
 
-        if (!this.bot)
-            throw new Error('Menu command used before bot assigned:');
+    //     if (!this.bot)
+    //         throw new Error('Menu command used before bot assigned:');
 
-        this.bot.sendChannelMessage(9, msg.channelId, content, msg.msgId);
+    //     this.bot.sendChannelMessage(9, msg.channelId, content, msg.msgId);
 
-        return result ? result.resultType : ResultTypes.SUCCESS;
-    };
+    //     return result ? result.resultType : ResultTypes.SUCCESS;
+    // };
 }
 
 export {};
