@@ -70,7 +70,31 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
         });
     }
 
-    async exec(session: BaseSession): Promise<ResultTypes | void> {
+    async exec(
+        command: string,
+        args: string[],
+        msg: TextMessage
+    ): Promise<ResultTypes | void>;
+
+    async exec(session: BaseSession): Promise<ResultTypes | void>;
+
+    async exec(
+        sessionOrCommand: BaseSession | string,
+        args?: string[],
+        msg?: TextMessage
+    ): Promise<ResultTypes | void> {
+        if (sessionOrCommand instanceof BaseSession) {
+            return this.run(sessionOrCommand);
+        } else {
+            if (!args || !msg)
+                throw new Error(
+                    'Missing args ans msg when using exec(command, args, msg)'
+                );
+            return this.run(new BaseSession(this, args!, msg!));
+        }
+    }
+
+    private async run(session: BaseSession): Promise<ResultTypes> {
         const args = session.args;
         const msg = session.msg;
         console.debug('running command: ', session.cmdString, args, msg);
@@ -91,7 +115,8 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
             }
 
             const result = await this.func(session);
-            if (typeof result === 'string') return result;
+            if (typeof result === 'string' || !result)
+                return result ? result : ResultTypes.SUCCESS;
             return result.resultType;
         } catch (error) {
             console.error(error);
