@@ -8,14 +8,21 @@ export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
     help = 'help for this bot.';
     botId: string | number = 'kaiheila user id for this bot.';
-    constructor(config: BotConfig) {
+    /**
+     * Creates an instance of KBotify.
+     * @param config the config of bot, please see readme.md
+     * @param [default_process=true] turn off if you want to process every incoming message yourself.
+     * @memberof KBotify
+     */
+    constructor(config: BotConfig, default_process = true) {
         super(config);
+        if(default_process){
         this.on('message', (msg) => {
             const res = this.processMsg(msg);
             if (!res) return;
             const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
-        });
+        });}
     }
     /**
      * Process the msg object and generate [command, ...args]

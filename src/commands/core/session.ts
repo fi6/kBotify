@@ -4,7 +4,7 @@ import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';
-import { SessionSendFunc } from './session.type.';
+import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
 
 export class BaseSession implements BaseData {

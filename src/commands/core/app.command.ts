@@ -84,6 +84,7 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
         msg?: TextMessage
     ): Promise<ResultTypes | void> {
         if (sessionOrCommand instanceof BaseSession) {
+            sessionOrCommand.command = this;
             return this.run(sessionOrCommand);
         } else {
             if (!args || !msg)
