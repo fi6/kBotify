@@ -95,8 +95,8 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
             if (!app) {
                 this.msgSender.reply(
                     '未找到对应命令。如需查看菜单请发送`.' +
-                        `${this.trigger[0]}` +
-                        '`',
+                    `${this.trigger}` +
+                    '`',
                     session
                 );
                 return ResultTypes.WRONG_ARGS;
@@ -147,4 +147,4 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
     // };
 }
 
-export {};
+export { };
