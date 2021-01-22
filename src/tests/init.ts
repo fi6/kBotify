@@ -24,4 +24,4 @@ bot.on('rawEvent', (msg) => {
 });
 bot.addAlias(echoKmd, 'hello');
 
-bot.listen();
+bot.connect();
