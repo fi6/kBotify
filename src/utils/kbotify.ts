@@ -3,6 +3,7 @@ import { MenuCommand } from '../commands/core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
 import { BaseSession } from '../commands/core/session';
+import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
@@ -16,13 +17,17 @@ export class KBotify extends KaiheilaBot {
      */
     constructor(config: BotConfig, default_process = true) {
         super(config);
-        if(default_process){
-        this.on('message', (msg) => {
-            const res = this.processMsg(msg);
-            if (!res) return;
-            const [command, ...args] = res;
-            this.execute(command.toLowerCase(), args, msg);
-        });}
+        if (default_process) {
+            this.on('message', (msg) => {
+                const res = this.processMsg(msg);
+                if (!res) return;
+                const [command, ...args] = res;
+                this.execute(command.toLowerCase(), args, msg);
+            });
+        }
+        this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
+            this.botId = info.id;
+        });
     }
     /**
      * Process the msg object and generate [command, ...args]

@@ -15,7 +15,6 @@ const bot = new KBotify({
     ignoreDecryptError: false,
 });
 
-bot.botId = '3085161473'
 
 bot.addCommands(echoMenu, echoKmd);
 
