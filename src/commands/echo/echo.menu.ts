@@ -6,7 +6,7 @@ import { echoKmd } from './echo.kmd.app';
 class EchoMenu extends MenuCommand<any> {
     code = 'echo';
     trigger = 'echo';
-    help = '目前只有`.echo kmd`一个指令。';
+    help = '如需测试KMarkDown请发送".echo kmd", 测试CardMessage请发送".echo card"';
     intro = '复读菜单';
 }
 
