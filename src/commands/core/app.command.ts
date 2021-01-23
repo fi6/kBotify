@@ -115,7 +115,7 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
                 return ResultTypes.HELP;
             }
 
-            const result = await this.func(session);
+            const result = await this.func(session as any);
             if (typeof result === 'string' || !result)
                 return result ? result : ResultTypes.SUCCESS;
             return result.resultType;
