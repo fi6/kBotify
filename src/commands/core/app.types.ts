@@ -29,7 +29,7 @@ export interface AppCommandParams<T extends BaseData> {
 }
 
 export interface AppCommandFunc<T extends BaseData> {
-    (data: BaseSession): Promise<FuncResult<T> | ResultTypes | void>;
+    (data: T): Promise<FuncResult<T> | ResultTypes | void>;
 }
 
 /**
