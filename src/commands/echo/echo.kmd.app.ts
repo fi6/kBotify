@@ -1,6 +1,6 @@
 import { BaseSession } from 'commands/core/session';
 import { AppCommand } from '../core/app.command';
-import { AppCommandFunc, BaseData } from '../core/app.types';
+import { AppCommandFunc } from '../core/app.types';
 
 class EchoKmd extends AppCommand<BaseSession> {
     code = 'kmd';

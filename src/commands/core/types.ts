@@ -1,6 +1,6 @@
 import { MessageType, TextMessage } from 'kaiheila-bot-root/dist/types';
 import { AppCommand } from './app.command';
-import { BaseData, FuncResult } from './app.types';
+import { FuncResult } from './app.types';
 import { BaseSession } from './session';
 
 /**
@@ -16,7 +16,7 @@ export interface BaseCommand {
     readonly exec: (...args: any) => unknown;
 }
 
-export interface ResultHandler<T extends BaseData> {
+export interface ResultHandler<T extends BaseSession> {
     (data: T, type: string | number): Promise<FuncResult<T>>;
 }
 

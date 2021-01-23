@@ -5,7 +5,7 @@ import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
 import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
-import { AppCommandFunc, BaseData, FuncResult } from './app.types';
+import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
 
 export function initFuncResult<T>(
@@ -36,7 +36,7 @@ export function initFuncResult<T>(
  * @param [messageSender] 负责发送消息
  * @template T
  */
-export abstract class AppCommand<T extends BaseData> implements BaseCommand {
+export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     code = 'code';
     abstract trigger: string;
     help = 'help';

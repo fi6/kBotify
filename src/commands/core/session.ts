@@ -112,7 +112,7 @@ export class BaseSession implements BaseData {
         const withMention =
             sendOptions?.mention ?? this.command.msgSender.withMention;
         const msgType =
-            sendOptions?.msgType ?? this.command.msgSender.messageType;
+            sendOptions?.msgType ?? this.command.msgSender.defaultMessageType;
 
         if (!this.bot)
             throw new Error('message sender used before bot assigned.');

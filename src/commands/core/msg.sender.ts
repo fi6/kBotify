@@ -3,27 +3,27 @@ import { MessageType } from 'kaiheila-bot-root/dist/types';
 import { mentionById } from '../../utils/mention-by-id';
 import { initFuncResult } from './app.command';
 import { ResultTypes } from './types';
-import { BaseData } from './app.types';
 import { SendFunc } from './msg.types';
+import { BaseSession } from './session';
 
 export class MsgSender {
     replyChannelId: string | undefined;
     withMention = false;
     withReply = false;
-    messageType = MessageType.kmarkdown;
+    defaultMessageType: number;
     private bot: KBotify | undefined;
     constructor(
         bot?: KBotify,
         withMention = false,
         withReply = false,
         replyChannelId?: string,
-        messageType = MessageType.kmarkdown
+        defaultMessageType = MessageType.kmarkdown
     ) {
         this.bot = bot;
         if (replyChannelId) this.replyChannelId = replyChannelId;
         if (withMention === false) this.withMention = false;
         if (withReply === false) this.withReply = false;
-        if (messageType) this.messageType = messageType;
+        this.defaultMessageType = defaultMessageType;
     }
 
     init = (bot: KBotify): void => {
@@ -32,7 +32,7 @@ export class MsgSender {
     };
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    wrongArgs = async <T extends BaseData>(
+    wrongArgs = async <T extends BaseSession>(
         session: T,
         resultType = ResultTypes.WRONG_ARGS
     ) => {
@@ -108,7 +108,7 @@ export class MsgSender {
 
         // decide if need mention at the start.
         const withMention = sendOptions?.mention ?? this.withMention;
-        const msgType = sendOptions?.msgType ?? this.messageType;
+        const msgType = sendOptions?.msgType ?? this.defaultMessageType;
 
         if (!this.bot)
             throw new Error('message sender used before bot assigned.');

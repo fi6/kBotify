@@ -18,7 +18,7 @@ import { BaseSession } from './session';
  * @param help
  * @template T extends BaseData
  */
-export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
+export abstract class MenuCommand<T extends BaseSession> implements BaseCommand {
     code = 'code';
     abstract trigger: string;
     help = 'help';
@@ -26,6 +26,7 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
     appMap = new Map<string, AppCommand<any>>();
     msgSender = new MsgSender();
     bot: KBotify | undefined;
+    useCardMenu = false;
     readonly type = CommandTypes.MENU;
 
     /**
@@ -82,7 +83,14 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
         }
         try {
             if (!args.length) {
-                this.msgSender.reply(this.menu, session);
+                if (this.useCardMenu)
+                    this.msgSender.send(
+                        this.menu,
+                        session,
+                        ResultTypes.SUCCESS,
+                        { msgType: 10 }
+                    );
+                else this.msgSender.reply(this.menu, session);
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {
@@ -95,8 +103,8 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
             if (!app) {
                 this.msgSender.reply(
                     '未找到对应命令。如需查看菜单请发送`.' +
-                    `${this.trigger}` +
-                    '`',
+                        `${this.trigger}` +
+                        '`',
                     session
                 );
                 return ResultTypes.WRONG_ARGS;
@@ -147,4 +155,4 @@ export abstract class MenuCommand<T extends BaseData> implements BaseCommand {
     // };
 }
 
-export { };
+export {};
