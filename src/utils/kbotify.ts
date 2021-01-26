@@ -4,6 +4,7 @@ import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
 import { BaseSession } from '../commands/core/session';
 import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
@@ -23,6 +24,11 @@ export class KBotify extends KaiheilaBot {
                 if (!res) return;
                 const [command, ...args] = res;
                 this.execute(command.toLowerCase(), args, msg);
+            });
+            this.on('systemMessage', (msg) => {
+                if (msg.extra.type !== 'message_btn_click') return;
+                const [command, ...rest] = msg.extra.body.value.trim().split(/ +/);
+                this.execute(command, rest, msg)
             });
         }
         this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
@@ -99,7 +105,7 @@ export class KBotify extends KaiheilaBot {
     execute = async (
         command: string,
         args: string[],
-        msg: TextMessage
+        msg: KHMessage
     ): Promise<unknown> => {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;

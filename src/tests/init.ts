@@ -23,4 +23,8 @@ bot.on('rawEvent', (msg) => {
 });
 bot.addAlias(echoKmd, 'hello');
 
+// bot.on('systemMessage', (msg) => {
+//     console.debug(`system message! ${msg}`)
+// })
+
 bot.connect();

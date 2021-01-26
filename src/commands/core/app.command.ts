@@ -7,6 +7,7 @@ import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export function initFuncResult<T>(
     data: T,
@@ -73,7 +74,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     async exec(
         command: string,
         args: string[],
-        msg: TextMessage
+        msg: KHMessage
     ): Promise<ResultTypes | void>;
 
     async exec(session: BaseSession): Promise<ResultTypes | void>;
@@ -81,7 +82,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     async exec(
         sessionOrCommand: BaseSession | string,
         args?: string[],
-        msg?: TextMessage
+        msg?: KHMessage
     ): Promise<ResultTypes | void> {
         if (sessionOrCommand instanceof BaseSession) {
             sessionOrCommand.command = this;
@@ -106,12 +107,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
 
         try {
             if (args[0] === '帮助') {
-                this.bot.sendChannelMessage(
-                    9,
-                    msg.channelId,
-                    `${mentionById(msg.authorId)}` + this.help,
-                    msg.msgId
-                );
+                session.reply(this.help)
                 return ResultTypes.HELP;
             }
 

@@ -1,4 +1,5 @@
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 import { AppCommand } from './app.command';
 import { MenuCommand } from './menu.command';
 import { MsgSender } from './msg.sender';
@@ -54,7 +55,7 @@ export interface BaseData {
     cmdString?: string;
     command: AppCommand<any> | MenuCommand<any>;
     args: string[];
-    msg: TextMessage;
+    msg: KHMessage;
     content?: string;
     other?: any;
 }

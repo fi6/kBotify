@@ -18,14 +18,30 @@ import { BaseSession } from './session';
  * @param help
  * @template T extends BaseData
  */
-export abstract class MenuCommand<T extends BaseSession> implements BaseCommand {
+export abstract class MenuCommand<T extends BaseSession>
+    implements BaseCommand {
     code = 'code';
+    /**
+     * 菜单触发文字
+     */
     abstract trigger: string;
+    /**
+     * 帮助文字。当发送`(菜单触发文字) 帮助`时返回的提示。
+     */
     help = 'help';
+    /**
+     * 菜单文字。如果设置useCardMenu=true，此处应为json样式的字符串。
+     */
     menu = 'menu';
     appMap = new Map<string, AppCommand<any>>();
     msgSender = new MsgSender();
+    /**
+     * 此命令绑定的bot实例
+     */
     bot: KBotify | undefined;
+    /**
+     * 是否使用cardmessage作为菜单，默认为否。如果为是，则菜单文字内容必须为cardmessage。
+     */
     useCardMenu = false;
     readonly type = CommandTypes.MENU;
 
@@ -53,6 +69,7 @@ export abstract class MenuCommand<T extends BaseSession> implements BaseCommand 
 
     /**
      * Add alias for a certain app to this menu.
+     * 与初始化菜单时添加App不同，不会添加App的触发文字到菜单内，只添加作为参数输入的Alias。
      * Note that this **will NOT add trigger** to menu.
      * menu.addCommand(app, alias1, alias2, ...)
      *
@@ -72,6 +89,17 @@ export abstract class MenuCommand<T extends BaseSession> implements BaseCommand 
         });
     }
 
+    /**
+     * 菜单的主体功能。
+     * - 如果参数为空，返回菜单。
+     * - 如果第一个参数为帮助，返回帮助。
+     * - 如果未找到对应命令，返回如何触发菜单的提示。
+     * - 如果找到对应命令，则调用。
+     *
+     * @param {BaseSession} session
+     * @return {*}  {(Promise<ResultTypes | void>)}
+     * @memberof MenuCommand
+     */
     async func(session: BaseSession): Promise<ResultTypes | void> {
         const command = session.command;
         const args = session.args;
@@ -84,17 +112,14 @@ export abstract class MenuCommand<T extends BaseSession> implements BaseCommand 
         try {
             if (!args.length) {
                 if (this.useCardMenu)
-                    this.msgSender.send(
-                        this.menu,
-                        session,
-                        ResultTypes.SUCCESS,
-                        { msgType: 10 }
-                    );
-                else this.msgSender.reply(this.menu, session);
+                    session.send(this.menu, ResultTypes.SUCCESS, {
+                        msgType: 10,
+                    });
+                else session.reply(this.menu);
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {
-                this.msgSender.reply(this.help, session);
+                session.reply(this.help);
             }
 
             session.cmdString = args.shift() as string;
@@ -116,6 +141,7 @@ export abstract class MenuCommand<T extends BaseSession> implements BaseCommand 
     }
     /**
      * If you want to have something done before executing app command, please overwrite this.
+     * 默认情况下直接调用菜单的func功能。
      *
      * @param session
      * @return {*}

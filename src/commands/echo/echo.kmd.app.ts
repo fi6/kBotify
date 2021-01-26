@@ -8,7 +8,8 @@ class EchoKmd extends AppCommand<BaseSession> {
     help = '`.echo kmd 内容`';
     intro = '复读你所说的文字, 并用kmarkdown格式返回。';
     func: AppCommandFunc<BaseSession> = async (session) => {
-        return this.msgSender.replyOnly(`${session.args}`, session);
+        if (!session.args.length) return session.reply(this.help)
+        return session.replyOnly(`${session.args}`);
     };
 }
 

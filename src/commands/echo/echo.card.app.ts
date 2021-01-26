@@ -10,8 +10,10 @@ class EchoCard extends AppCommand<BaseSession> {
     help = '`.echo card 内容`';
     intro = '复读你所说的文字, 并用CardMessage格式返回。';
     func: AppCommandFunc<BaseSession> = async (session) => {
+        const msg: string = ''.concat(...session.args).replace('\\n', '')
+        // console.log(msg)
         return this.msgSender.send(
-            `${session.args}`,
+            msg,
             session,
             ResultTypes.SUCCESS,
             { reply: true, msgType: 10 }
