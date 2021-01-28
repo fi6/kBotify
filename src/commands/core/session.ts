@@ -46,9 +46,10 @@ export class BaseSession implements BaseData {
 
     reply: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
+        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this.send(content, temp, resultType, {
             reply: true,
             mention: true,
         });
@@ -56,9 +57,10 @@ export class BaseSession implements BaseData {
 
     replyOnly: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
+        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this.send(content, temp, resultType, {
             reply: true,
             mention: false,
         });
@@ -66,16 +68,21 @@ export class BaseSession implements BaseData {
 
     replyCard: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
+        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, { reply: true, msgType: 10 });
+        return this.send(content, temp, resultType, {
+            reply: true,
+            msgType: 10,
+        });
     };
 
     mention: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
+        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this.send(content, temp, resultType, {
             reply: false,
             mention: true,
         });
@@ -83,9 +90,10 @@ export class BaseSession implements BaseData {
 
     sendOnly: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
+        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this.send(content, temp, resultType, {
             reply: false,
             mention: false,
         });
@@ -135,6 +143,7 @@ export class BaseSession implements BaseData {
      */
     send: SessionSendFunc = async (
         content,
+        temp = false,
         resultType = ResultTypes.SUCCESS,
         sendOptions?
     ) => {
@@ -168,22 +177,21 @@ export class BaseSession implements BaseData {
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
 
-        if ((this.msg as KHSystemMessage).extra?.type === 'message_btn_click') {
-            if (sendOptions?.reply)
-                console.warn('回复按钮点击事件时使用了引用！', this);
-            const msgSent = this.bot.sendChannelMessage(
-                msgType,
-                replyChannelId,
-                (withMention ? `${mentionById(this.userId)}` : '') + content
-            );
-            return initFuncResult(this, resultType, msgSent);
-        }
         content = (withMention ? `${mentionById(this.userId)}` : '') + content;
+
+        if ((this.msg as KHSystemMessage).extra?.type === 'message_btn_click') {
+            if (sendOptions?.reply) {
+                console.warn('回复按钮点击事件时使用了引用！', this);
+                sendOptions.reply = undefined;
+            }
+        }
+
         const msgSent = await this.bot.sendChannelMessage(
             msgType,
             replyChannelId,
             content,
-            sendOptions?.reply ? this.msg.msgId : undefined
+            sendOptions?.reply ? this.msg.msgId : undefined,
+            temp ? this.userId : undefined
         );
         return initFuncResult(this, resultType, msgSent);
     };
