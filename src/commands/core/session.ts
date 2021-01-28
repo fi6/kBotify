@@ -1,7 +1,8 @@
-import { TextMessage } from 'kaiheila-bot-root/dist/types';
+import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
 import {
     KHMessage,
     KHSystemMessage,
+    KHTextMessage,
 } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 import { KBotify } from '../../utils/kbotify';
 import { mentionById } from '../../utils/mention-by-id';
@@ -15,20 +16,32 @@ export class BaseSession implements BaseData {
     cmdString?: string | undefined;
     command: AppCommand<any> | MenuCommand<any>;
     args: string[];
-    msg: KHMessage;
+    msg: KHSystemMessage | TextMessage | KMarkDownMessage;
     content?: string | undefined;
     other?: any;
     bot: KBotify;
+    /**
+     * 会话的用户ID。
+     * 如果是文字消息，则返回发送者ID，如果是按钮事件，则返回点击者ID。
+     *
+     * @type {string}
+     * @memberof BaseSession
+     */
+    userId: string;
     constructor(
         command: AppCommand<any> | MenuCommand<any>,
         args: string[],
-        msg: KHMessage,
+        msg: KHSystemMessage | TextMessage | KMarkDownMessage,
         bot?: KBotify
     ) {
         this.command = command;
         this.args = args;
         this.msg = msg;
         this.bot = bot ?? this.command.bot!;
+        this.userId =
+            msg instanceof TextMessage || msg instanceof KMarkDownMessage
+                ? msg.authorId
+                : msg.extra.body.user_id;
     }
 
     reply: SessionSendFunc = async (
@@ -49,6 +62,13 @@ export class BaseSession implements BaseData {
             reply: true,
             mention: false,
         });
+    };
+
+    replyCard: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this.send(content, resultType, { reply: true, msgType: 10 });
     };
 
     mention: SessionSendFunc = async (
@@ -84,8 +104,8 @@ export class BaseSession implements BaseData {
         timeout: number | null = 6e4,
         callback: (msg: TextMessage) => void
     ): void => {
-        const func = (msg: TextMessage) => {
-            if (msg.authorId != this.msg.authorId) return;
+        const func = (msg: TextMessage | KMarkDownMessage) => {
+            if (msg.authorId != this.userId) return;
             if (condition instanceof RegExp) {
                 if (!condition.test(msg.content)) return;
             } else if (!msg.content.includes(condition)) return;
@@ -124,7 +144,7 @@ export class BaseSession implements BaseData {
         let replyChannelId = this.msg.channelId;
         replyChannelId =
             this.msg.type === 255
-                ? this.msg.extra.body.target_id
+                ? (this.msg as KHSystemMessage).extra.body.target_id
                 : replyChannelId;
         replyChannelId =
             this.command.msgSender.replyChannelId ?? replyChannelId;
@@ -142,24 +162,23 @@ export class BaseSession implements BaseData {
             throw new Error('message sender used before bot assigned.');
 
         if (msgType == 10) {
-            if (withMention) console.warn('发送卡片消息时使用了mention！', this)
+            if (withMention)
+                console.warn('发送卡片消息时使用了mention！', this);
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
 
-        if (this.msg.extra?.type === 'message_btn_click') {
-            if (sendOptions?.reply) console.warn('回复按钮点击事件时使用了引用！', this)
-                const msgSent = this.bot.sendChannelMessage(
-                    msgType,
-                    replyChannelId,
-                    (withMention
-                        ? `${mentionById(this.msg.extra.body.user_id)}`
-                        : '') + content
-                );
+        if ((this.msg as KHSystemMessage).extra?.type === 'message_btn_click') {
+            if (sendOptions?.reply)
+                console.warn('回复按钮点击事件时使用了引用！', this);
+            const msgSent = this.bot.sendChannelMessage(
+                msgType,
+                replyChannelId,
+                (withMention ? `${mentionById(this.userId)}` : '') + content
+            );
             return initFuncResult(this, resultType, msgSent);
         }
-        content =
-            (withMention ? `${mentionById(this.msg.authorId)}` : '') + content;
+        content = (withMention ? `${mentionById(this.userId)}` : '') + content;
         const msgSent = await this.bot.sendChannelMessage(
             msgType,
             replyChannelId,

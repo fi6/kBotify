@@ -1,5 +1,5 @@
 import { KBotify } from '../../utils/kbotify';
-import { TextMessage } from 'kaiheila-bot-root/dist/types';
+import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
@@ -7,7 +7,7 @@ import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
-import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
+import { KHMessage, KHSystemMessage, KHTextMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export function initFuncResult<T>(
     data: T,
@@ -62,7 +62,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     setTriggerOnce(trigger: string | RegExp, timeout: number): void {
         if (!this.bot)
             throw new Error('Temp trigger set before bot is assigned.');
-        this.bot.once('message', (msg: TextMessage) => {
+        this.bot.once('message', (msg: KHTextMessage) => {
             if (trigger instanceof RegExp) {
                 if (!trigger.test(msg.content)) return;
             } else {
@@ -74,7 +74,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     async exec(
         command: string,
         args: string[],
-        msg: KHMessage
+        msg : any
     ): Promise<ResultTypes | void>;
 
     async exec(session: BaseSession): Promise<ResultTypes | void>;
@@ -82,7 +82,7 @@ export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     async exec(
         sessionOrCommand: BaseSession | string,
         args?: string[],
-        msg?: KHMessage
+        msg?: KHSystemMessage | TextMessage | KMarkDownMessage
     ): Promise<ResultTypes | void> {
         if (sessionOrCommand instanceof BaseSession) {
             sessionOrCommand.command = this;

@@ -28,3 +28,5 @@ bot.addAlias(echoKmd, 'hello');
 // })
 
 bot.connect();
+
+console.debug('system init success')
