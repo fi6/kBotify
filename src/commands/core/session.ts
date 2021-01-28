@@ -9,6 +9,7 @@ import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';
+import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
 
@@ -49,9 +50,10 @@ export class BaseSession implements BaseData {
         temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, temp, resultType, {
+        return this.send(content, resultType, {
             reply: true,
             mention: true,
+            temp: temp,
         });
     };
 
@@ -60,9 +62,10 @@ export class BaseSession implements BaseData {
         temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, temp, resultType, {
+        return this.send(content, resultType, {
             reply: true,
             mention: false,
+            temp: temp,
         });
     };
 
@@ -71,9 +74,10 @@ export class BaseSession implements BaseData {
         temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, temp, resultType, {
+        return this.send(content, resultType, {
             reply: true,
             msgType: 10,
+            temp: temp,
         });
     };
 
@@ -82,9 +86,10 @@ export class BaseSession implements BaseData {
         temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, temp, resultType, {
+        return this.send(content, resultType, {
             reply: false,
             mention: true,
+            temp: temp,
         });
     };
 
@@ -93,9 +98,10 @@ export class BaseSession implements BaseData {
         temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, temp, resultType, {
+        return this.send(content, resultType, {
             reply: false,
             mention: false,
+            temp: temp,
         });
     };
 
@@ -138,14 +144,13 @@ export class BaseSession implements BaseData {
      * @param content
      * @param [resultType=ResultTypes.SUCCESS]
      * @param [sendOptions]
-     * @type {SessionSendFunc}
      * @memberof BaseSession
      */
-    send: SessionSendFunc = async (
-        content,
-        temp = false,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    send = async (
+        content: string | (() => string) | string | (() => Promise<string>),
         resultType = ResultTypes.SUCCESS,
-        sendOptions?
+        sendOptions?: SendOptions
     ) => {
         if (typeof content !== 'string') content = await content();
 
@@ -191,7 +196,7 @@ export class BaseSession implements BaseData {
             replyChannelId,
             content,
             sendOptions?.reply ? this.msg.msgId : undefined,
-            temp ? this.userId : undefined
+            sendOptions?.temp ? this.userId : undefined
         );
         return initFuncResult(this, resultType, msgSent);
     };

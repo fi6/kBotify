@@ -8,6 +8,7 @@ export interface SendOptions {
     reply?: boolean;
     replyAt?: string;
     msgType?: MessageType;
+    temp?: boolean;
 }
 
 export interface SendFunc {
