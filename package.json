@@ -1,12 +1,14 @@
 {
   "name": "kbotify",
-  "version": "0.1.3",
+  "version": "0.1.14",
   "description": "kaiheila bot framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": " npx ts-node -r tsconfig-paths/register src/tests/init.ts",
-    "build": "@powershell rd .\\dist\\* -r; tsc -p tsconfig.production.json"
+    "build-mac": "rm -rf dist/ && tsc -p tsconfig.production.json",
+    "build-win": "@powershell rd .\\dist\\* -r -Force; tsc -p tsconfig.production.json",
+    "publish-patch": "@powershell npm run build; npm version patch; npm publish"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,9 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "kaiheila-bot-root": "0.0.8"
-  }
+    "kaiheila-bot-root": "0.0.10"
+  },
+  "files": [
+    "dist"
+  ]
 }

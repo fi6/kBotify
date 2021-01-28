@@ -3,10 +3,11 @@ import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
-import { AppMsgSender } from './msg.sender';
+import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
-import { AppCommandFunc, BaseData, FuncResult } from './app.types';
+import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export function initFuncResult<T>(
     data: T,
@@ -36,7 +37,7 @@ export function initFuncResult<T>(
  * @param [messageSender] 负责发送消息
  * @template T
  */
-export abstract class AppCommand<T extends BaseData> implements BaseCommand {
+export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
     code = 'code';
     abstract trigger: string;
     help = 'help';
@@ -46,16 +47,16 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
     func: AppCommandFunc<T> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
-    msgSender = new AppMsgSender();
+    msgSender = new MsgSender();
     readonly type = CommandTypes.APP;
 
     constructor() {
         //
     }
 
-    assignBot = (bot: KBotify): void => {
+    init = (bot: KBotify): void => {
         this.bot = bot;
-        this.msgSender = new AppMsgSender(this.bot);
+        this.msgSender = new MsgSender(this.bot);
     };
 
     setTriggerOnce(trigger: string | RegExp, timeout: number): void {
@@ -73,9 +74,32 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
     async exec(
         command: string,
         args: string[],
-        msg: TextMessage
+        msg: KHMessage
+    ): Promise<ResultTypes | void>;
+
+    async exec(session: BaseSession): Promise<ResultTypes | void>;
+
+    async exec(
+        sessionOrCommand: BaseSession | string,
+        args?: string[],
+        msg?: KHMessage
     ): Promise<ResultTypes | void> {
-        console.debug('running command: ', command, args, msg);
+        if (sessionOrCommand instanceof BaseSession) {
+            sessionOrCommand.command = this;
+            return this.run(sessionOrCommand);
+        } else {
+            if (!args || !msg)
+                throw new Error(
+                    'Missing args ans msg when using exec(command, args, msg)'
+                );
+            return this.run(new BaseSession(this, args!, msg!));
+        }
+    }
+
+    private async run(session: BaseSession): Promise<ResultTypes> {
+        const args = session.args;
+        const msg = session.msg;
+        console.debug('running command: ', session.cmdString, args, msg);
         if (!this.bot)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
@@ -83,18 +107,13 @@ export abstract class AppCommand<T extends BaseData> implements BaseCommand {
 
         try {
             if (args[0] === '帮助') {
-                this.bot.sendChannelMessage(
-                    9,
-                    msg.channelId,
-                    `${mentionById(msg.authorId)}` + this.help,
-                    msg.msgId
-                );
+                session.reply(this.help)
                 return ResultTypes.HELP;
             }
-            const session = new BaseSession(this, args, msg);
 
-            const result = await this.func(session);
-            if (typeof result === 'string') return result;
+            const result = await this.func(session as any);
+            if (typeof result === 'string' || !result)
+                return result ? result : ResultTypes.SUCCESS;
             return result.resultType;
         } catch (error) {
             console.error(error);

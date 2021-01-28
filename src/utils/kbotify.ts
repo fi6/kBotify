@@ -2,18 +2,37 @@ import { AppCommand } from '../commands/core/app.command';
 import { MenuCommand } from '../commands/core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
+import { BaseSession } from '../commands/core/session';
+import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
     help = 'help for this bot.';
     botId: string | number = 'kaiheila user id for this bot.';
-    constructor(config: BotConfig) {
+    /**
+     * Creates an instance of KBotify.
+     * @param config the config of bot, please see readme.md
+     * @param [default_process=true] turn off if you want to process every incoming message yourself.
+     * @memberof KBotify
+     */
+    constructor(config: BotConfig, default_process = true) {
         super(config);
-        this.on('message', (msg) => {
-            const res = this.processMsg(msg);
-            if (!res) return;
-            const [command, ...args] = res;
-            this.execute(command.toLowerCase(), args, msg);
+        if (default_process) {
+            this.on('message', (msg) => {
+                const res = this.processMsg(msg);
+                if (!res) return;
+                const [command, ...args] = res;
+                this.execute(command.toLowerCase(), args, msg);
+            });
+            this.on('systemMessage', (msg) => {
+                if (msg.extra.type !== 'message_btn_click') return;
+                const [command, ...rest] = msg.extra.body.value.trim().split(/ +/);
+                this.execute(command, rest, msg)
+            });
+        }
+        this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
+            this.botId = info.id;
         });
     }
     /**
@@ -44,10 +63,10 @@ export class KBotify extends KaiheilaBot {
         ...commands: (MenuCommand<any> | AppCommand<any>)[]
     ): void => {
         for (const command of commands) {
-            command.assignBot(this);
+            command.init(this);
             if (command instanceof MenuCommand) {
                 for (const app of command.appMap.values()) {
-                    app.assignBot(this);
+                    app.init(this);
                 }
             }
             this.commandMap.set(command.trigger, command);
@@ -65,10 +84,10 @@ export class KBotify extends KaiheilaBot {
         command: MenuCommand<any> | AppCommand<any>,
         ...aliases: string[]
     ): void => {
-        command.assignBot(this);
+        command.init(this);
         if (command instanceof MenuCommand) {
             for (const app of command.appMap.values()) {
-                app.assignBot(this);
+                app.init(this);
             }
         }
         aliases.forEach((alias) => {
@@ -86,12 +105,14 @@ export class KBotify extends KaiheilaBot {
     execute = async (
         command: string,
         args: string[],
-        msg: TextMessage
+        msg: KHMessage
     ): Promise<unknown> => {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;
         const cmd = this.commandMap.get(command);
-        if (cmd) return cmd.exec(command, args, msg);
+
+        if (cmd) return cmd.exec(new BaseSession(cmd, args, msg, this));
+
         if (regex.test(command)) {
             return this.sendChannelMessage(
                 1,

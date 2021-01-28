@@ -3,41 +3,41 @@ import { MessageType } from 'kaiheila-bot-root/dist/types';
 import { mentionById } from '../../utils/mention-by-id';
 import { initFuncResult } from './app.command';
 import { ResultTypes } from './types';
-import { BaseData } from './app.types';
 import { SendFunc } from './msg.types';
+import { BaseSession } from './session';
 
-export class AppMsgSender {
+export class MsgSender {
     replyChannelId: string | undefined;
     withMention = false;
     withReply = false;
-    messageType = MessageType.kmarkdown;
+    defaultMessageType: number;
     private bot: KBotify | undefined;
     constructor(
         bot?: KBotify,
         withMention = false,
         withReply = false,
         replyChannelId?: string,
-        messageType = MessageType.kmarkdown
+        defaultMessageType = MessageType.kmarkdown
     ) {
         this.bot = bot;
         if (replyChannelId) this.replyChannelId = replyChannelId;
         if (withMention === false) this.withMention = false;
         if (withReply === false) this.withReply = false;
-        if (messageType) this.messageType = messageType;
+        this.defaultMessageType = defaultMessageType;
     }
 
-    assignBot = (bot: KBotify): void => {
+    init = (bot: KBotify): void => {
         // console.debug('msg sender bot assigned')
         this.bot = bot;
     };
 
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    wrongArgs = async <T extends BaseData>(
-        data: T,
+    wrongArgs = async <T extends BaseSession>(
+        session: T,
         resultType = ResultTypes.WRONG_ARGS
     ) => {
         const content = `输入的参数数量不正确。如需查看帮助，请直接输入\`[命令] [帮助]\`, 如：\`.账户 绑定 帮助\``;
-        return this.send(content, data, resultType, {
+        return this.send(content, session, resultType, {
             reply: true,
             mention: true,
         });
@@ -46,26 +46,26 @@ export class AppMsgSender {
      * Reply with mention with default message type of msgSender.
      *
      * @param content content of the message. By default it's in kmarkdown.
-     * @param data data.
+     * @param session session.
      * @param [resultType] Optional. If you would like to track the result of your command, please specify. Otherwise it will return success by default.
      */
     reply: SendFunc = async (
         content,
-        data,
+        session,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, data, resultType, {
+        return this.send(content, session, resultType, {
             reply: true,
             mention: true,
         });
     };
 
-    replyWithoutMention: SendFunc = async (
+    replyOnly: SendFunc = async (
         content,
-        data,
+        session,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, data, resultType, {
+        return this.send(content, session, resultType, {
             reply: true,
             mention: false,
         });
@@ -73,10 +73,10 @@ export class AppMsgSender {
 
     mention: SendFunc = async (
         content,
-        data,
+        session,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, data, resultType, {
+        return this.send(content, session, resultType, {
             reply: false,
             mention: true,
         });
@@ -84,11 +84,10 @@ export class AppMsgSender {
 
     sendOnly: SendFunc = async (
         content,
-        data,
-
+        session,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, data, resultType, {
+        return this.send(content, session, resultType, {
             reply: false,
             mention: false,
         });
@@ -96,20 +95,20 @@ export class AppMsgSender {
 
     send: SendFunc = async (
         content,
-        data,
+        session,
         resultType = ResultTypes.SUCCESS,
         sendOptions?
     ) => {
         if (typeof content !== 'string') content = await content();
 
         //decide if msg should be sent in specific channel.
-        let replyChannelId = data.msg.channelId;
+        let replyChannelId = session.msg.channelId;
         replyChannelId = this.replyChannelId ?? replyChannelId;
         replyChannelId = sendOptions?.replyAt ?? replyChannelId;
 
         // decide if need mention at the start.
         const withMention = sendOptions?.mention ?? this.withMention;
-        const msgType = sendOptions?.msgType ?? this.messageType;
+        const msgType = sendOptions?.msgType ?? this.defaultMessageType;
 
         if (!this.bot)
             throw new Error('message sender used before bot assigned.');
@@ -117,10 +116,10 @@ export class AppMsgSender {
         const msgSent = this.bot.sendChannelMessage(
             msgType,
             replyChannelId,
-            (withMention ? `${mentionById(data.msg.authorId)} ` : '') + content,
-            sendOptions?.reply ? data.msg.msgId : undefined
+            (withMention ? `${mentionById(session.msg.authorId)} ` : '') + content,
+            sendOptions?.reply ? session.msg.msgId : undefined
         );
-        return initFuncResult(data, resultType, msgSent);
+        return initFuncResult(session, resultType, msgSent);
     };
 }
 

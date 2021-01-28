@@ -1,5 +1,8 @@
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
-import { AppMsgSender } from './msg.sender';
+import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
+import { AppCommand } from './app.command';
+import { MenuCommand } from './menu.command';
+import { MsgSender } from './msg.sender';
 import { BaseSession } from './session';
 import { ResultTypes } from './types';
 
@@ -23,11 +26,11 @@ export interface AppCommandParams<T extends BaseData> {
     intro: string;
     func: (data: T) => Promise<FuncResult<T> | ResultTypes | BaseSession>;
     useHelp: boolean;
-    msgSender?: AppMsgSender;
+    msgSender?: MsgSender;
 }
 
 export interface AppCommandFunc<T extends BaseData> {
-    (data: BaseSession): Promise<FuncResult<T> | ResultTypes>;
+    (data: T): Promise<FuncResult<T> | ResultTypes | void>;
 }
 
 /**
@@ -49,10 +52,10 @@ export interface FuncResult<T> {
 }
 
 export interface BaseData {
-    cmdCode: string;
     cmdString?: string;
+    command: AppCommand<any> | MenuCommand<any>;
     args: string[];
-    msg: TextMessage;
+    msg: KHMessage;
     content?: string;
     other?: any;
 }

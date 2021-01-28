@@ -15,7 +15,6 @@ const bot = new KBotify({
     ignoreDecryptError: false,
 });
 
-bot.botId = '3085161473'
 
 bot.addCommands(echoMenu, echoKmd);
 
@@ -24,4 +23,8 @@ bot.on('rawEvent', (msg) => {
 });
 bot.addAlias(echoKmd, 'hello');
 
-bot.listen();
+// bot.on('systemMessage', (msg) => {
+//     console.debug(`system message! ${msg}`)
+// })
+
+bot.connect();

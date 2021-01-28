@@ -12,8 +12,8 @@
                 "--nolazy",
                 "-r",
                 "ts-node/register",
-                "-r",
-                "tsconfig-paths/register"
+                // "-r",
+                // "tsconfig-paths/register"
             ],
             "args": [
                 "src/tests/init.ts"
