@@ -120,6 +120,7 @@ export abstract class MenuCommand<T extends BaseSession>
             }
             if (args[0] === '帮助') {
                 session.reply(this.help);
+                return ResultTypes.HELP;
             }
 
             session.cmdString = args.shift() as string;
