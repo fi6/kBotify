@@ -1,6 +1,6 @@
 import { MenuCommand } from '../core/menu.command';
 
-import { echoAll } from './echo.all.app';
+import { echoNext } from './echo.next.app';
 import { echoCard } from './echo.card.app';
 import { echoKmd } from './echo.kmd.app';
 import { echoPrivate } from './echo.private.app';
@@ -48,6 +48,6 @@ const menu = `[
   }
 ]`;
 
-export const echoMenu = new EchoMenu(echoKmd, echoCard, echoAll, echoPrivate);
+export const echoMenu = new EchoMenu(echoKmd, echoCard, echoNext, echoPrivate);
 
 

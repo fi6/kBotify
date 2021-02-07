@@ -2,11 +2,11 @@ import { BaseSession } from 'commands/core/session';
 import { AppCommand } from '../core/app.command';
 import { AppCommandFunc, BaseData } from '../core/app.types';
 
-class EchoAll extends AppCommand {
-    code = 'all';
-    trigger = 'all';
-    help = '`.echo all 时间`';
-    intro = '在指定时间内复读全部文字';
+class EchoNext extends AppCommand {
+    code = 'next';
+    trigger = 'next';
+    help = '`.echo next`';
+    intro = '复读用户下次发送的全部文字';
     func: AppCommandFunc<BaseSession> = async (session) => {
         session.setReplyTrigger('', 1e4, (msg) =>
             session.sendOnly(msg.content)
@@ -15,4 +15,4 @@ class EchoAll extends AppCommand {
     };
 }
 
-export const echoAll = new EchoAll();
+export const echoNext = new EchoNext();
