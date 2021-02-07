@@ -43,7 +43,7 @@ export abstract class AppCommand implements BaseCommand {
     help = 'help';
     intro = 'intro';
     bot: KBotify | undefined;
-    parent: MenuCommand<any> | null = null;
+    parent: MenuCommand | null = null;
     func: AppCommandFunc<BaseSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
