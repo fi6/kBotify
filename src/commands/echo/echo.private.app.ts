@@ -2,7 +2,7 @@ import { BaseSession } from 'commands/core/session';
 import { AppCommand } from '../core/app.command';
 import { AppCommandFunc } from '../core/app.types';
 
-class EchoPrivate extends AppCommand<BaseSession> {
+class EchoPrivate extends AppCommand {
     code = 'pr';
     trigger = 'pr';
     help = '`.echo pr 内容`';

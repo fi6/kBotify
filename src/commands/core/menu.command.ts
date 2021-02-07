@@ -18,7 +18,7 @@ import { BaseSession } from './session';
  * @param help
  * @template T extends BaseData
  */
-export abstract class MenuCommand<T extends BaseSession>
+export abstract class MenuCommand
     implements BaseCommand {
     code = 'code';
     /**
@@ -33,7 +33,7 @@ export abstract class MenuCommand<T extends BaseSession>
      * 菜单文字。如果设置useCardMenu=true，此处应为json样式的字符串。
      */
     menu = 'menu';
-    appMap = new Map<string, AppCommand<any>>();
+    appMap = new Map<string, AppCommand>();
     msgSender = new MsgSender();
     /**
      * 此命令绑定的bot实例
@@ -52,7 +52,7 @@ export abstract class MenuCommand<T extends BaseSession>
      * @param apps instances of AppCommand
      * @memberof MenuCommand
      */
-    constructor(...apps: AppCommand<any>[]) {
+    constructor(...apps: AppCommand[]) {
         apps.forEach((app) => {
             this.appMap.set(app.trigger, app);
             app.parent = this;
@@ -77,7 +77,7 @@ export abstract class MenuCommand<T extends BaseSession>
      * @param alias alias of the app
      * @memberof MenuCommand
      */
-    addAlias(app: AppCommand<any>, ...aliases: string[]): void {
+    addAlias(app: AppCommand, ...aliases: string[]): void {
         if (!this.bot)
             throw new Error(
                 `You must init menu ${this.code} with a bot before adding alias to apps.`

@@ -15,7 +15,7 @@ import { ResultTypes } from './types';
 
 export class BaseSession implements BaseData {
     cmdString?: string | undefined;
-    command: AppCommand<any> | MenuCommand<any>;
+    command: AppCommand | MenuCommand;
     args: string[];
     msg: KHSystemMessage | TextMessage | KMarkDownMessage;
     content?: string | undefined;
@@ -30,7 +30,7 @@ export class BaseSession implements BaseData {
      */
     userId: string;
     constructor(
-        command: AppCommand<any> | MenuCommand<any>,
+        command: AppCommand | MenuCommand,
         args: string[],
         msg: KHSystemMessage | TextMessage | KMarkDownMessage,
         bot?: KBotify

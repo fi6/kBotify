@@ -2,7 +2,7 @@ import { BaseSession } from 'commands/core/session';
 import { AppCommand } from '../core/app.command';
 import { AppCommandFunc, BaseData } from '../core/app.types';
 
-class EchoAll extends AppCommand<BaseSession> {
+class EchoAll extends AppCommand {
     code = 'all';
     trigger = 'all';
     help = '`.echo all 时间`';
@@ -11,7 +11,7 @@ class EchoAll extends AppCommand<BaseSession> {
         session.setReplyTrigger('', 1e4, (msg) =>
             session.sendOnly(msg.content)
         );
-        return this.msgSender.reply('将会复读下一次任意内容', session);
+        return session.reply('将会复读下一次任意内容');
     };
 }
 

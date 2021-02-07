@@ -39,11 +39,11 @@ export enum ResultTypes {
 
 
 
-export interface MenuCommandParams<T extends BaseSession> {
+export interface MenuCommandParams {
     code: string;
     trigger: string;
     help: string;
-    apps: AppCommand<T>[];
+    apps: AppCommand[];
 }
 
 export {};

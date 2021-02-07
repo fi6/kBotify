@@ -4,7 +4,7 @@ import { AppCommand } from '../core/app.command';
 import { AppCommandFunc, BaseData } from '../core/app.types';
 import { ResultTypes } from '../core/types';
 
-class EchoCard extends AppCommand<BaseSession> {
+class EchoCard extends AppCommand {
     code = 'card';
     trigger = 'card';
     help = '`.echo card 内容`';

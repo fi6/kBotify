@@ -15,7 +15,7 @@ export interface MenuCommandParams {
     code: string;
     trigger: string;
     help: string;
-    apps: AppCommand<any>[];
+    apps: AppCommand[];
 }
 
 export {};

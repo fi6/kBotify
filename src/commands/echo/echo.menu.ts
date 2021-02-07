@@ -5,7 +5,7 @@ import { echoCard } from './echo.card.app';
 import { echoKmd } from './echo.kmd.app';
 import { echoPrivate } from './echo.private.app';
 
-class EchoMenu extends MenuCommand<any> {
+class EchoMenu extends MenuCommand {
     code = 'echo';
     trigger = 'echo';
     help =

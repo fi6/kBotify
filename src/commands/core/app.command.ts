@@ -37,14 +37,14 @@ export function initFuncResult<T>(
  * @param [messageSender] 负责发送消息
  * @template T
  */
-export abstract class AppCommand<T extends BaseSession> implements BaseCommand {
+export abstract class AppCommand implements BaseCommand {
     code = 'code';
     abstract trigger: string;
     help = 'help';
     intro = 'intro';
     bot: KBotify | undefined;
     parent: MenuCommand<any> | null = null;
-    func: AppCommandFunc<T> = async (_data) => {
+    func: AppCommandFunc<BaseSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
     msgSender = new MsgSender();

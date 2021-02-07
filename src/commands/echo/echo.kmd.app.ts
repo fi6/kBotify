@@ -2,7 +2,7 @@ import { BaseSession } from 'commands/core/session';
 import { AppCommand } from '../core/app.command';
 import { AppCommandFunc } from '../core/app.types';
 
-class EchoKmd extends AppCommand<BaseSession> {
+class EchoKmd extends AppCommand {
     code = 'kmd';
     trigger = 'kmd';
     help = '`.echo kmd 内容`';
