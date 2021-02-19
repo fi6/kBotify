@@ -1,7 +1,15 @@
 import { AppCommand } from '../commands/core/app.command';
 import { MenuCommand } from '../commands/core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
-import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
+import {
+    AudioMessage,
+    FileMesage,
+    ImageMessage,
+    KMarkDownMessage,
+    MessageBase,
+    TextMessage,
+    VideoMessage,
+} from 'kaiheila-bot-root/dist/types';
 import { BaseSession } from '../commands/core/session';
 import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
 import {
@@ -10,7 +18,7 @@ import {
 } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export class KBotify extends KaiheilaBot {
-    commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
+    commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
     botId: string | number = 'kaiheila user id for this bot.';
     /**
@@ -23,6 +31,7 @@ export class KBotify extends KaiheilaBot {
         super(config);
         if (default_process) {
             this.on('message', (msg) => {
+                msg = msg as TextMessage;
                 const res = this.processMsg(msg);
                 if (!res) return;
                 const [command, ...args] = res;
@@ -48,6 +57,7 @@ export class KBotify extends KaiheilaBot {
      * @memberof KBotify
      */
     processMsg(msg: TextMessage | KMarkDownMessage): string[] | void {
+        msg = msg as TextMessage;
         if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
             // console.log(msg)
             return msg.content.slice(1).trim().split(/ +/);
@@ -64,9 +74,7 @@ export class KBotify extends KaiheilaBot {
      * @param commands array of instances of menu/app command
      * @memberof KBotify
      */
-    addCommands = (
-        ...commands: (MenuCommand<any> | AppCommand<any>)[]
-    ): void => {
+    addCommands = (...commands: (MenuCommand | AppCommand)[]): void => {
         for (const command of commands) {
             command.init(this);
             if (command instanceof MenuCommand) {
@@ -86,7 +94,7 @@ export class KBotify extends KaiheilaBot {
      * @memberof KBotify
      */
     addAlias = (
-        command: MenuCommand<any> | AppCommand<any>,
+        command: MenuCommand | AppCommand,
         ...aliases: string[]
     ): void => {
         command.init(this);

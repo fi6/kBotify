@@ -1,4 +1,11 @@
-import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
+import {
+    AudioMessage,
+    ImageMessage,
+    KMarkDownMessage,
+    TextMessage,
+    VideoMessage,
+    FileMesage,
+} from 'kaiheila-bot-root/dist/types';
 import {
     KHMessage,
     KHSystemMessage,
@@ -118,7 +125,8 @@ export class BaseSession implements BaseData {
         timeout: number | null = 6e4,
         callback: (msg: TextMessage) => void
     ): void => {
-        const func = (msg: TextMessage | KMarkDownMessage) => {
+        const func = (msg: any) => {
+            msg = msg as TextMessage;
             if (msg.authorId != this.userId) return;
             if (condition instanceof RegExp) {
                 if (!condition.test(msg.content)) return;

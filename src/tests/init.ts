@@ -7,14 +7,13 @@ import { echoKmd } from '../commands/echo/echo.kmd.app';
 dotenv.config();
 
 const bot = new KBotify({
-    mode: 'webhook',
-    port: parseInt(process.env.KPORT!),
+    mode: 'websocket',
+    // port: parseInt(process.env.KPORT!),
     token: process.env.TOKEN!,
     verifyToken: process.env.VERIFY,
     key: process.env.KEY,
     ignoreDecryptError: false,
 });
-
 
 bot.addCommands(echoMenu, echoKmd);
 
@@ -29,4 +28,4 @@ bot.addAlias(echoKmd, 'hello');
 
 bot.connect();
 
-console.debug('system init success')
+console.debug('system init success');
