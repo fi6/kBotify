@@ -9,7 +9,7 @@ class EchoNext extends AppCommand {
     intro = '复读用户下次发送的全部文字';
     func: AppCommandFunc<BaseSession> = async (session) => {
         session.setReplyTrigger('', 1e4, (msg) =>
-            session.sendOnly(msg.content)
+            session.send(msg.content)
         );
         return session.reply('将会复读下一次任意内容');
     };

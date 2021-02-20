@@ -54,61 +54,98 @@ export class BaseSession implements BaseData {
 
     reply: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
-        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this._send(content, resultType, {
             reply: true,
             mention: true,
-            temp: temp,
+            temp: false,
+        });
+    };
+
+    replyTemp: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: true,
+            mention: true,
+            temp: true,
         });
     };
 
     replyOnly: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>),
-        temp = false,
+        content,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this._send(content, resultType, {
             reply: true,
             mention: false,
-            temp: temp,
+            temp: false,
         });
     };
 
     replyCard: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>),
-        temp = false,
+        content,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this._send(content, resultType, {
             reply: true,
             msgType: 10,
-            temp: temp,
+        });
+    };
+
+    replyCardTemp: SessionSendFunc = async (
+        content,
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: true,
+            msgType: 10,
+            temp: true,
         });
     };
 
     mention: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
-        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this._send(content, resultType, {
             reply: false,
             mention: true,
-            temp: temp,
+            temp: false,
         });
     };
 
-    sendOnly: SessionSendFunc = async (
+    send: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
-        temp = false,
         resultType = ResultTypes.SUCCESS
     ) => {
-        return this.send(content, resultType, {
+        return this._send(content, resultType, {
             reply: false,
             mention: false,
-            temp: temp,
+            temp: false,
+        });
+    };
+
+    sendTemp: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: false,
+            mention: false,
+            temp: true,
+        });
+    };
+
+    sendCardTemp: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>)
+    ) => {
+        return this._send(content, ResultTypes.SUCCESS, {
+            reply: false,
+            mention: false,
+            temp: true,
         });
     };
 
@@ -155,7 +192,7 @@ export class BaseSession implements BaseData {
      * @memberof BaseSession
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    send = async (
+    _send = async (
         content: string | (() => string) | string | (() => Promise<string>),
         resultType = ResultTypes.SUCCESS,
         sendOptions?: SendOptions
