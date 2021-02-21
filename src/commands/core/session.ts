@@ -16,6 +16,7 @@ import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';
+import { MsgSender } from './msg.sender';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
@@ -244,6 +245,9 @@ export class BaseSession implements BaseData {
             sendOptions?.reply ? this.msg.msgId : undefined,
             sendOptions?.temp ? this.userId : undefined
         );
+        if (msgSent.data.code == 40000) {
+            console.error('msg sent error!', msgSent.data);
+        }
         return initFuncResult(this, resultType, msgSent);
     };
 }

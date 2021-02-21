@@ -45,6 +45,12 @@ export class KBotify extends KaiheilaBot {
                 this.execute(command, rest, msg);
             });
         }
+    }
+
+    connect() {
+        this.messageSource.connect().then((res) => {
+            console.info('connected:', res);
+        });
         this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
             this.botId = info.id;
         });

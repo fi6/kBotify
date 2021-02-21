@@ -10,14 +10,31 @@ class EchoCard extends AppCommand {
     help = '`.echo card 内容`';
     intro = '复读你所说的文字, 并用CardMessage格式返回。';
     func: AppCommandFunc<BaseSession> = async (session) => {
-        const msg: string = ''.concat(...session.args).replace('\\n', '')
+        const msg: string = ''.concat(...session.args).replace('\\n', '');
         // console.log(msg)
-        return this.msgSender.send(
-            msg,
-            session,
-            ResultTypes.SUCCESS,
-            { reply: true, msgType: 10 }
-        );
+        return session.sendCardTemp(JSON.stringify(this.card_test()));
+        // return this.msgSender.send(
+        //     msg,
+        //     session,
+        //     ResultTypes.SUCCESS,
+        //     { reply: true, msgType: 10 }
+        // );
+    };
+    private card_test = () => {
+        return [
+            {
+                type: 'card',
+                theme: 'secondary',
+                size: 'lg',
+                modules: [
+                    {
+                        type: 'countdown',
+                        mode: 'hour',
+                        endTime: 1613968761797,
+                    },
+                ],
+            },
+        ];
     };
 }
 
