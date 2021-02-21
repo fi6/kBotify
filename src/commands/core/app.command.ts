@@ -3,7 +3,6 @@ import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
 
 import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
-import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
@@ -47,7 +46,6 @@ export abstract class AppCommand implements BaseCommand {
     func: AppCommandFunc<BaseSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
-    msgSender = new MsgSender();
     readonly type = CommandTypes.APP;
 
     constructor() {
@@ -56,7 +54,6 @@ export abstract class AppCommand implements BaseCommand {
 
     init = (bot: KBotify): void => {
         this.bot = bot;
-        this.msgSender = new MsgSender(this.bot);
     };
 
     setTriggerOnce(trigger: string | RegExp, timeout: number): void {

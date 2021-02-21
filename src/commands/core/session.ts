@@ -16,7 +16,6 @@ import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';
-import { MsgSender } from './msg.sender';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
@@ -207,17 +206,13 @@ export class BaseSession implements BaseData {
             this.msg.type === 255
                 ? (this.msg as KHSystemMessage).extra.body.target_id
                 : replyChannelId;
-        replyChannelId =
-            this.command.msgSender.replyChannelId ?? replyChannelId;
         replyChannelId = sendOptions?.replyAt ?? replyChannelId;
 
         // decide if need mention at the start.
 
-        const msgType =
-            sendOptions?.msgType ?? this.command.msgSender.defaultMessageType;
+        const msgType = sendOptions?.msgType ?? 9;
 
-        let withMention =
-            sendOptions?.mention ?? this.command.msgSender.withMention;
+        let withMention = sendOptions?.mention ?? false;
 
         if (!this.bot)
             throw new Error('message sender used before bot assigned.');

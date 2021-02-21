@@ -4,7 +4,6 @@ import { AppCommand } from './app.command';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { KBotify } from '../../utils/kbotify';
 import { BaseData, FuncResult } from './app.types';
-import { MsgSender } from './msg.sender';
 import { BaseSession } from './session';
 
 /**
@@ -18,8 +17,7 @@ import { BaseSession } from './session';
  * @param help
  * @template T extends BaseData
  */
-export abstract class MenuCommand
-    implements BaseCommand {
+export abstract class MenuCommand implements BaseCommand {
     code = 'code';
     /**
      * 菜单触发文字
@@ -34,7 +32,6 @@ export abstract class MenuCommand
      */
     menu = 'menu';
     appMap = new Map<string, AppCommand>();
-    msgSender = new MsgSender();
     /**
      * 此命令绑定的bot实例
      */
@@ -61,7 +58,6 @@ export abstract class MenuCommand
 
     init = (bot: KBotify): void => {
         this.bot = bot;
-        this.msgSender.init(bot);
         for (const app of this.appMap.values()) {
             app.init(bot);
         }
@@ -127,11 +123,10 @@ export abstract class MenuCommand
 
             const app = this.appMap.get(session.cmdString);
             if (!app) {
-                this.msgSender.reply(
+                session.reply(
                     '未找到对应命令。如需查看菜单请发送`.' +
                         `${this.trigger}` +
-                        '`',
-                    session
+                        '`'
                 );
                 return ResultTypes.WRONG_ARGS;
             }

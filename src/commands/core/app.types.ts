@@ -5,7 +5,6 @@ import {
 } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 import { AppCommand } from './app.command';
 import { MenuCommand } from './menu.command';
-import { MsgSender } from './msg.sender';
 import { BaseSession } from './session';
 import { ResultTypes } from './types';
 
@@ -29,7 +28,6 @@ export interface AppCommandParams<T extends BaseData> {
     intro: string;
     func: (data: T) => Promise<FuncResult<T> | ResultTypes | BaseSession>;
     useHelp: boolean;
-    msgSender?: MsgSender;
 }
 
 export interface AppCommandFunc<T extends BaseData> {

@@ -92,7 +92,7 @@ class EchoAll extends AppCommand<BaseSession> {
         session.setReplyTrigger('', 6e4, (msg) =>
             session.sendOnly(msg.content)
         );
-        return this.msgSender.reply('将会复读下一次任意内容，1min有效', session);
+        return session.reply('将会复读下一次任意内容，1min有效', session);
     };
 }
 

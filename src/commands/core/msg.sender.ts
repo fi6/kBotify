@@ -6,6 +6,9 @@ import { ResultTypes } from './types';
 import { SendFunc } from './msg.types';
 import { BaseSession } from './session';
 
+/**
+ * @deprecated
+ */
 export class MsgSender {
     replyChannelId: string | undefined;
     withMention = false;
@@ -116,7 +119,8 @@ export class MsgSender {
         const msgSent = this.bot.sendChannelMessage(
             msgType,
             replyChannelId,
-            (withMention ? `${mentionById(session.msg.authorId)} ` : '') + content,
+            (withMention ? `${mentionById(session.msg.authorId)} ` : '') +
+                content,
             sendOptions?.reply ? session.msg.msgId : undefined
         );
         return initFuncResult(session, resultType, msgSent);
