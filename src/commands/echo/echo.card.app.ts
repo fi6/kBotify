@@ -24,13 +24,48 @@ class EchoCard extends AppCommand {
         return [
             {
                 type: 'card',
-                theme: 'secondary',
+                theme: 'success',
                 size: 'lg',
                 modules: [
                     {
-                        type: 'countdown',
-                        mode: 'hour',
-                        endTime: 1613968761797,
+                        type: 'header',
+                        text: {
+                            type: 'plain-text',
+                            content: '房间创建成功',
+                        },
+                    },
+                    {
+                        type: 'section',
+                        text: {
+                            type: 'kmarkdown',
+                            content:
+                                '房间创建成功！你的房间信息如下。   \n你可以点击`广播`以将房间广播给所有人。',
+                        },
+                    },
+                    {
+                        type: 'action-group',
+                        elements: [
+                            {
+                                type: 'button',
+                                theme: 'primary',
+                                value: '.echo next',
+                                click: 'return-val',
+                                text: {
+                                    type: 'plain-text',
+                                    content: '.echo next',
+                                },
+                            },
+                            {
+                                type: 'button',
+                                theme: 'danger',
+                                value: 'cancel',
+                                click: 'return-val',
+                                text: {
+                                    type: 'plain-text',
+                                    content: '取消',
+                                },
+                            },
+                        ],
                     },
                 ],
             },

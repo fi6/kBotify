@@ -37,8 +37,6 @@ export enum ResultTypes {
     WRONG_ARGS = 'WRONG_ARGS',
 }
 
-
-
 export interface MenuCommandParams {
     code: string;
     trigger: string;

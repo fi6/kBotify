@@ -39,7 +39,9 @@ export class KBotify extends KaiheilaBot {
             });
             this.on('systemMessage', (msg) => {
                 if (msg.extra.type !== 'message_btn_click') return;
+                if (!msg.extra.body.value.startsWith('.')) return;
                 const [command, ...rest] = msg.extra.body.value
+                    .slice(1)
                     .trim()
                     .split(/ +/);
                 this.execute(command, rest, msg);

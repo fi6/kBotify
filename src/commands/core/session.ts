@@ -19,6 +19,7 @@ import { MenuCommand } from './menu.command';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
+import { User } from './user/user';
 
 export class BaseSession implements BaseData {
     cmdString?: string | undefined;
@@ -36,6 +37,7 @@ export class BaseSession implements BaseData {
      * @memberof BaseSession
      */
     userId: string;
+    user: User;
     constructor(
         command: AppCommand | MenuCommand,
         args: string[],
@@ -46,10 +48,17 @@ export class BaseSession implements BaseData {
         this.args = args;
         this.msg = msg;
         this.bot = bot ?? this.command.bot!;
-        this.userId =
-            msg instanceof TextMessage || msg instanceof KMarkDownMessage
-                ? msg.authorId
-                : msg.extra.body.user_id;
+        if (msg instanceof TextMessage || msg instanceof KMarkDownMessage) {
+            this.userId = msg.authorId;
+            this.user = new User(msg.author.id, msg.author.nickname);
+        } else {
+            this.userId = msg.extra.body.user_id;
+            this.user = new User(
+                this.userId,
+                msg.extra.body.user_info.username
+            );
+        }
+        console.debug(this.user);
     }
 
     reply: SessionSendFunc = async (
