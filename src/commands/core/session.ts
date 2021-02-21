@@ -143,6 +143,7 @@ export class BaseSession implements BaseData {
         content: string | (() => string) | string | (() => Promise<string>)
     ) => {
         return this._send(content, ResultTypes.SUCCESS, {
+            msgType: 10,
             reply: false,
             mention: false,
             temp: true,
