@@ -201,7 +201,7 @@ export class BaseSession implements BaseData {
         condition: string | RegExp,
         timeout: number | null = 6e4,
         callback: (msg: TextMessage) => void
-    ): void => {
+    ) => {
         const func = (msg: any) => {
             msg = msg as TextMessage;
             if (msg.authorId != this.userId) return;
@@ -216,6 +216,7 @@ export class BaseSession implements BaseData {
             setTimeout(() => {
                 this.bot.off('message', func);
             }, timeout);
+        return ()=>{this.bot.off('message', func);}
     };
     /**
      * 发送消息。
