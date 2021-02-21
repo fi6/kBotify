@@ -111,7 +111,7 @@ export abstract class MenuCommand implements BaseCommand {
                     session._send(this.menu, ResultTypes.SUCCESS, {
                         msgType: 10,
                     });
-                else session.reply(this.menu);
+                else session.replyTemp(this.menu);
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {

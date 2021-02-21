@@ -80,17 +80,6 @@ export class BaseSession implements BaseData {
         });
     };
 
-    replyOnly: SessionSendFunc = async (
-        content,
-        resultType = ResultTypes.SUCCESS
-    ) => {
-        return this._send(content, resultType, {
-            reply: true,
-            mention: false,
-            temp: false,
-        });
-    };
-
     replyCard: SessionSendFunc = async (
         content,
         resultType = ResultTypes.SUCCESS
@@ -112,6 +101,28 @@ export class BaseSession implements BaseData {
         });
     };
 
+    quote: SessionSendFunc = async (
+        content,
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: true,
+            mention: false,
+            temp: false,
+        });
+    };
+
+    quoteTemp: SessionSendFunc = async (
+        content,
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: true,
+            mention: false,
+            temp: true,
+        });
+    };
+
     mention: SessionSendFunc = async (
         content: string | (() => string) | string | (() => Promise<string>),
         resultType = ResultTypes.SUCCESS
@@ -120,6 +131,17 @@ export class BaseSession implements BaseData {
             reply: false,
             mention: true,
             temp: false,
+        });
+    };
+
+    mentionTemp: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>),
+        resultType = ResultTypes.SUCCESS
+    ) => {
+        return this._send(content, resultType, {
+            reply: false,
+            mention: true,
+            temp: true,
         });
     };
 
@@ -142,6 +164,17 @@ export class BaseSession implements BaseData {
             reply: false,
             mention: false,
             temp: true,
+        });
+    };
+
+    sendCard: SessionSendFunc = async (
+        content: string | (() => string) | string | (() => Promise<string>)
+    ) => {
+        return this._send(content, ResultTypes.SUCCESS, {
+            msgType: 10,
+            reply: false,
+            mention: false,
+            temp: false,
         });
     };
 
