@@ -50,15 +50,12 @@ export class BaseSession implements BaseData {
         this.bot = bot ?? this.command.bot!;
         if (msg instanceof TextMessage || msg instanceof KMarkDownMessage) {
             this.userId = msg.authorId;
-            this.user = new User(msg.author.id, msg.author.nickname);
+            this.user = new User(msg.author, this.bot);
         } else {
             this.userId = msg.extra.body.user_id;
-            this.user = new User(
-                this.userId,
-                msg.extra.body.user_info.username
-            );
+            this.user = new User(msg.extra.body.user_info, this.bot);
         }
-        console.debug(this.user);
+        // console.debug(this.user);
     }
 
     reply: SessionSendFunc = async (
