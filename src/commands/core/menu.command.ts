@@ -40,6 +40,7 @@ export abstract class MenuCommand implements BaseCommand {
      * 是否使用cardmessage作为菜单，默认为否。如果为是，则菜单文字内容必须为cardmessage。
      */
     useCardMenu = false;
+    useTempMenu = true;
     readonly type = CommandTypes.MENU;
 
     /**
@@ -107,11 +108,16 @@ export abstract class MenuCommand implements BaseCommand {
         }
         try {
             if (!args.length) {
-                if (this.useCardMenu)
+                if (this.useCardMenu) {
                     session._send(this.menu, ResultTypes.SUCCESS, {
                         msgType: 10,
+                        temp: this.useTempMenu,
                     });
-                else session.replyTemp(this.menu);
+                } else {
+                    session._send(this.menu, ResultTypes.SUCCESS, {
+                        temp: this.useTempMenu,
+                    });
+                }
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {
