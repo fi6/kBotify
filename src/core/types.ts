@@ -19,8 +19,6 @@ export interface ResultHandler<T extends BaseSession> {
     (data: T, type: string | number): Promise<FuncResult<T>>;
 }
 
-export type CommandInput = [string, string[], TextMessage];
-
 export enum CommandTypes {
     MENU = 'MENU',
     HELP = 'HELP',

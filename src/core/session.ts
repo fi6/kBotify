@@ -1,23 +1,27 @@
-
-
+import { ButtonClickEvent } from 'kaiheila-bot-root';
+import { UserAPI } from 'kaiheila-bot-root/dist/api/user';
 import { KBotify } from '..';
 import { mentionById } from '../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
+import { BotObject } from './base/bot.object';
 import { MenuCommand } from './menu.command';
+import { TextMessage } from './message';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
-import { User } from './user';
+import { BaseUser } from './user';
 
-export class BaseSession implements BaseData {
+export class BaseSession extends BotObject implements BaseData {
+    /**
+     * 命令字符串
+     */
     cmdString?: string | undefined;
     command: AppCommand | MenuCommand;
     args: string[];
-    msg: KHSystemMessage | TextMessage | KMarkDownMessage;
+    msg: ButtonClickEvent | TextMessage;
     content?: string | undefined;
     other?: any;
-    bot: KBotify;
     /**
      * 会话的用户ID。
      * 如果是文字消息，则返回发送者ID，如果是按钮事件，则返回点击者ID。
@@ -26,23 +30,23 @@ export class BaseSession implements BaseData {
      * @memberof BaseSession
      */
     userId: string;
-    user: User;
+    user: BaseUser;
     constructor(
         command: AppCommand | MenuCommand,
         args: string[],
-        msg: KHSystemMessage | TextMessage | KMarkDownMessage,
-        bot?: KBotify
+        msg: ButtonClickEvent | TextMessage,
+        bot: KBotify
     ) {
+        super(bot);
         this.command = command;
         this.args = args;
         this.msg = msg;
-        this.bot = bot ?? this.command.bot!;
-        if (msg instanceof TextMessage || msg instanceof KMarkDownMessage) {
+        if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
-            this.user = new User(msg.author, this.bot);
+            this.user = new BaseUser(msg.author, this._botInstance);
         } else {
-            this.userId = msg.extra.body.user_id;
-            this.user = new User(msg.extra.body.user_info, this.bot);
+            this.userId = msg.userId;
+            this.user = new BaseUser(msg.user, this._botInstance);
         }
         // console.debug(this.user);
     }
@@ -185,8 +189,24 @@ export class BaseSession implements BaseData {
      * @param [timeout=6e4] timeout in ms
      * @param callback
      * @memberof BaseSession
+     * @deprecated
      */
     setReplyTrigger = (
+        condition: string | RegExp,
+        timeout: number | null = 6e4,
+        callback: (msg: TextMessage) => void
+    ) => {
+        return this.setTextTrigger(condition, timeout, callback);
+    };
+    /**
+     * 设置文字回复触发事件
+     *
+     * @param condition 文字满足的要求，包含的文字或正则表达式
+     * @param timeout 单位：ms 回复触发有效时间，默认为1分钟
+     * @param callback 触发后的回调函数
+     * @returns
+     */
+    setTextTrigger = (
         condition: string | RegExp,
         timeout: number | null = 6e4,
         callback: (msg: TextMessage) => void
@@ -198,15 +218,18 @@ export class BaseSession implements BaseData {
                 if (!condition.test(msg.content)) return;
             } else if (!msg.content.includes(condition)) return;
             callback(msg);
-            this.bot.off('message', func);
+            this._botInstance.off('textMessage', func);
         };
-        this.bot.on('message', func);
+        this._botInstance.on('textMessage', func);
         if (timeout)
             setTimeout(() => {
-                this.bot.off('message', func);
+                this._botInstance.off('textMessage', func);
             }, timeout);
-        return ()=>{this.bot.off('message', func);}
+        return () => {
+            this._botInstance.off('textMessage', func);
+        };
     };
+
     /**
      * 发送消息。
      * ### 接收
@@ -231,11 +254,7 @@ export class BaseSession implements BaseData {
 
         //decide if msg should be sent in specific channel.
         let replyChannelId = this.msg.channelId;
-        replyChannelId =
-            this.msg.type === 255
-                ? (this.msg as KHSystemMessage).extra.body.target_id
-                : replyChannelId;
-        replyChannelId = sendOptions?.replyAt ?? replyChannelId;
+        replyChannelId = sendOptions?.channel ?? replyChannelId;
 
         // decide if need mention at the start.
 
@@ -243,7 +262,7 @@ export class BaseSession implements BaseData {
 
         let withMention = sendOptions?.mention ?? false;
 
-        if (!this.bot)
+        if (!this._botInstance)
             throw new Error('message sender used before bot assigned.');
 
         if (msgType == 10) {
@@ -255,23 +274,24 @@ export class BaseSession implements BaseData {
 
         content = (withMention ? `${mentionById(this.userId)}` : '') + content;
 
-        if ((this.msg as KHSystemMessage).extra?.type === 'message_btn_click') {
+        if (this.msg.type === 'buttonClick') {
             if (sendOptions?.reply) {
                 console.warn('回复按钮点击事件时使用了引用！', this);
                 sendOptions.reply = undefined;
             }
         }
-
-        const msgSent = await this.bot.sendChannelMessage(
-            msgType,
-            replyChannelId,
-            content,
-            sendOptions?.reply ? this.msg.msgId : undefined,
-            sendOptions?.temp ? this.userId : undefined
-        );
-        if (msgSent.data.code == 40000) {
-            console.error('msg sent error!', msgSent.data);
+        try {
+            const msgSent = await this._botInstance.API.message.create(
+                msgType,
+                replyChannelId,
+                content,
+                sendOptions?.reply ? this.msg.msgId : undefined,
+                sendOptions?.temp ? this.userId : undefined
+            );
+            return initFuncResult(this, resultType, msgSent);
+        } catch (error) {
+            console.error(error);
         }
-        return initFuncResult(this, resultType, msgSent);
+        return initFuncResult(this, resultType);
     };
 }

@@ -1,6 +1,7 @@
-
+import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { AppCommand } from './app.command';
 import { MenuCommand } from './menu.command';
+import { TextMessage } from './message';
 import { BaseSession } from './session';
 import { ResultTypes } from './types';
 
@@ -52,7 +53,7 @@ export interface BaseData {
     cmdString?: string;
     command: AppCommand | MenuCommand;
     args: string[];
-    msg: KHSystemMessage | TextMessage | KMarkDownMessage;
+    msg: TextMessage | ButtonClickEvent;
     content?: string;
     other?: any;
 }

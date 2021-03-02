@@ -3,6 +3,8 @@ import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
 import { KBotify } from '..';
+import { ButtonClickEvent } from 'kaiheila-bot-root';
+import { TextMessage } from './message';
 
 export function initFuncResult<T>(
     data: T,
@@ -55,7 +57,7 @@ export abstract class AppCommand implements BaseCommand {
     setTriggerOnce(trigger: string | RegExp, timeout: number): void {
         if (!this.bot)
             throw new Error('Temp trigger set before bot is assigned.');
-        this.bot.once('message', (msg: KHTextMessage) => {
+        this.bot.once('message', (msg: TextMessage) => {
             if (trigger instanceof RegExp) {
                 if (!trigger.test(msg.content)) return;
             } else {
@@ -75,17 +77,19 @@ export abstract class AppCommand implements BaseCommand {
     async exec(
         sessionOrCommand: BaseSession | string,
         args?: string[],
-        msg?: KHSystemMessage | TextMessage | KMarkDownMessage
+        msg?: ButtonClickEvent | TextMessage
     ): Promise<ResultTypes | void> {
+        if (!this.bot) throw new Error('command used before assigning a bot');
+
         if (sessionOrCommand instanceof BaseSession) {
             sessionOrCommand.command = this;
             return this.run(sessionOrCommand);
         } else {
             if (!args || !msg)
                 throw new Error(
-                    'Missing args ans msg when using exec(command, args, msg)'
+                    'Missing args or msg when using exec(command, args, msg)'
                 );
-            return this.run(new BaseSession(this, args!, msg!));
+            return this.run(new BaseSession(this, args!, msg!, this.bot));
         }
     }
 

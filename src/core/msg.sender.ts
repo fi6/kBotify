@@ -107,7 +107,7 @@ export class MsgSender {
         //decide if msg should be sent in specific channel.
         let replyChannelId = session.msg.channelId;
         replyChannelId = this.replyChannelId ?? replyChannelId;
-        replyChannelId = sendOptions?.replyAt ?? replyChannelId;
+        replyChannelId = sendOptions?.channel ?? replyChannelId;
 
         // decide if need mention at the start.
         const withMention = sendOptions?.mention ?? this.withMention;

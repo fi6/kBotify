@@ -1,14 +1,24 @@
-import { AppCommand, MenuCommand, BaseSession } from '..';
-import { ButtonClickEvent, KaiheilaBot, TextMessage } from 'kaiheila-bot-root';
+import { AppCommand, MenuCommand, BaseSession } from '../..';
+import { ButtonClickEvent, KaiheilaBot } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
 import { BotConfig } from 'kaiheila-bot-root/dist/BotInstance';
+import { TextMessage } from '../message';
+import { Emissions } from './ee.interface';
 
+export declare interface KBotify {
+    on<K extends keyof Emissions>(event: K, listener: Emissions[K]): this;
 
+    emit<K extends keyof Emissions>(
+        event: K,
+        ...args: Parameters<Emissions[K]>
+    ): boolean;
+}
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
     botId: string | number = 'kaiheila user id for this bot.';
+
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
@@ -18,17 +28,16 @@ export class KBotify extends KaiheilaBot {
     constructor(config: BotConfig, default_process = true) {
         super(config);
         if (default_process) {
-            this.on('message', (msg) => {
-                msg = msg as TextMessage;
+            this.on('textMessage', (rawMessage) => {
+                const msg = new TextMessage(rawMessage, this);
                 const res = this.processMsg(msg);
                 if (!res) return;
                 const [command, ...args] = res;
                 this.execute(command.toLowerCase(), args, msg);
             });
-            this.on('systemMessage', (msg) => {
-                if (msg.extra.type !== 'message_btn_click') return;
-                if (!msg.extra.body.value.startsWith('.')) return;
-                const [command, ...rest] = msg.extra.body.value
+            this.on('buttonClick', (msg) => {
+                if (!msg.value.startsWith('.')) return;
+                const [command, ...rest] = msg.value
                     .slice(1)
                     .trim()
                     .split(/ +/);
@@ -43,6 +52,7 @@ export class KBotify extends KaiheilaBot {
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.botId = info.id;
+            console.info('bot id: ', this.botId);
         });
     }
     /**
@@ -53,7 +63,6 @@ export class KBotify extends KaiheilaBot {
      * @memberof KBotify
      */
     processMsg(msg: TextMessage): string[] | void {
-        msg = msg as TextMessage;
         if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
             // console.log(msg)
             return msg.content.slice(1).trim().split(/ +/);
@@ -123,29 +132,7 @@ export class KBotify extends KaiheilaBot {
         if (cmd) return cmd.exec(new BaseSession(cmd, args, msg, this));
 
         if (regex.test(command)) {
-            return this.sendChannelMessage(
-                1,
-                msg.channelId,
-                '不是有效的命令。查看帮助请发送[.帮助]'
-            );
         }
         return;
     };
-
-    sendChannelMessage(
-        type: number,
-        channelId: any,
-        content: string,
-        quote?: string,
-        tempTargetId?: string
-    ) {
-        return this.post('v3/channel/message', {
-            type: type,
-            channel_id: channelId,
-            content: content,
-            quote: quote,
-            temp_target_id: tempTargetId,
-            nonce: Math.random(),
-        });
-    }
 }

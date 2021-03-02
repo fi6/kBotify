@@ -1,4 +1,5 @@
 
+import { MessageType } from 'kaiheila-bot-root';
 import { BaseData, FuncResult } from './app.types';
 import { BaseSession } from './session';
 import { ResultTypes } from './types';
@@ -6,7 +7,7 @@ import { ResultTypes } from './types';
 export interface SendOptions {
     mention?: boolean;
     reply?: boolean;
-    replyAt?: string;
+    channel?: string;
     msgType?: MessageType;
     temp?: boolean;
 }
