@@ -1,21 +1,9 @@
-import { AppCommand } from '../commands/core/app.command';
-import { MenuCommand } from '../commands/core/menu.command';
-import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
-import {
-    AudioMessage,
-    FileMesage,
-    ImageMessage,
-    KMarkDownMessage,
-    MessageBase,
-    TextMessage,
-    VideoMessage,
-} from 'kaiheila-bot-root/dist/types';
-import { BaseSession } from '../commands/core/session';
-import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
-import {
-    KHMessage,
-    KHSystemMessage,
-} from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
+import { AppCommand, MenuCommand, BaseSession } from '..';
+import { ButtonClickEvent, KaiheilaBot, TextMessage } from 'kaiheila-bot-root';
+import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
+import { BotConfig } from 'kaiheila-bot-root/dist/BotInstance';
+
+
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
@@ -53,7 +41,7 @@ export class KBotify extends KaiheilaBot {
         this.messageSource.connect().then((res) => {
             console.info('connected:', res);
         });
-        this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
+        this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.botId = info.id;
         });
     }
@@ -64,7 +52,7 @@ export class KBotify extends KaiheilaBot {
      * @return string
      * @memberof KBotify
      */
-    processMsg(msg: TextMessage | KMarkDownMessage): string[] | void {
+    processMsg(msg: TextMessage): string[] | void {
         msg = msg as TextMessage;
         if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
             // console.log(msg)
@@ -126,7 +114,7 @@ export class KBotify extends KaiheilaBot {
     execute = async (
         command: string,
         args: string[],
-        msg: KHSystemMessage | TextMessage | KMarkDownMessage
+        msg: TextMessage | ButtonClickEvent
     ): Promise<unknown> => {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;

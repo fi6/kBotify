@@ -1,13 +1,13 @@
-export { BaseSession } from './commands/core/session';
+export { BaseSession } from './core/session';
 export {
     AppCommandFunc,
     BaseData,
     FuncResult,
     AppCommandParams,
-} from './commands/core/app.types';
-export { ResultTypes } from './commands/core/types';
-export { AppCommand } from './commands/core/app.command';
-export { MenuCommand } from './commands/core/menu.command';
-export { SendOptions } from './commands/core/msg.types';
+} from './core/app.types';
+export { ResultTypes } from './core/types';
+export { AppCommand } from './core/app.command';
+export { MenuCommand } from './core/menu.command';
+export { SendOptions } from './core/msg.types';
 
-export { KBotify } from './utils/kbotify';
+export { KBotify } from './core/kbotify';

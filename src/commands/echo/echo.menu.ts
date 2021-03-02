@@ -1,4 +1,4 @@
-import { MenuCommand } from '../core/menu.command';
+import { AppCommand, AppCommandFunc, BaseSession, MenuCommand } from "../..";
 
 import { echoNext } from './echo.next.app';
 import { echoCard } from './echo.card.app';

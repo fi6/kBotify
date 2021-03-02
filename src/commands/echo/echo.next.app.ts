@@ -1,6 +1,4 @@
-import { BaseSession } from 'commands/core/session';
-import { AppCommand } from '../core/app.command';
-import { AppCommandFunc, BaseData } from '../core/app.types';
+import { AppCommand, AppCommandFunc, BaseSession } from "../..";
 
 class EchoNext extends AppCommand {
     code = 'next';

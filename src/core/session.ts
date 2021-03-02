@@ -1,25 +1,14 @@
-import {
-    AudioMessage,
-    ImageMessage,
-    KMarkDownMessage,
-    TextMessage,
-    VideoMessage,
-    FileMesage,
-} from 'kaiheila-bot-root/dist/types';
-import {
-    KHMessage,
-    KHSystemMessage,
-    KHTextMessage,
-} from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
-import { KBotify } from '../../utils/kbotify';
-import { mentionById } from '../../utils/mention-by-id';
+
+
+import { KBotify } from '..';
+import { mentionById } from '../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
-import { User } from './user/user';
+import { User } from './user';
 
 export class BaseSession implements BaseData {
     cmdString?: string | undefined;

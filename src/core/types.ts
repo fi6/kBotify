@@ -1,4 +1,3 @@
-import { MessageType, TextMessage } from 'kaiheila-bot-root/dist/types';
 import { AppCommand } from './app.command';
 import { FuncResult } from './app.types';
 import { BaseSession } from './session';

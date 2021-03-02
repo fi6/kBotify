@@ -1,8 +1,5 @@
-import { BaseSession } from 'commands/core/session';
-import { MessageType } from 'kaiheila-bot-root/dist/types';
-import { AppCommand } from '../core/app.command';
-import { AppCommandFunc, BaseData } from '../core/app.types';
-import { ResultTypes } from '../core/types';
+import { AppCommand, AppCommandFunc, BaseSession } from "../..";
+
 
 class EchoCard extends AppCommand {
     code = 'card';

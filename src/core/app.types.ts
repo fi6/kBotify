@@ -1,8 +1,4 @@
-import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
-import {
-    KHMessage,
-    KHSystemMessage,
-} from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
+
 import { AppCommand } from './app.command';
 import { MenuCommand } from './menu.command';
 import { BaseSession } from './session';

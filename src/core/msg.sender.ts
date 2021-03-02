@@ -1,10 +1,10 @@
-import { KBotify } from '../../utils/kbotify';
-import { MessageType } from 'kaiheila-bot-root/dist/types';
-import { mentionById } from '../../utils/mention-by-id';
+
 import { initFuncResult } from './app.command';
 import { ResultTypes } from './types';
 import { SendFunc } from './msg.types';
 import { BaseSession } from './session';
+import { KBotify } from '..';
+import { mentionById } from '../utils/mention-by-id';
 
 /**
  * @deprecated

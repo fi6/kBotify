@@ -1,12 +1,8 @@
-import { KBotify } from '../../utils/kbotify';
-import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
-
-import { mentionById } from '../../utils/mention-by-id';
 import { MenuCommand } from './menu.command';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
-import { KHMessage, KHSystemMessage, KHTextMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
+import { KBotify } from '..';
 
 export function initFuncResult<T>(
     data: T,
@@ -71,7 +67,7 @@ export abstract class AppCommand implements BaseCommand {
     async exec(
         command: string,
         args: string[],
-        msg : any
+        msg: any
     ): Promise<ResultTypes | void>;
 
     async exec(session: BaseSession): Promise<ResultTypes | void>;
@@ -104,7 +100,7 @@ export abstract class AppCommand implements BaseCommand {
 
         try {
             if (args[0] === '帮助') {
-                session.reply(this.help)
+                session.reply(this.help);
                 return ResultTypes.HELP;
             }
 
