@@ -26,9 +26,9 @@ export class BaseUser extends BotObject implements User {
     }
 
     grantRole = (guildId: string, roleId: string | number) => {
-        this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
+        return this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
     };
     revokeRole = (guildId: string, roleId: string | number) => {
-        this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
+        return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
     };
 }

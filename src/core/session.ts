@@ -1,5 +1,3 @@
-import { ButtonClickEvent, MessageType } from 'kaiheila-bot-root';
-import { UserAPI } from 'kaiheila-bot-root/dist/api/user';
 import { KBotify } from '..';
 import { mentionById } from '../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';

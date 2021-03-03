@@ -1,4 +1,3 @@
-
 import { MessageType } from 'kaiheila-bot-root';
 import { BaseData, FuncResult } from './app.types';
 import { BaseSession } from './session';
