@@ -218,15 +218,15 @@ export class BaseSession extends BotObject implements BaseData {
                 if (!condition.test(msg.content)) return;
             } else if (!msg.content.includes(condition)) return;
             callback(msg);
-            this._botInstance.off('textMessage', func);
+            this._botInstance.message.off('text', func);
         };
-        this._botInstance.on('textMessage', func);
+        this._botInstance.message.on('text', func);
         if (timeout)
             setTimeout(() => {
-                this._botInstance.off('textMessage', func);
+                this._botInstance.message.off('text', func);
             }, timeout);
         return () => {
-            this._botInstance.off('textMessage', func);
+            this._botInstance.message.off('text', func);
         };
     };
 

@@ -14,6 +14,11 @@ export declare interface MessageProcessor {
         event: K,
         ...args: Parameters<MessageEmissions[K]>
     ): boolean;
+
+    off<K extends keyof MessageEmissions>(
+        event: K,
+        listener: MessageEmissions[K]
+    ): this;
 }
 
 export class MessageProcessor extends EventEmitter {
