@@ -3,6 +3,7 @@ import { mentionById } from '../utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { BotObject } from './base/bot.object';
+import { Channel } from './channel';
 import { MenuCommand } from './menu.command';
 import { ButtonEventMessage, TextMessage } from './message';
 import { SendOptions } from './msg.types';
@@ -18,6 +19,7 @@ export class BaseSession extends BotObject implements BaseData {
     command: AppCommand | MenuCommand;
     args: string[];
     msg: ButtonEventMessage | TextMessage;
+    channel: Channel;
     content?: string | undefined;
     other?: any;
     /**
@@ -39,6 +41,10 @@ export class BaseSession extends BotObject implements BaseData {
         this.command = command;
         this.args = args;
         this.msg = msg;
+        this.channel = new Channel(
+            { channelId: msg.channelId, channelType: msg.channelType },
+            this._botInstance
+        );
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new BaseUser(msg.author, this._botInstance);
