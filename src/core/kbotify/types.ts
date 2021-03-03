@@ -6,6 +6,7 @@ import {
     KMarkdownMessage,
     ButtonClickEvent,
 } from 'kaiheila-bot-root';
+import { BotConfig as Cfg } from 'kaiheila-bot-root/dist/BotInstance';
 import { ButtonEventMessage, TextMessage } from '../message';
 
 export interface MessageEmissions {
@@ -28,4 +29,8 @@ export interface RawEmissions {
     kmarkdownMessage: (event: KMarkdownMessage) => void;
     buttonClick: (event: ButtonClickEvent) => void;
     unknownEvent: (event: unknown) => void;
+}
+
+export interface BotConfig extends Cfg {
+    mentionWithSpace?: boolean;
 }

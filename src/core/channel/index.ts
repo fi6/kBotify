@@ -9,7 +9,8 @@ export class Channel extends BotObject {
         this.id = rawChannel.channelId;
     }
     get mention() {
-        return `(chn)${this.id}(chn)`;
+        if (this._botInstance.mentionWithSpace) return `(chn)${this.id}(chn) `;
+        else return `(chn)${this.id}(chn)`;
     }
     sendMessage = (
         type: MessageType,

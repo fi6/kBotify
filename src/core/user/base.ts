@@ -22,7 +22,8 @@ export class BaseUser extends BotObject implements User {
     }
 
     get mention() {
-        return `(met)${this.id}(met)`;
+        if (this._botInstance.mentionWithSpace) return `(met)${this.id}(met) `;
+        else return `(met)${this.id}(met)`;
     }
 
     grantRole = (guildId: string, roleId: string | number) => {

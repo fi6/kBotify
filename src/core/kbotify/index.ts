@@ -1,9 +1,9 @@
 import { AppCommand, MenuCommand, BaseSession } from '../..';
 import { ButtonClickEvent, KaiheilaBot, MessageType } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
-import { BotConfig } from 'kaiheila-bot-root/dist/BotInstance';
+
 import { ButtonEventMessage, TextMessage } from '../message';
-import { RawEmissions } from './types';
+import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
@@ -23,6 +23,7 @@ export class KBotify extends KaiheilaBot {
     botId: string | number = 'kaiheila user id for this bot.';
     message: MessageProcessor;
     event: EventProcessor;
+    mentionWithSpace: boolean;
     private defaultProcess: boolean;
     /**
      * Creates an instance of KBotify.
@@ -35,6 +36,8 @@ export class KBotify extends KaiheilaBot {
         this.defaultProcess = defaultProcess;
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
+        this.mentionWithSpace =
+            config.mentionWithSpace === false ? false : true;
     }
 
     connect() {
