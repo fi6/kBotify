@@ -1,1 +1,2 @@
-export * from './text';
+export { TextMessage } from './text';
+export { ButtonEventMessage } from './button';

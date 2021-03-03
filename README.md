@@ -89,7 +89,7 @@ class EchoAll extends AppCommand<BaseSession> {
     help = '`.echo all 时间`';
     intro = '在指定时间内复读全部文字';
     func: AppCommandFunc<BaseSession> = async (session) => {
-        session.setReplyTrigger('', 6e4, (msg) =>
+        session.setTextTrigger('', 6e4, (msg) =>
             session.sendOnly(msg.content)
         );
         return session.reply('将会复读下一次任意内容，1min有效', session);

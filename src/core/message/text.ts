@@ -33,27 +33,27 @@ export class TextMessage {
     guildId?: string | undefined;
     channelType: string;
     authorId: string;
-    botInstance: KBotify;
+    _botInstance: KBotify;
 
     /**
      * Transfer message info class
      *
-     * @param messageObject TextMessageInterface, from kaiheila-bot-root
+     * @param rawMessage TextMessageInterface, from kaiheila-bot-root
      * @param bot
      */
-    constructor(messageObject: Kmd | Text, bot: KBotify) {
-        this.type = messageObject.type;
-        this.author = (messageObject.author as unknown) as User;
-        this.authorId = messageObject.authorId;
-        this.mention = messageObject.mention;
-        this.channelName = messageObject.channelName;
-        this.content = messageObject.content;
-        this.code = messageObject.code;
-        this.msgId = messageObject.msgId;
-        this.msgTimestamp = messageObject.msgTimestamp;
-        this.channelId = messageObject.channelId;
-        this.guildId = messageObject.guildId;
-        this.channelType = messageObject.channelType;
-        this.botInstance = bot;
+    constructor(rawMessage: Kmd | Text, bot: KBotify) {
+        this.type = rawMessage.type;
+        this.author = (rawMessage.author as unknown) as User;
+        this.authorId = rawMessage.authorId;
+        this.mention = rawMessage.mention;
+        this.channelName = rawMessage.channelName;
+        this.content = rawMessage.content;
+        this.code = rawMessage.code;
+        this.msgId = rawMessage.msgId;
+        this.msgTimestamp = rawMessage.msgTimestamp;
+        this.channelId = rawMessage.channelId;
+        this.guildId = rawMessage.guildId;
+        this.channelType = rawMessage.channelType;
+        this._botInstance = bot;
     }
 }

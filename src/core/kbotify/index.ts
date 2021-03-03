@@ -1,16 +1,19 @@
 import { AppCommand, MenuCommand, BaseSession } from '../..';
-import { ButtonClickEvent, KaiheilaBot } from 'kaiheila-bot-root';
+import { ButtonClickEvent, KaiheilaBot, MessageType } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
 import { BotConfig } from 'kaiheila-bot-root/dist/BotInstance';
-import { TextMessage } from '../message';
-import { Emissions } from './ee.interface';
+import { ButtonEventMessage, TextMessage } from '../message';
+import { RawEmissions } from './types';
+import { MessageProcessor } from './message.ee';
+import { EventProcessor } from './event.ee';
+import { messageParser } from './message.parse';
 
 export declare interface KBotify {
-    on<K extends keyof Emissions>(event: K, listener: Emissions[K]): this;
+    on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
 
-    emit<K extends keyof Emissions>(
+    emit<K extends keyof RawEmissions>(
         event: K,
-        ...args: Parameters<Emissions[K]>
+        ...args: Parameters<RawEmissions[K]>
     ): boolean;
 }
 
@@ -18,35 +21,41 @@ export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
     botId: string | number = 'kaiheila user id for this bot.';
-
+    message: MessageProcessor;
+    event: EventProcessor;
+    private defaultProcess: boolean;
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
      * @param [default_process=true] turn off if you want to process every incoming message yourself.
      * @memberof KBotify
      */
-    constructor(config: BotConfig, default_process = true) {
+    constructor(config: BotConfig, defaultProcess = true) {
         super(config);
-        if (default_process) {
-            this.on('textMessage', (rawMessage) => {
-                const msg = new TextMessage(rawMessage, this);
+        this.defaultProcess = defaultProcess;
+        this.message = new MessageProcessor(this);
+        this.event = new EventProcessor(this);
+    }
+
+    connect() {
+        this.on('allMessages', (msg: any) => {
+            this.message.process(msg, this);
+            this.event.process(msg, this);
+        });
+        if (this.defaultProcess) {
+            this.message.on('text', (msg) => {
                 const res = this.processMsg(msg);
                 if (!res) return;
                 const [command, ...args] = res;
                 this.execute(command.toLowerCase(), args, msg);
             });
-            this.on('buttonClick', (msg) => {
-                if (!msg.value.startsWith('.')) return;
-                const [command, ...rest] = msg.value
-                    .slice(1)
-                    .trim()
-                    .split(/ +/);
-                this.execute(command, rest, msg);
+            this.message.on('buttonEvent', (msg) => {
+                const res = this.processMsg(msg);
+                if (!res) return;
+                const [command, ...args] = res;
+                this.execute(command.toLowerCase(), args, msg);
             });
         }
-    }
-
-    connect() {
         this.messageSource.connect().then((res) => {
             console.info('connected:', res);
         });
@@ -62,15 +71,8 @@ export class KBotify extends KaiheilaBot {
      * @return string
      * @memberof KBotify
      */
-    processMsg(msg: TextMessage): string[] | void {
-        if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
-            // console.log(msg)
-            return msg.content.slice(1).trim().split(/ +/);
-        }
-        if (msg.mention.user[0] == this.botId && msg.content.startsWith('@')) {
-            const [, command, ...rest] = msg.content.trim().split(/ +/);
-            return [command ? command.toLowerCase() : '', ...rest];
-        }
+    processMsg(msg: TextMessage | ButtonEventMessage): string[] | void {
+        return messageParser(msg, this);
     }
 
     /**
@@ -123,7 +125,7 @@ export class KBotify extends KaiheilaBot {
     execute = async (
         command: string,
         args: string[],
-        msg: TextMessage | ButtonClickEvent
+        msg: TextMessage | ButtonEventMessage
     ): Promise<unknown> => {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;

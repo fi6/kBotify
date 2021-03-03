@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { KBotify } from '../utils/kbotify';
+
 import * as dotenv from 'dotenv';
 import { echoMenu } from '../commands/echo/echo.menu';
 import { echoKmd } from '../commands/echo/echo.kmd.app';
 import { KaiheilaBot } from 'kaiheila-bot-root';
+import { KBotify } from '..';
 
 dotenv.config();
 
@@ -18,9 +19,10 @@ const bot = new KBotify({
 
 bot.addCommands(echoMenu, echoKmd);
 
-bot.on('rawEvent', (e) => {
-    console.warn(`received:`, e);
+bot.messageSource.on('message', (e) => {
+    console.debug(`received:`, e);
 });
+
 // bot.addAlias(echoKmd, 'hello');
 
 // bot.on('systemMessage', (msg) => {

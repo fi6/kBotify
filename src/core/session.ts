@@ -1,4 +1,4 @@
-import { ButtonClickEvent } from 'kaiheila-bot-root';
+import { ButtonClickEvent, MessageType } from 'kaiheila-bot-root';
 import { UserAPI } from 'kaiheila-bot-root/dist/api/user';
 import { KBotify } from '..';
 import { mentionById } from '../utils/mention-by-id';
@@ -6,7 +6,7 @@ import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { BotObject } from './base/bot.object';
 import { MenuCommand } from './menu.command';
-import { TextMessage } from './message';
+import { ButtonEventMessage, TextMessage } from './message';
 import { SendOptions } from './msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from './types';
@@ -19,7 +19,7 @@ export class BaseSession extends BotObject implements BaseData {
     cmdString?: string | undefined;
     command: AppCommand | MenuCommand;
     args: string[];
-    msg: ButtonClickEvent | TextMessage;
+    msg: ButtonEventMessage | TextMessage;
     content?: string | undefined;
     other?: any;
     /**
@@ -34,7 +34,7 @@ export class BaseSession extends BotObject implements BaseData {
     constructor(
         command: AppCommand | MenuCommand,
         args: string[],
-        msg: ButtonClickEvent | TextMessage,
+        msg: ButtonEventMessage | TextMessage,
         bot: KBotify
     ) {
         super(bot);
@@ -274,7 +274,7 @@ export class BaseSession extends BotObject implements BaseData {
 
         content = (withMention ? `${mentionById(this.userId)}` : '') + content;
 
-        if (this.msg.type === 'buttonClick') {
+        if (this.msg instanceof ButtonEventMessage) {
             if (sendOptions?.reply) {
                 console.warn('回复按钮点击事件时使用了引用！', this);
                 sendOptions.reply = undefined;

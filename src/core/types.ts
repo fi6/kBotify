@@ -41,4 +41,6 @@ export interface MenuCommandParams {
     apps: AppCommand[];
 }
 
+export * from 'kaiheila-bot-root/dist/types';
+
 export {};

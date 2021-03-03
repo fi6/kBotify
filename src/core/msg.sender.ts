@@ -1,6 +1,5 @@
-
 import { initFuncResult } from './app.command';
-import { ResultTypes } from './types';
+import { MessageType, ResultTypes } from './types';
 import { SendFunc } from './msg.types';
 import { BaseSession } from './session';
 import { KBotify } from '..';
@@ -20,7 +19,7 @@ export class MsgSender {
         withMention = false,
         withReply = false,
         replyChannelId?: string,
-        defaultMessageType = MessageType.kmarkdown
+        defaultMessageType = MessageType.kMarkdown
     ) {
         this.bot = bot;
         if (replyChannelId) this.replyChannelId = replyChannelId;
@@ -116,11 +115,10 @@ export class MsgSender {
         if (!this.bot)
             throw new Error('message sender used before bot assigned.');
 
-        const msgSent = this.bot.sendChannelMessage(
+        const msgSent = this.bot.API.message.create(
             msgType,
             replyChannelId,
-            (withMention ? `${mentionById(session.msg.authorId)} ` : '') +
-                content,
+            (withMention ? `${mentionById(session.user.id)} ` : '') + content,
             sendOptions?.reply ? session.msg.msgId : undefined
         );
         return initFuncResult(session, resultType, msgSent);

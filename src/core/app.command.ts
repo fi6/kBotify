@@ -4,7 +4,7 @@ import { AppCommandFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
 import { KBotify } from '..';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
-import { TextMessage } from './message';
+import { ButtonEventMessage, TextMessage } from './message';
 
 export function initFuncResult<T>(
     data: T,
@@ -77,7 +77,7 @@ export abstract class AppCommand implements BaseCommand {
     async exec(
         sessionOrCommand: BaseSession | string,
         args?: string[],
-        msg?: ButtonClickEvent | TextMessage
+        msg?: ButtonEventMessage | TextMessage
     ): Promise<ResultTypes | void> {
         if (!this.bot) throw new Error('command used before assigning a bot');
 
