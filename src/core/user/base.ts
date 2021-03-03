@@ -21,10 +21,14 @@ export class BaseUser extends BotObject implements User {
         this.bot = userObject.bot;
     }
 
-    grantRole = (guildId: string, roleId: string) => {
+    get mention() {
+        return `(met)${this.id}(met)`;
+    }
+
+    grantRole = (guildId: string, roleId: string | number) => {
         this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
     };
-    revokeRole = (guildId: string, roleId: string) => {
+    revokeRole = (guildId: string, roleId: string | number) => {
         this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
     };
 }

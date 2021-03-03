@@ -1,5 +1,5 @@
 import { ButtonClickEvent } from 'kaiheila-bot-root';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import { KBotify } from '.';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { MessageEmissions } from './types';

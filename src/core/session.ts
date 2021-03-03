@@ -35,9 +35,9 @@ export class BaseSession extends BotObject implements BaseData {
         command: AppCommand | MenuCommand,
         args: string[],
         msg: ButtonEventMessage | TextMessage,
-        bot: KBotify
+        bot?: KBotify
     ) {
-        super(bot);
+        super(bot ?? msg._botInstance);
         this.command = command;
         this.args = args;
         this.msg = msg;
