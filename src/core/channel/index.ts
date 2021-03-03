@@ -8,6 +8,9 @@ export class Channel extends BotObject {
         super(bot);
         this.id = rawChannel.channelId;
     }
+    get mention() {
+        return `(chn)${this.id}(chn)`;
+    }
     sendMessage = (
         type: MessageType,
         content: string,
