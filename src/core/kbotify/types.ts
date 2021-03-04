@@ -3,7 +3,7 @@ import {
     VideoMessage,
     FileMessage,
     AudioMessage,
-    KMarkdownMessage,
+    // KMarkdownMessage,
     ButtonClickEvent,
 } from 'kaiheila-bot-root';
 import { BotConfig as Cfg } from 'kaiheila-bot-root/dist/BotInstance';
@@ -26,7 +26,7 @@ export interface RawEmissions {
     videoMessage: (event: VideoMessage) => void;
     fileMessage: (event: FileMessage) => void;
     audioMessage: (event: AudioMessage) => void;
-    kmarkdownMessage: (event: KMarkdownMessage) => void;
+    kmarkdownMessage: (event: any) => void;
     buttonClick: (event: ButtonClickEvent) => void;
     unknownEvent: (event: unknown) => void;
 }

@@ -1,5 +1,5 @@
 import {
-    KMarkdownMessage as Kmd,
+    // KMarkdownMessage as Kmd,
     MessageType,
     TextMessage as Text,
     User,
@@ -41,7 +41,7 @@ export class TextMessage {
      * @param rawMessage TextMessageInterface, from kaiheila-bot-root
      * @param bot
      */
-    constructor(rawMessage: Kmd | Text, bot: KBotify) {
+    constructor(rawMessage: any | Text, bot: KBotify) {
         this.type = rawMessage.type;
         this.author = (rawMessage.author as unknown) as User;
         this.authorId = rawMessage.authorId;
