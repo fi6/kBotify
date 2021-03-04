@@ -20,10 +20,10 @@
         // "outFile": "./dist/kbotify.js",
         "strict": true,
         "typeRoots": ["./typings", "node_modules/@types"],
-        "paths": {
-            "kaiheila-bot-root": ["node_modules/kaiheila-bot-root"],
-            "kaiheila-bot-root/*": ["node_modules/kaiheila-bot-root/*"]
-        },
+        // "paths": {
+        //     "kaiheila-bot-root": ["node_modules/kaiheila-bot-root"],
+        //     "kaiheila-bot-root/*": ["node_modules/kaiheila-bot-root/*"]
+        // },
         "esModuleInterop": true,
         "sourceMap": true,
         "skipLibCheck": true,
