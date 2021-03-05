@@ -9,7 +9,6 @@ export class BaseUser extends BotObject implements User {
     online: boolean;
     avatar: string;
     bot: boolean;
-    roles: number[];
 
     constructor(userObject: User | (User & UserInGuild), bot: KBotify) {
         super(bot);
@@ -19,7 +18,6 @@ export class BaseUser extends BotObject implements User {
         this.online = userObject.online;
         this.avatar = userObject.avatar;
         this.bot = userObject.bot;
-        this.roles = (userObject as any).roles ?? [];
     }
 
     get mention() {
