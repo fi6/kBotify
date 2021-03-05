@@ -3,13 +3,14 @@ import {
     MessageType,
     TextMessage as Text,
     User,
+    UserInGuild,
     UserInGuildNonStandard,
 } from 'kaiheila-bot-root';
 import { KBotify } from '../kbotify';
 
 export class TextMessage {
     type: MessageType.kMarkdown | MessageType.text;
-    author: User;
+    author: User & UserInGuild;
     mention:
         | {
               user: string[];

@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "kaiheila-bot-root": "^0.2.2"
+    "kaiheila-bot-root": "^0.2.5"
   },
   "files": [
     "dist"
