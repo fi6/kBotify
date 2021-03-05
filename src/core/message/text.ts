@@ -44,7 +44,7 @@ export class TextMessage {
      */
     constructor(rawMessage: Kmd | Text, bot: KBotify) {
         this.type = rawMessage.type;
-        this.author = (rawMessage.author as unknown) as User;
+        this.author = rawMessage.author;
         this.authorId = rawMessage.authorId;
         this.mention = rawMessage.mention;
         this.channelName = rawMessage.channelName;
