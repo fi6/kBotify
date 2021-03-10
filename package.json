@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "kaiheila-bot-root": "^0.2.6",
+    "kaiheila-bot-root": "^0.2.7",
     "lru-cache": "^6.0.0"
   },
   "files": [
