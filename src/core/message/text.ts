@@ -31,7 +31,7 @@ export class TextMessage {
     msgId: string;
     msgTimestamp: number;
     channelId: string;
-    guildId?: string | undefined;
+    guildId?: string;
     channelType: string;
     authorId: string;
     _botInstance: KBotify;

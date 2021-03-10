@@ -1,15 +1,17 @@
 import { KBotify } from '../..';
 import { mentionById } from '../../utils/mention-by-id';
-import { AppCommand, initFuncResult } from '../app.command';
-import { BaseData } from '../app.types';
+import { AppCommand, initFuncResult } from '../command/command.app';
+
 import { BotObject } from '../base/bot.object';
 import { Channel } from '../channel';
-import { MenuCommand } from '../menu.command';
+
 import { ButtonEventMessage, TextMessage } from '../message';
 import { SendOptions } from '../msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
+import { BaseData } from '../command/types';
+import { MenuCommand } from '../command/command.menu';
 
 export class BaseSession extends BotObject implements BaseData {
     /**

@@ -7,7 +7,7 @@ import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
-import { GuildSession, BaseSession } from '../session';
+import { GuildSession, BaseSession, createSession } from '../session';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -39,6 +39,17 @@ export class KBotify extends KaiheilaBot {
         this.event = new EventProcessor(this);
         this.mentionWithSpace =
             config.mentionWithSpace === false ? false : true;
+    }
+
+    get(url: string, params: any): Promise<any> {
+        for (var propName in params) {
+            if (params[propName] === null || params[propName] === undefined) {
+                delete params[propName];
+            }
+        }
+        return this.axios.get(url, {
+            params: params,
+        });
     }
 
     connect() {
@@ -136,12 +147,7 @@ export class KBotify extends KaiheilaBot {
         const cmd = this.commandMap.get(command);
         let session;
         if (cmd) {
-            if (msg.guildId) {
-                session = new GuildSession(cmd, args, msg, this);
-            } else {
-                session = new BaseSession(cmd, args, msg, this);
-            }
-            return cmd.exec(session);
+            return cmd.exec(createSession(cmd, args, msg, this));
         }
 
         if (regex.test(command)) {

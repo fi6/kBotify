@@ -1,9 +1,26 @@
-import { ButtonClickEvent } from 'kaiheila-bot-root';
-import { AppCommand } from './app.command';
-import { MenuCommand } from './menu.command';
-import { ButtonEventMessage, TextMessage } from './message';
-import { BaseSession } from './session/session.base';
-import { ResultTypes } from './types';
+import { ButtonEventMessage, TextMessage } from '../message';
+import { BaseSession, GuildSession } from '../session';
+import { ResultTypes } from '../types';
+import { AppCommand } from './command.app';
+import { MenuCommand } from './command.menu';
+
+/**
+ * Params for initializing MenuCommand class.
+ *
+ * @export
+ * @interface MenuCommandParams
+ * @template T extends BaseData
+ * @param code string
+ * @param trigger string
+ * @param help string
+ * @param apps AppCommand<T>[]
+ */
+export interface MenuCommandParams {
+    code: string;
+    trigger: string;
+    help: string;
+    apps: AppCommand[];
+}
 
 /**
  * Params for initializing AppCommand class.
@@ -30,9 +47,9 @@ export interface AppCommandParams<T extends BaseData> {
  * deprecated, please use appfunc
  * @deprecated
  */
-export interface AppCommandFunc<T extends BaseData> extends AppFunc<T> {}
+export interface AppCommandFunc<T extends BaseSession> extends AppFunc<T> {}
 
-export interface AppFunc<T extends BaseData> {
+export interface AppFunc<T extends GuildSession | BaseSession> {
     (session: T): Promise<FuncResult<T> | ResultTypes | void>;
 }
 

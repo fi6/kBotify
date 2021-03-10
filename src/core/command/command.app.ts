@@ -1,11 +1,11 @@
-import { MenuCommand } from './menu.command';
-import { BaseCommand, ResultTypes, CommandTypes } from './types';
-import { AppFunc, FuncResult } from './app.types';
-import { BaseSession } from './session';
-import { KBotify } from '..';
+import { MenuCommand } from './command.menu';
+import { BaseCommand, ResultTypes, CommandTypes } from '../types';
+import { AppFunc, FuncResult } from './types';
+import { BaseSession, createSession } from '../session';
+import { KBotify } from '../..';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
-import { ButtonEventMessage, TextMessage } from './message';
-import { GuildSession } from './session';
+import { ButtonEventMessage, TextMessage } from '../message';
+import { GuildSession } from '../session';
 
 export function initFuncResult<T>(
     data: T,
@@ -94,13 +94,7 @@ export abstract class AppCommand implements BaseCommand {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            let session;
-            if (msg.guildId) {
-                session = new GuildSession(this, args!, msg!, this.bot);
-            } else {
-                session = new BaseSession(this, args!, msg!, this.bot);
-            }
-            return this.run(session);
+            return this.run(createSession(this, args, msg, this.bot));
         }
     }
 

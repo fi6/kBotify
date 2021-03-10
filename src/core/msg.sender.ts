@@ -1,4 +1,4 @@
-import { initFuncResult } from './app.command';
+import { initFuncResult } from './command/command.app';
 import { MessageType, ResultTypes } from './types';
 import { SendFunc } from './msg.types';
 import { BaseSession } from './session/session.base';

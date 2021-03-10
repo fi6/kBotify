@@ -1,4 +1,4 @@
-import { FuncResult } from '../app.types';
+import { FuncResult } from '../command';
 import { SendOptions } from '../msg.types';
 import { ResultTypes } from '../types';
 import { BaseSession } from './session.base';

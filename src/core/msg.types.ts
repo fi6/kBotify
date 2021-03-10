@@ -1,5 +1,5 @@
 import { MessageType } from 'kaiheila-bot-root';
-import { BaseData, FuncResult } from './app.types';
+import { BaseData, FuncResult } from './command';
 import { BaseSession } from './session/session.base';
 import { ResultTypes } from './types';
 

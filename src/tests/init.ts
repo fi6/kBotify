@@ -3,6 +3,7 @@
 import * as dotenv from 'dotenv';
 import { echoMenu } from '../commands/echo/echo.menu';
 import { echoKmd } from '../commands/echo/echo.kmd.app';
+import { testMenu } from '../commands/test/test.menu';
 import { KaiheilaBot } from 'kaiheila-bot-root';
 import { KBotify } from '..';
 
@@ -17,7 +18,7 @@ const bot = new KBotify({
     ignoreDecryptError: false,
 });
 
-bot.addCommands(echoMenu, echoKmd);
+bot.addCommands(echoMenu, echoKmd, testMenu);
 
 bot.messageSource.on('message', (e) => {
     console.debug(`received:`, e);

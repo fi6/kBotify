@@ -1,9 +1,7 @@
-import { AppCommand } from './app.command';
-import { BaseCommand, ResultTypes, CommandTypes } from './types';
-
-import { BaseData, FuncResult } from './app.types';
-import { BaseSession } from './session/session.base';
-import { KBotify } from '..';
+import { KBotify } from '../kbotify';
+import { BaseSession } from '../session';
+import { BaseCommand, CommandTypes, ResultTypes } from '../types';
+import { AppCommand } from './command.app';
 
 /**
  * Class of menu command.

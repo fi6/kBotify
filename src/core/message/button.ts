@@ -7,7 +7,7 @@ export class ButtonEventMessage implements Partial<ButtonClickEvent> {
     msgTimestamp: number;
     static type = 'buttonClick';
     channelType: string;
-    guildId: string;
+    guildId?: string;
     channelId: string;
     targetMsgId: string;
     content: string;
