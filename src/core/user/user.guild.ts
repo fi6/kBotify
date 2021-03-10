@@ -6,14 +6,16 @@ import { getUserFromGuild } from './user.get-from-guild';
 
 export class GuildUser extends BaseUser {
     roles?: number[];
+    nickname: string;
     #session: GuildSession;
     constructor(
         session: GuildSession,
-        userObject: User | (User & UserInGuild),
+        userObject: User & UserInGuild,
         bot: KBotify
     ) {
         super(userObject, bot);
         this.#session = session;
+        this.nickname = userObject.nickname;
         if ('roles' in userObject) {
             this.roles = userObject.roles;
         } else {
