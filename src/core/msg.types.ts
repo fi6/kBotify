@@ -1,6 +1,6 @@
 import { MessageType } from 'kaiheila-bot-root';
 import { BaseData, FuncResult } from './app.types';
-import { BaseSession } from './session';
+import { BaseSession } from './session/session.base';
 import { ResultTypes } from './types';
 
 export interface SendOptions {

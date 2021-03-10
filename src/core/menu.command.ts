@@ -1,10 +1,8 @@
-
-
 import { AppCommand } from './app.command';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
 
 import { BaseData, FuncResult } from './app.types';
-import { BaseSession } from './session';
+import { BaseSession } from './session/session.base';
 import { KBotify } from '..';
 
 /**
@@ -32,7 +30,7 @@ export abstract class MenuCommand implements BaseCommand {
      * 菜单文字。如果设置useCardMenu=true，此处应为json样式的字符串。
      */
     menu = 'menu';
-    appMap = new Map<string, AppCommand>();
+    commandMap = new Map<string, AppCommand>();
     /**
      * 此命令绑定的bot实例
      */
@@ -53,14 +51,14 @@ export abstract class MenuCommand implements BaseCommand {
      */
     constructor(...apps: AppCommand[]) {
         apps.forEach((app) => {
-            this.appMap.set(app.trigger, app);
+            this.commandMap.set(app.trigger, app);
             app.parent = this;
         });
     }
 
     init = (bot: KBotify): void => {
         this.bot = bot;
-        for (const app of this.appMap.values()) {
+        for (const app of this.commandMap.values()) {
             app.init(bot);
         }
     };
@@ -81,7 +79,7 @@ export abstract class MenuCommand implements BaseCommand {
                 `You must init menu ${this.code} with a bot before adding alias to apps.`
             );
         aliases.forEach((alias) => {
-            this.appMap.set(alias, app);
+            this.commandMap.set(alias, app);
             app.parent = this;
             app.init(this.bot!);
         });
@@ -128,7 +126,7 @@ export abstract class MenuCommand implements BaseCommand {
 
             session.cmdString = args.shift() as string;
 
-            const app = this.appMap.get(session.cmdString);
+            const app = this.commandMap.get(session.cmdString);
             if (!app) {
                 session.reply(
                     '未找到对应命令。如需查看菜单请发送`.' +

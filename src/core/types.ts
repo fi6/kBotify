@@ -1,6 +1,6 @@
 import { AppCommand } from './app.command';
 import { FuncResult } from './app.types';
-import { BaseSession } from './session';
+import { BaseSession } from './session/session.base';
 
 /**
  * MenuCommand and AppCommand comes from this.

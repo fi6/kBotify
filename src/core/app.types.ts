@@ -2,7 +2,7 @@ import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { AppCommand } from './app.command';
 import { MenuCommand } from './menu.command';
 import { ButtonEventMessage, TextMessage } from './message';
-import { BaseSession } from './session';
+import { BaseSession } from './session/session.base';
 import { ResultTypes } from './types';
 
 /**
@@ -26,9 +26,14 @@ export interface AppCommandParams<T extends BaseData> {
     func: (data: T) => Promise<FuncResult<T> | ResultTypes | BaseSession>;
     useHelp: boolean;
 }
+/**
+ * deprecated, please use appfunc
+ * @deprecated
+ */
+export interface AppCommandFunc<T extends BaseData> extends AppFunc<T> {}
 
-export interface AppCommandFunc<T extends BaseData> {
-    (data: T): Promise<FuncResult<T> | ResultTypes | void>;
+export interface AppFunc<T extends BaseData> {
+    (session: T): Promise<FuncResult<T> | ResultTypes | void>;
 }
 
 /**

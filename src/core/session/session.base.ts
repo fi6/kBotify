@@ -1,15 +1,15 @@
-import { KBotify } from '..';
-import { mentionById } from '../utils/mention-by-id';
-import { AppCommand, initFuncResult } from './app.command';
-import { BaseData } from './app.types';
-import { BotObject } from './base/bot.object';
-import { Channel } from './channel';
-import { MenuCommand } from './menu.command';
-import { ButtonEventMessage, TextMessage } from './message';
-import { SendOptions } from './msg.types';
+import { KBotify } from '../..';
+import { mentionById } from '../../utils/mention-by-id';
+import { AppCommand, initFuncResult } from '../app.command';
+import { BaseData } from '../app.types';
+import { BotObject } from '../base/bot.object';
+import { Channel } from '../channel';
+import { MenuCommand } from '../menu.command';
+import { ButtonEventMessage, TextMessage } from '../message';
+import { SendOptions } from '../msg.types';
 import { SessionSendFunc } from './session.type';
-import { ResultTypes } from './types';
-import { BaseUser } from './user';
+import { ResultTypes } from '../types';
+import { BaseUser } from '../user';
 
 export class BaseSession extends BotObject implements BaseData {
     /**
@@ -20,7 +20,8 @@ export class BaseSession extends BotObject implements BaseData {
     args: string[];
     msg: ButtonEventMessage | TextMessage;
     channel: Channel;
-    content?: string | undefined;
+    content: string | undefined;
+    // TODO: add guild
     other?: any;
     /**
      * 会话的用户ID。

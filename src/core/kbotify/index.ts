@@ -1,4 +1,4 @@
-import { AppCommand, MenuCommand, BaseSession } from '../..';
+import { AppCommand, MenuCommand } from '../..';
 import { ButtonClickEvent, KaiheilaBot, MessageType } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
 
@@ -7,6 +7,7 @@ import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
+import { GuildSession, BaseSession } from '../session';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -88,7 +89,7 @@ export class KBotify extends KaiheilaBot {
         for (const command of commands) {
             command.init(this);
             if (command instanceof MenuCommand) {
-                for (const app of command.appMap.values()) {
+                for (const app of command.commandMap.values()) {
                     app.init(this);
                 }
             }
@@ -109,7 +110,7 @@ export class KBotify extends KaiheilaBot {
     ): void => {
         command.init(this);
         if (command instanceof MenuCommand) {
-            for (const app of command.appMap.values()) {
+            for (const app of command.commandMap.values()) {
                 app.init(this);
             }
         }
@@ -133,8 +134,15 @@ export class KBotify extends KaiheilaBot {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;
         const cmd = this.commandMap.get(command);
-
-        if (cmd) return cmd.exec(new BaseSession(cmd, args, msg, this));
+        let session;
+        if (cmd) {
+            if (msg.guildId) {
+                session = new GuildSession(cmd, args, msg, this);
+            } else {
+                session = new BaseSession(cmd, args, msg, this);
+            }
+            return cmd.exec(session);
+        }
 
         if (regex.test(command)) {
         }

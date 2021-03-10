@@ -1,12 +1,11 @@
-import { AppCommand, AppCommandFunc, BaseSession } from "../..";
-
+import { AppCommand, AppFunc, BaseSession } from '../..';
 
 class EchoCard extends AppCommand {
     code = 'card';
     trigger = 'card';
     help = '`.echo card 内容`';
     intro = '复读你所说的文字, 并用CardMessage格式返回。';
-    func: AppCommandFunc<BaseSession> = async (session) => {
+    func: AppFunc<BaseSession> = async (session) => {
         const msg: string = ''.concat(...session.args).replace('\\n', '');
         // console.log(msg)
         return session.sendCardTemp(JSON.stringify(this.card_test()));

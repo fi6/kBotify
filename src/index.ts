@@ -1,10 +1,5 @@
-export { BaseSession } from './core/session';
-export {
-    AppCommandFunc,
-    BaseData,
-    FuncResult,
-    AppCommandParams,
-} from './core/app.types';
+export * from './core/session';
+export * from './core/app.types';
 export { ResultTypes } from './core/types';
 export { AppCommand } from './core/app.command';
 export { MenuCommand } from './core/menu.command';

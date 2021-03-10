@@ -1,4 +1,4 @@
-import { AppCommand, AppCommandFunc, BaseSession, MenuCommand } from "../..";
+import { AppCommand, AppFunc, BaseSession, MenuCommand } from '../..';
 
 import { echoNext } from './echo.next.app';
 import { echoCard } from './echo.card.app';
@@ -49,5 +49,3 @@ const menu = `[
 ]`;
 
 export const echoMenu = new EchoMenu(echoKmd, echoCard, echoNext, echoPrivate);
-
-

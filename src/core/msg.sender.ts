@@ -1,7 +1,7 @@
 import { initFuncResult } from './app.command';
 import { MessageType, ResultTypes } from './types';
 import { SendFunc } from './msg.types';
-import { BaseSession } from './session';
+import { BaseSession } from './session/session.base';
 import { KBotify } from '..';
 import { mentionById } from '../utils/mention-by-id';
 

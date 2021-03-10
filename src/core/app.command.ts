@@ -1,10 +1,11 @@
 import { MenuCommand } from './menu.command';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';
-import { AppCommandFunc, FuncResult } from './app.types';
+import { AppFunc, FuncResult } from './app.types';
 import { BaseSession } from './session';
 import { KBotify } from '..';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from './message';
+import { GuildSession } from './session';
 
 export function initFuncResult<T>(
     data: T,
@@ -41,7 +42,7 @@ export abstract class AppCommand implements BaseCommand {
     intro = 'intro';
     bot: KBotify | undefined;
     parent: MenuCommand | null = null;
-    func: AppCommandFunc<BaseSession> = async (_data) => {
+    func: AppFunc<BaseSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
     readonly type = CommandTypes.APP;
@@ -72,7 +73,11 @@ export abstract class AppCommand implements BaseCommand {
         msg: any
     ): Promise<ResultTypes | void>;
 
-    async exec(session: BaseSession): Promise<ResultTypes | void>;
+    async exec(session: GuildSession): Promise<ResultTypes | void>;
+
+    async exec(
+        session: BaseSession | GuildSession
+    ): Promise<ResultTypes | void>;
 
     async exec(
         sessionOrCommand: BaseSession | string,
@@ -89,11 +94,19 @@ export abstract class AppCommand implements BaseCommand {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            return this.run(new BaseSession(this, args!, msg!, this.bot));
+            let session;
+            if (msg.guildId) {
+                session = new GuildSession(this, args!, msg!, this.bot);
+            } else {
+                session = new BaseSession(this, args!, msg!, this.bot);
+            }
+            return this.run(session);
         }
     }
 
-    private async run(session: BaseSession): Promise<ResultTypes> {
+    private async run(
+        session: BaseSession | GuildSession
+    ): Promise<ResultTypes> {
         const args = session.args;
         const msg = session.msg;
         console.debug('running command: ', session.cmdString, args, msg);

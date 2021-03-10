@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/fi6/kBotify#readme",
   "devDependencies": {
+    "@types/lru-cache": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^4.13.0",
     "@typescript-eslint/parser": "^4.13.0",
     "eslint": "^7.17.0",
@@ -35,7 +36,8 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "kaiheila-bot-root": "^0.2.6"
+    "kaiheila-bot-root": "^0.2.6",
+    "lru-cache": "^6.0.0"
   },
   "files": [
     "dist"

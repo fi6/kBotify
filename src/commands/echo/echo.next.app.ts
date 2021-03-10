@@ -1,11 +1,11 @@
-import { AppCommand, AppCommandFunc, BaseSession } from "../..";
+import { AppCommand, AppFunc, BaseSession } from '../..';
 
 class EchoNext extends AppCommand {
     code = 'next';
     trigger = 'next';
     help = '`.echo next`';
     intro = '复读用户下次发送的全部文字';
-    func: AppCommandFunc<BaseSession> = async (session) => {
+    func: AppFunc<BaseSession> = async (session) => {
         session.setTextTrigger('', 1e4, (msg) => session.send(msg.content));
         return session.reply('将会复读下一次任意内容');
     };
