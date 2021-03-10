@@ -179,5 +179,3 @@ export abstract class MenuCommand implements BaseCommand {
     //     return result ? result.resultType : ResultTypes.SUCCESS;
     // };
 }
-
-export {};
