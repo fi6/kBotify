@@ -17,13 +17,22 @@ export class GuildSession extends BaseSession {
         bot?: KBotify
     ) {
         super(command, args, msg, bot);
+
+        this.guild = new Guild(msg.guildId!, this._botInstance); // TODO
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
-            this.user = new GuildUser(this, msg.author, this._botInstance);
+            this.user = new GuildUser(
+                msg.author,
+                this.guild.id,
+                this._botInstance
+            );
         } else {
             this.userId = msg.userId;
-            this.user = new GuildUser(this, msg.user as any, this._botInstance);
+            this.user = new GuildUser(
+                msg.user as any,
+                this.guild.id,
+                this._botInstance
+            );
         }
-        this.guild = new Guild(msg.guildId!, this._botInstance); // TODO
     }
 }

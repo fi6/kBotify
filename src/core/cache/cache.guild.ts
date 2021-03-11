@@ -31,7 +31,7 @@ export class GuildCache extends BotObject {
                 this.id,
                 this._botInstance
             ) as Required<GuildUser>;
-            this.setUser(guildUser);
+            // this.setUser(guildUser);
             return guildUser;
         }
     };

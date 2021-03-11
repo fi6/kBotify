@@ -13,8 +13,11 @@ export class GuildUser extends BaseUser {
         super(userObject, bot);
         this.guild = new Guild(guildId, bot);
         this.nickname = userObject.nickname;
-        if ('roles' in userObject) {
+        if ('roles' in userObject && userObject.roles) {
             this.roles = userObject.roles;
+            this._botInstance.cache
+                .guild(this.guild.id)
+                .setUser(this as Required<GuildUser>);
         }
     }
 
