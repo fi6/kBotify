@@ -37,12 +37,25 @@ export function initFuncResult<T>(
  */
 export abstract class AppCommand implements BaseCommand {
     code = 'code';
+    /**
+     * 命令响应：仅响应频道，仅响应私聊，全部响应
+     */
+    response: 'guild' | 'pm' | 'both' = 'guild';
+    /**
+     * 默认的触发命令，如果有上级菜单需要先触发菜单
+     */
     abstract trigger: string;
+    /**
+     * 帮助文字，发送`.命令 帮助`时自动回复，kmarkdown消息
+     */
     help = 'help';
+    /**
+     * 命令介绍，自动生成菜单时调用
+     */
     intro = 'intro';
-    bot: KBotify | undefined;
+    _botInstance: KBotify | undefined;
     parent: MenuCommand | null = null;
-    func: AppFunc<BaseSession> = async (_data) => {
+    func: AppFunc<BaseSession | GuildSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
     };
     readonly type = CommandTypes.APP;
@@ -52,20 +65,20 @@ export abstract class AppCommand implements BaseCommand {
     }
 
     init = (bot: KBotify): void => {
-        this.bot = bot;
+        this._botInstance = bot;
     };
 
-    setTriggerOnce(trigger: string | RegExp, timeout: number): void {
-        if (!this.bot)
-            throw new Error('Temp trigger set before bot is assigned.');
-        this.bot.once('message', (msg: TextMessage) => {
-            if (trigger instanceof RegExp) {
-                if (!trigger.test(msg.content)) return;
-            } else {
-                if (!msg.content.includes(trigger)) return;
-            }
-        });
-    }
+    // setTriggerOnce(trigger: string | RegExp, timeout: number): void {
+    //     if (!this._botInstance)
+    //         throw new Error('Temp trigger set before bot is assigned.');
+    //     this._botInstance.once('message', (msg: TextMessage) => {
+    //         if (trigger instanceof RegExp) {
+    //             if (!trigger.test(msg.content)) return;
+    //         } else {
+    //             if (!msg.content.includes(trigger)) return;
+    //         }
+    //     });
+    // }
 
     async exec(
         command: string,
@@ -84,9 +97,15 @@ export abstract class AppCommand implements BaseCommand {
         args?: string[],
         msg?: ButtonEventMessage | TextMessage
     ): Promise<ResultTypes | void> {
-        if (!this.bot) throw new Error('command used before assigning a bot');
+        if (!this._botInstance)
+            throw new Error('command used before assigning a bot');
 
         if (sessionOrCommand instanceof BaseSession) {
+            if (
+                !(sessionOrCommand instanceof GuildSession) &&
+                this.response == 'guild'
+            )
+                return;
             sessionOrCommand.command = this;
             return this.run(sessionOrCommand);
         } else {
@@ -94,7 +113,7 @@ export abstract class AppCommand implements BaseCommand {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            return this.run(createSession(this, args, msg, this.bot));
+            return this.run(createSession(this, args, msg, this._botInstance));
         }
     }
 
@@ -104,7 +123,7 @@ export abstract class AppCommand implements BaseCommand {
         const args = session.args;
         const msg = session.msg;
         console.debug('running command: ', session.cmdString, args, msg);
-        if (!this.bot)
+        if (!this._botInstance)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
             );
