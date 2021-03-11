@@ -3,6 +3,7 @@ import { echoCard } from './echo.card.app';
 import { echoKmd } from './echo.kmd.app';
 import { echoPrivate } from './echo.private.app';
 import { MenuCommand } from '../..';
+import { echoNext2 } from './echo.next2.app';
 
 class EchoMenu extends MenuCommand {
     code = 'echo';
@@ -47,4 +48,10 @@ const menu = `[
   }
 ]`;
 
-export const echoMenu = new EchoMenu(echoKmd, echoCard, echoNext, echoPrivate);
+export const echoMenu = new EchoMenu(
+    echoKmd,
+    echoCard,
+    echoNext,
+    echoPrivate,
+    echoNext2
+);

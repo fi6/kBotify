@@ -23,7 +23,7 @@ export declare interface MessageProcessor {
 
 export class MessageProcessor extends EventEmitter {
     _botInstance;
-    constructor(bot?: KBotify) {
+    constructor(bot: KBotify) {
         super();
         this._botInstance = bot;
     }
@@ -32,7 +32,15 @@ export class MessageProcessor extends EventEmitter {
         switch (result.type) {
             case 'textMessage':
             case 'kmarkdownMessage':
-                this.emit('text', new TextMessage(data, bot));
+                const message = new TextMessage(data, bot);
+                const userCollectors = this._botInstance.collectors.user;
+                try {
+                    userCollectors.get(message.authorId)!.add(message);
+                } catch (error) {}
+                this.emit('text', message);
+                // if (userCollectors.collecting(message.authorId)) {
+                //     userCollectors.get(message.authorId).add(message);
+                // }
                 return;
             case 'systemMessage':
                 if (data.type === 'buttonClick') {

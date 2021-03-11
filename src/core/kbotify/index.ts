@@ -9,6 +9,7 @@ import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { GuildSession, BaseSession, createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
+import { CollectorManager } from './collector';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -28,6 +29,7 @@ export class KBotify extends KaiheilaBot {
     mentionWithSpace: boolean;
     private defaultProcess: boolean;
     cache: CacheManager;
+    collectors = new CollectorManager();
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
@@ -79,7 +81,7 @@ export class KBotify extends KaiheilaBot {
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.botId = info.id;
-            console.info('bot id: ', this.botId);
+            console.info('bot id:', this.botId);
         });
     }
     /**

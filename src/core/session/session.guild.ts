@@ -35,4 +35,27 @@ export class GuildSession extends BaseSession {
             );
         }
     }
+    awaitMessage = async (
+        condition: RegExp,
+        timeout: number | undefined = 6e4
+    ): Promise<TextMessage | undefined> => {
+        const collector = this._botInstance.collectors.user.create(
+            this.userId,
+            timeout
+        );
+        const result = new Promise<TextMessage | undefined>(
+            (resolve, reject) => {
+                collector.on('message', (message: TextMessage) => {
+                    if (condition.test(message.content)) {
+                        resolve(message);
+                        collector.stop();
+                    }
+                });
+                collector.on('stop', () => {
+                    resolve(undefined);
+                });
+            }
+        );
+        return result;
+    };
 }
