@@ -5,6 +5,7 @@ import { MenuCommand } from '../command';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { BaseSession } from './session.base';
 import { GuildUser } from '../user/user.guild';
+import { User, UserInGuild } from 'kaiheila-bot-root';
 
 export class GuildSession extends BaseSession {
     user: GuildUser;
@@ -21,7 +22,7 @@ export class GuildSession extends BaseSession {
             this.user = new GuildUser(this, msg.author, this._botInstance);
         } else {
             this.userId = msg.userId;
-            this.user = new GuildUser(this, msg.user, this._botInstance);
+            this.user = new GuildUser(this, msg.user as any, this._botInstance);
         }
         this.guild = new Guild(msg.guildId!, this._botInstance); // TODO
     }

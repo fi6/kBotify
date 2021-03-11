@@ -10,6 +10,7 @@ export class BaseUser extends BotObject implements User {
     online: boolean;
     avatar: string;
     bot: boolean;
+    nickname?: string;
 
     constructor(userObject: User | (User & UserInGuild), bot: KBotify) {
         super(bot);
@@ -19,6 +20,9 @@ export class BaseUser extends BotObject implements User {
         this.identifyNum = userObject.identifyNum;
         this.online = userObject.online;
         this.avatar = userObject.avatar;
+        if ('nickname' in userObject) {
+            this.nickname = userObject.nickname;
+        }
         this.bot = userObject.bot;
     }
 

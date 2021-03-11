@@ -1,6 +1,7 @@
 import { ButtonClickEvent, UserInGuild } from 'kaiheila-bot-root';
 import { KBotify } from '../kbotify';
 import { BaseUser } from '../user';
+import { GuildUser } from '../user/user.guild';
 
 export class ButtonEventMessage implements Partial<ButtonClickEvent> {
     msgId: string;
@@ -23,7 +24,7 @@ export class ButtonEventMessage implements Partial<ButtonClickEvent> {
         this.targetMsgId = rawEvent.targetMsgId;
         this.content = rawEvent.value;
         this.userId = rawEvent.userId;
-        this.user = new BaseUser(rawEvent.user as any, bot);
+        this.user = new BaseUser(rawEvent.user, bot);
         this._botInstance = bot;
     }
 }
