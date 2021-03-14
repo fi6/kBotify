@@ -5,7 +5,6 @@ import { MenuCommand } from '../command';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { BaseSession } from './session.base';
 import { GuildUser } from '../user/user.guild';
-import { User, UserInGuild } from 'kaiheila-bot-root';
 
 export class GuildSession extends BaseSession {
     user: GuildUser;
@@ -17,8 +16,9 @@ export class GuildSession extends BaseSession {
         bot?: KBotify
     ) {
         super(command, args, msg, bot);
+        if (!msg.guildId) throw new TypeError('getting msg without guildId');
 
-        this.guild = new Guild(msg.guildId!, this._botInstance); // TODO
+        this.guild = new Guild(msg.guildId, this._botInstance); // TODO
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new GuildUser(
@@ -35,6 +35,15 @@ export class GuildSession extends BaseSession {
             );
         }
     }
+    
+    static fromSession = (session: BaseSession): GuildSession => {
+        return new GuildSession(
+            session.command,
+            session.args,
+            session.msg,
+            session._botInstance
+        );
+    };
     awaitMessage = async (
         condition: RegExp,
         timeout: number | undefined = 6e4

@@ -101,11 +101,25 @@ export abstract class AppCommand implements BaseCommand {
             throw new Error('command used before assigning a bot');
 
         if (sessionOrCommand instanceof BaseSession) {
+            // try to change basesession to guildsession if guildid exists
+            if (sessionOrCommand.msg.guildId) {
+                try {
+                    sessionOrCommand = GuildSession.fromSession(
+                        sessionOrCommand
+                    );
+                } catch (error) {
+                    undefined;
+                }
+            }
             if (
                 !(sessionOrCommand instanceof GuildSession) &&
                 this.response == 'guild'
-            )
+            ) {
+                console.debug(
+                    'guild only command receiving base session. return.'
+                );
                 return;
+            }
             sessionOrCommand.command = this;
             return this.run(sessionOrCommand);
         } else {

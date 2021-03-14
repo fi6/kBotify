@@ -24,6 +24,7 @@ export class BaseSession extends BotObject implements BaseData {
     channel: Channel;
     content: string | undefined;
     // TODO: add guild
+    guildId?: string;
     other?: any;
     /**
      * 会话的用户ID。

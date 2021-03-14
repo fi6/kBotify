@@ -1,5 +1,5 @@
 import { KBotify } from '../kbotify';
-import { BaseSession } from '../session';
+import { BaseSession, GuildSession } from '../session';
 import { BaseCommand, CommandTypes, ResultTypes } from '../types';
 import { AppCommand } from './command.app';
 
@@ -102,6 +102,13 @@ export abstract class MenuCommand implements BaseCommand {
             throw new Error(
                 `command/args/msg is missing when exec MenuCommand ${this.code}.`
             );
+        }
+        if (session.msg.guildId) {
+            try {
+                session = GuildSession.fromSession(session);
+            } catch (error) {
+                undefined;
+            }
         }
         try {
             if (!args.length) {
