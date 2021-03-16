@@ -6,14 +6,15 @@ import { KBotify } from '../..';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { GuildSession } from '../session';
+import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
 
 export function initFuncResult<T>(
     data: T,
     resultType?: ResultTypes,
-    msgSent?: unknown
+    msgSent?: MessageCreateResponseInternal
 ): FuncResult<any> {
     const funcResult: FuncResult<any> = {
-        returnData: data,
+        session: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
         msgSent: msgSent,
     };

@@ -1,3 +1,4 @@
+import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { BaseSession, GuildSession } from '../session';
 import { ResultTypes } from '../types';
@@ -47,7 +48,7 @@ export interface AppCommandParams<T extends BaseData> {
  * deprecated, please use appfunc
  * @deprecated
  */
-export interface AppCommandFunc<T extends BaseSession> extends AppFunc<T> {}
+export type AppCommandFunc<T extends BaseSession> = AppFunc<T>;
 
 export interface AppFunc<T extends GuildSession | BaseSession> {
     (session: T): Promise<FuncResult<T> | ResultTypes | void>;
@@ -66,8 +67,8 @@ export interface AppFunc<T extends GuildSession | BaseSession> {
  */
 export interface FuncResult<T> {
     resultType: ResultTypes;
-    returnData?: T;
-    msgSent?: unknown;
+    session?: T;
+    msgSent?: MessageCreateResponseInternal;
     detail?: unknown;
 }
 
