@@ -4,8 +4,8 @@ import { KBotify } from '../kbotify';
 import { BaseSession, GuildSession } from '../session';
 
 export class BaseUser extends BotObject implements User {
-    id: string = '';
-    username: string = '';
+    id = '';
+    username = '';
     identifyNum: string;
     online: boolean;
     avatar: string;
@@ -31,10 +31,10 @@ export class BaseUser extends BotObject implements User {
         else return `(met)${this.id}(met)`;
     }
 
-    grantRole = (guildId: string, roleId: string | number) => {
+    grantRole = (roleId: string | number, guildId: string) => {
         return this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
     };
-    revokeRole = (guildId: string, roleId: string | number) => {
+    revokeRole = (roleId: string | number, guildId: string) => {
         return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
     };
 }

@@ -7,7 +7,7 @@ export class CollectorManager {
 
 class UserCollectorManager {
     #collectors: Map<string, Collector> = new Map();
-    create = (userId: string, timeout: number = 6e4) => {
+    create = (userId: string, timeout = 6e4) => {
         const collector = new Collector(this, userId);
         this.#collectors.set(userId, collector);
         setTimeout(() => {
@@ -39,7 +39,7 @@ class Collector extends EventEmitter {
 
     add = (message: TextMessage) => {
         this.messages.push(message);
-        this.emit('message', message);
+        this.emit('add', message);
     };
     stop = () => {
         this.manager.remove(this.#id);

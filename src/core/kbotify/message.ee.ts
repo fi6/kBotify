@@ -31,23 +31,23 @@ export class MessageProcessor extends EventEmitter {
         const data = result.data;
         switch (result.type) {
             case 'textMessage':
-            case 'kmarkdownMessage':
+            case 'kmarkdownMessage': {
                 const message = new TextMessage(data, bot);
                 const userCollectors = this._botInstance.collectors.user;
                 try {
                     userCollectors.get(message.authorId)!.add(message);
-                } catch (error) {}
+                } catch (error) {
+                    console.error(error);
+                }
                 this.emit('text', message);
                 // if (userCollectors.collecting(message.authorId)) {
                 //     userCollectors.get(message.authorId).add(message);
                 // }
                 return;
+            }
             case 'systemMessage':
                 if (data.type === 'buttonClick') {
-                    this.emit(
-                        'buttonEvent',
-                        new ButtonEventMessage(data as ButtonClickEvent, bot)
-                    );
+                    this.emit('buttonEvent', new ButtonEventMessage(data, bot));
                     return;
                 }
             default:

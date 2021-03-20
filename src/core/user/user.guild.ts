@@ -34,6 +34,14 @@ export class GuildUser extends BaseUser {
         // this.roles = roles;
         // return this as GuildUserFull;
     };
+    grantRole = (roleId: string | number, guildId?: string) => {
+        if (!guildId) guildId = this.guild.id;
+        return this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
+    };
+    revokeRole = (roleId: string | number, guildId?: string) => {
+        if (!guildId) guildId = this.guild.id;
+        return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
+    };
 }
 
 export type GuildUserFull = Required<GuildUser>;

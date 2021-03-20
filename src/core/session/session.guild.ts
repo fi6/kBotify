@@ -54,7 +54,7 @@ export class GuildSession extends BaseSession {
         );
         const result = new Promise<TextMessage | undefined>(
             (resolve, reject) => {
-                collector.on('message', (message: TextMessage) => {
+                collector.on('add', (message: TextMessage) => {
                     if (condition.test(message.content)) {
                         resolve(message);
                         collector.stop();
