@@ -1,5 +1,5 @@
 import { AppCommand, MenuCommand } from '../..';
-import { ButtonClickEvent, KaiheilaBot, MessageType } from 'kaiheila-bot-root';
+import { KaiheilaBot } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
 
 import { ButtonEventMessage, TextMessage } from '../message';
@@ -7,7 +7,7 @@ import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
-import { GuildSession, BaseSession, createSession } from '../session';
+import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
 import { CollectorManager } from './collector';
 
@@ -88,7 +88,7 @@ export class KBotify extends KaiheilaBot {
      * Process the msg object and generate [command, ...args]
      *
      * @param msg
-     * @return string
+     * @return [command, ...args] | void
      * @memberof KBotify
      */
     processMsg(msg: TextMessage | ButtonEventMessage): string[] | void {

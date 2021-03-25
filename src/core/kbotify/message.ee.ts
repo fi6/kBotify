@@ -34,8 +34,9 @@ export class MessageProcessor extends EventEmitter {
             case 'kmarkdownMessage': {
                 const message = new TextMessage(data, bot);
                 const userCollectors = this._botInstance.collectors.user;
+                const collector = userCollectors.get(message.authorId);
                 try {
-                    userCollectors.get(message.authorId)!.add(message);
+                    if (collector) collector.add(message);
                 } catch (error) {
                     console.error(error);
                 }
