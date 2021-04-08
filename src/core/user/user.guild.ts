@@ -42,6 +42,10 @@ export class GuildUser extends BaseUser {
         if (!guildId) guildId = this.guild.id;
         return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
     };
+    changeNickname = (nickname: string, guildId?: string) => {
+        if (!guildId) guildId = this.guild.id;
+        return this._botInstance.API.guild.nickname(guildId, nickname, this.id);
+    };
 }
 
 export type GuildUserFull = Required<GuildUser>;
