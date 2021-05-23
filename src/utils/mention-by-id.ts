@@ -3,11 +3,6 @@ export function mentionById(
     preSpace = false,
     postSpace = true
 ): string {
-    return ''.concat(
-        preSpace ? ' ' : '',
-        `(met)${id}(met)`,
-        postSpace ? ' ' : ''
-    );
-}
+    return `${preSpace && ' '}(met)${id}(met)${postSpace && ' '}`
 
 export {};
