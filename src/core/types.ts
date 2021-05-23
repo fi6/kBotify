@@ -1,5 +1,11 @@
+<<<<<<< HEAD:src/core/types.ts
 import { AppCommand } from './command/command.app';
 import { FuncResult } from './command';
+=======
+import { MessageType, TextMessage } from 'kaiheila-bot-root/dist/types';
+import { AppCommand } from './app.command';
+import { FuncResult } from './app.types';
+>>>>>>> origin/main:src/commands/core/types.ts
 import { BaseSession } from './session';
 
 /**

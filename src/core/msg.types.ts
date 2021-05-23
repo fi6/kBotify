@@ -1,6 +1,12 @@
+<<<<<<< HEAD:src/core/msg.types.ts
 import { MessageType } from 'kaiheila-bot-root';
 import { BaseData, FuncResult } from './command';
 import { BaseSession } from './session/session.base';
+=======
+import { MessageType } from 'kaiheila-bot-root/dist/types';
+import { BaseData, FuncResult } from './app.types';
+import { BaseSession } from './session';
+>>>>>>> origin/main:src/commands/core/msg.types.ts
 import { ResultTypes } from './types';
 
 export interface SendOptions {

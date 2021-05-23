@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/core/msg.sender.ts
 import { initFuncResult } from './command/command.app';
 import { MessageType, ResultTypes } from './types';
 import { SendFunc } from './msg.types';
@@ -8,6 +9,16 @@ import { mentionById } from '../utils/mention-by-id';
 /**
  * @deprecated
  */
+=======
+import { KBotify } from '../../utils/kbotify';
+import { MessageType } from 'kaiheila-bot-root/dist/types';
+import { mentionById } from '../../utils/mention-by-id';
+import { initFuncResult } from './app.command';
+import { ResultTypes } from './types';
+import { SendFunc } from './msg.types';
+import { BaseSession } from './session';
+
+>>>>>>> origin/main:src/commands/core/msg.sender.ts
 export class MsgSender {
     replyChannelId: string | undefined;
     withMention = false;
@@ -19,7 +30,11 @@ export class MsgSender {
         withMention = false,
         withReply = false,
         replyChannelId?: string,
+<<<<<<< HEAD:src/core/msg.sender.ts
         defaultMessageType = MessageType.kMarkdown
+=======
+        defaultMessageType = MessageType.kmarkdown
+>>>>>>> origin/main:src/commands/core/msg.sender.ts
     ) {
         this.bot = bot;
         if (replyChannelId) this.replyChannelId = replyChannelId;
@@ -118,7 +133,11 @@ export class MsgSender {
         const msgSent = this.bot.API.message.create(
             msgType,
             replyChannelId,
+<<<<<<< HEAD:src/core/msg.sender.ts
             (withMention ? `${mentionById(session.user.id)} ` : '') + content,
+=======
+            (withMention ? `${mentionById(session.msg.authorId)} ` : '') + content,
+>>>>>>> origin/main:src/commands/core/msg.sender.ts
             sendOptions?.reply ? session.msg.msgId : undefined
         );
         return initFuncResult(session, resultType, msgSent);

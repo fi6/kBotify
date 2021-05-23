@@ -1,6 +1,10 @@
 {
   "name": "kbotify",
+<<<<<<< HEAD
   "version": "0.1.49",
+=======
+  "version": "0.1.14",
+>>>>>>> origin/main
   "description": "kaiheila bot framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,8 +40,12 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+<<<<<<< HEAD
     "kaiheila-bot-root": "^0.2.8",
     "lru-cache": "^6.0.0"
+=======
+    "kaiheila-bot-root": "0.0.10"
+>>>>>>> origin/main
   },
   "files": [
     "dist"
