@@ -1,6 +1,11 @@
+<<<<<<< HEAD:src/core/types.ts
+import { AppCommand } from './command/command.app';
+import { FuncResult } from './command';
+=======
 import { MessageType, TextMessage } from 'kaiheila-bot-root/dist/types';
 import { AppCommand } from './app.command';
 import { FuncResult } from './app.types';
+>>>>>>> origin/main:src/commands/core/types.ts
 import { BaseSession } from './session';
 
 /**
@@ -20,8 +25,6 @@ export interface ResultHandler<T extends BaseSession> {
     (data: T, type: string | number): Promise<FuncResult<T>>;
 }
 
-export type CommandInput = [string, string[], TextMessage];
-
 export enum CommandTypes {
     MENU = 'MENU',
     HELP = 'HELP',
@@ -37,13 +40,11 @@ export enum ResultTypes {
     WRONG_ARGS = 'WRONG_ARGS',
 }
 
-
-
-export interface MenuCommandParams<T extends BaseSession> {
+export interface MenuCommandParams {
     code: string;
     trigger: string;
     help: string;
-    apps: AppCommand<T>[];
+    apps: AppCommand[];
 }
 
 export {};

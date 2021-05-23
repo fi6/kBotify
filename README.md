@@ -80,7 +80,7 @@ echoMenu.addAlias(echoKmd, 'kmarkdown', '富文本')
 
 ```ts
 import { AppCommand } from 'commands/shared/app';
-import { AppCommandFunc } from 'commands/shared/app.types';
+import { AppFunc } from 'commands/shared/app.types';
 import { BaseData } from 'commands/shared/types';
 
 class EchoAll extends AppCommand<BaseSession> {
@@ -88,11 +88,11 @@ class EchoAll extends AppCommand<BaseSession> {
     trigger = 'all';
     help = '`.echo all 时间`';
     intro = '在指定时间内复读全部文字';
-    func: AppCommandFunc<BaseSession> = async (session) => {
-        session.setReplyTrigger('', 6e4, (msg) =>
+    func: AppFunc<BaseSession> = async (session) => {
+        session.setTextTrigger('', 6e4, (msg) =>
             session.sendOnly(msg.content)
         );
-        return this.msgSender.reply('将会复读下一次任意内容，1min有效', session);
+        return session.reply('将会复读下一次任意内容，1min有效', session);
     };
 }
 
