@@ -32,7 +32,7 @@ export class KBotify extends KaiheilaBot {
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
-     * @deprecated [default_process=true] Deprecated. if you want to process message yourself, please change the KBotify.defaultHandler() method.
+     * @param [default_process=true] Deprecated. if you want to process message yourself, please change the KBotify.defaultHandler() method.
      * @memberof KBotify
      */
     constructor(config: BotConfig, defaultProcess = true) {
@@ -60,7 +60,7 @@ export class KBotify extends KaiheilaBot {
             this.message.process(msg, this);
             this.event.process(msg, this);
         });
-        this.defaultHandler()
+        this.defaultHandler();
         this.messageSource.connect().then((res) => {
             console.info('connected:', res);
         });
@@ -70,7 +70,7 @@ export class KBotify extends KaiheilaBot {
         });
     }
 
-    defaultHandler(){
+    defaultHandler() {
         this.message.on('text', (msg) => {
             const res = this.processMsg(msg);
             if (!res) return;

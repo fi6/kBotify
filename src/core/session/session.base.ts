@@ -12,6 +12,7 @@ import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
 import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
+import { Card } from '../card';
 
 export class BaseSession extends BotObject implements BaseData {
     /**
@@ -169,9 +170,11 @@ export class BaseSession extends BotObject implements BaseData {
     };
 
     sendCard: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>)
+        content: string | (() => string) | (() => Promise<string> | Card)
     ) => {
-        return this._send(content, ResultTypes.SUCCESS, {
+        const str =
+            content instanceof Card ? content.output : (content as string);
+        return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
             reply: false,
             mention: false,
@@ -180,9 +183,11 @@ export class BaseSession extends BotObject implements BaseData {
     };
 
     sendCardTemp: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>)
+        content: string | (() => string) | (() => Promise<string> | Card)
     ) => {
-        return this._send(content, ResultTypes.SUCCESS, {
+        const str =
+            content instanceof Card ? content.output : (content as string);
+        return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
             reply: false,
             mention: false,
@@ -191,21 +196,33 @@ export class BaseSession extends BotObject implements BaseData {
     };
 
     /**
-     * If reply match the condition, trigger callback(once)
-     *
-     * @param condition string or regexp
-     * @param [timeout=6e4] timeout in ms
-     * @param callback
-     * @memberof BaseSession
-     * @deprecated
+     * WIP, Do not use
+     * @param messageId
+     * @param content
+     * @param quote
      */
-    setReplyTrigger = (
-        condition: string | RegExp,
-        timeout: number | null = 6e4,
-        callback: (msg: TextMessage) => void
+    updateMessage = async (
+        messageId: string,
+        content: string,
+        quote?: string
     ) => {
-        return this.setTextTrigger(condition, timeout, callback);
+        this._botInstance.API.message.update(messageId, content);
     };
+
+    /**
+     * WIP, Do not use
+     * @param messageId
+     * @param content
+     * @param quote
+     */
+    updateMessageTemp = async (
+        messageId: string,
+        content: string,
+        quote?: string
+    ) => {
+        this._botInstance.API.message.update(messageId, content);
+    };
+
     /**
      * 设置文字回复触发事件
      *
@@ -271,7 +288,7 @@ export class BaseSession extends BotObject implements BaseData {
         let withMention = sendOptions?.mention ?? false;
 
         if (!this._botInstance)
-            throw new Error('message sender used before bot assigned.');
+            throw new Error('session send used before bot assigned.');
 
         if (msgType == 10) {
             if (withMention)
