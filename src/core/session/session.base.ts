@@ -12,6 +12,7 @@ import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
 import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
+import { Card, CardObject } from '../card';
 
 export class BaseSession extends BotObject implements BaseData {
     /**
@@ -81,25 +82,26 @@ export class BaseSession extends BotObject implements BaseData {
         });
     };
 
-    replyCard: SessionSendFunc = async (
-        content,
-        resultType = ResultTypes.SUCCESS
+    replyCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        return this._send(content, resultType, {
-            reply: true,
-            msgType: 10,
-        });
+        return await this._sendCard(content, false, true);
     };
 
-    replyCardTemp: SessionSendFunc = async (
-        content,
-        resultType = ResultTypes.SUCCESS
+    replyCardTemp = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        return this._send(content, resultType, {
-            reply: true,
-            msgType: 10,
-            temp: true,
-        });
+        return await this._sendCard(content, true, true);
     };
 
     quote: SessionSendFunc = async (
@@ -168,44 +170,84 @@ export class BaseSession extends BotObject implements BaseData {
         });
     };
 
-    sendCard: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>)
+    private _sendCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card,
+        temp = false,
+        reply = false
     ) => {
-        return this._send(content, ResultTypes.SUCCESS, {
+        const str =
+            content instanceof Card
+                ? JSON.stringify([content])
+                : Array.isArray(content)
+                ? JSON.stringify(content)
+                : content;
+        return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
-            reply: false,
+            reply: reply,
             mention: false,
-            temp: false,
+            temp: temp,
         });
     };
 
-    sendCardTemp: SessionSendFunc = async (
-        content: string | (() => string) | string | (() => Promise<string>)
+    sendCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        return this._send(content, ResultTypes.SUCCESS, {
-            msgType: 10,
-            reply: false,
-            mention: false,
-            temp: true,
-        });
+        return this._sendCard(content, false);
+    };
+
+    sendCardTemp = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
+    ) => {
+        return this._sendCard(content, true);
     };
 
     /**
-     * If reply match the condition, trigger callback(once)
-     *
-     * @param condition string or regexp
-     * @param [timeout=6e4] timeout in ms
-     * @param callback
-     * @memberof BaseSession
-     * @deprecated
+     * WIP, Do not use
+     * @param messageId
+     * @param content
+     * @param quote
      */
-    setReplyTrigger = (
-        condition: string | RegExp,
-        timeout: number | null = 6e4,
-        callback: (msg: TextMessage) => void
+    updateMessage = async (
+        messageId: string,
+        content: string,
+        quote?: string
     ) => {
-        return this.setTextTrigger(condition, timeout, callback);
+        return await this._botInstance.API.message.update(
+            messageId,
+            content,
+            quote
+        );
     };
+
+    /**
+     * WIP, Do not use
+     * @param messageId
+     * @param content
+     * @param quote
+     */
+    updateMessageTemp = async (
+        messageId: string,
+        content: string,
+        quote?: string
+    ) => {
+        this._botInstance.API.message.update(messageId, content, quote);
+    };
+
     /**
      * 设置文字回复触发事件
      *
@@ -271,7 +313,7 @@ export class BaseSession extends BotObject implements BaseData {
         let withMention = sendOptions?.mention ?? false;
 
         if (!this._botInstance)
-            throw new Error('message sender used before bot assigned.');
+            throw new Error('session send used before bot assigned.');
 
         if (msgType == 10) {
             if (withMention)

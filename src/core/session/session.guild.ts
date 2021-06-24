@@ -35,7 +35,6 @@ export class GuildSession extends BaseSession {
             );
         }
     }
-    
     static fromSession = (session: BaseSession): GuildSession => {
         return new GuildSession(
             session.command,
@@ -48,6 +47,8 @@ export class GuildSession extends BaseSession {
         condition: RegExp,
         timeout: number | undefined = 6e4
     ): Promise<TextMessage | undefined> => {
+        if (timeout < 1e3)
+            console.warn(`timeout too short: ${timeout}, ${this}`);
         const collector = this._botInstance.collectors.user.create(
             this.userId,
             timeout
@@ -62,6 +63,11 @@ export class GuildSession extends BaseSession {
                 });
                 collector.on('stop', () => {
                     resolve(undefined);
+                });
+                collector.on('cancel', () => {
+                    reject(
+                        `new collector for ${this} is set, cancelling current collector`
+                    );
                 });
             }
         );

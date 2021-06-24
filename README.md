@@ -5,6 +5,13 @@
 **如果你的当前版本低于0.1.3，请尽快升级，0.1.3版本改动中将BaseData替换为了BaseSession，可能会造成一定兼容性问题。**
 
 ## 更新历史
+### 0.2.1
+- 更新了少量API，0.2.2版本将会覆盖99%API
+- 增加了`class Card`，废弃了之前使用parser的模式，提供更好的卡片消息操作性能。
+- 增加了`GuildSession.awaitMessage`，允许开发者等待用户在当前频道的下一条消息。
+- 增加了`collecter`，允许开发者在一定时间内收集频道内的消息，并且自定义停止的trigger。
+- 解决了由于pr#5带来的mention、reply错误的问题
+
 ### 0.1.3
 - 替换BaseData为BaseSession，简化了消息回复流程，增加对一次性文字trigger的支持。
 
@@ -12,7 +19,7 @@
 - [ ] 文档
 - [ ] 精简不必要的代码
 - [ ] 自动生成Menu
-- [ ] 增加context
+- [ ] session增加context
 - [ ] 增加匹配模式：命令匹配/前缀匹配（如：直接匹配 .房间 创建，而不是先匹配.房间再匹配创建）
 
 ## 简单说明
@@ -50,14 +57,9 @@ bot.addCommands(echoMenu, echoKmd)
 bot.addAlias(echoMenu, '复读', '重复')
 ```
 
-启用@bot发送指令（官方接口开放后会做成内置，无需单独指定）
-```ts
-bot.botId = 'your bot id'
-```
-
 启动Bot
 ```ts
-bot.listen()
+bot.connect()
 ```
 
 ### Menu/App用法
@@ -67,7 +69,7 @@ import { MenuCommand } from 'commands/shared/menu';
 import { BaseData } from 'commands/shared/types';
 import { echoKmd } from './echo.kmd.app';
 
-class EchoMenu extends MenuCommand<BaseSession> {
+class EchoMenu extends MenuCommand {
     code = 'echo';
     trigger = 'echo';
     help = '目前只有`.echo kmd`一个指令。';
@@ -83,7 +85,7 @@ import { AppCommand } from 'commands/shared/app';
 import { AppFunc } from 'commands/shared/app.types';
 import { BaseData } from 'commands/shared/types';
 
-class EchoAll extends AppCommand<BaseSession> {
+class EchoAll extends AppCommand {
     code = 'all';
     trigger = 'all';
     help = '`.echo all 时间`';

@@ -27,18 +27,16 @@ export class KBotify extends KaiheilaBot {
     message: MessageProcessor;
     event: EventProcessor;
     mentionWithSpace: boolean;
-    private defaultProcess: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
-     * @param [default_process=true] turn off if you want to process every incoming message yourself.
+     * @param [default_process=true] Deprecated. if you want to process message yourself, please change the KBotify.defaultHandler() method.
      * @memberof KBotify
      */
     constructor(config: BotConfig, defaultProcess = true) {
         super(config);
-        this.defaultProcess = defaultProcess;
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
         this.cache = new CacheManager(this);
@@ -62,20 +60,7 @@ export class KBotify extends KaiheilaBot {
             this.message.process(msg, this);
             this.event.process(msg, this);
         });
-        if (this.defaultProcess) {
-            this.message.on('text', (msg) => {
-                const res = this.processMsg(msg);
-                if (!res) return;
-                const [command, ...args] = res;
-                this.execute(command.toLowerCase(), args, msg);
-            });
-            this.message.on('buttonEvent', (msg) => {
-                const res = this.processMsg(msg);
-                if (!res) return;
-                const [command, ...args] = res;
-                this.execute(command.toLowerCase(), args, msg);
-            });
-        }
+        this.defaultHandler();
         this.messageSource.connect().then((res) => {
             console.info('connected:', res);
         });
@@ -84,6 +69,22 @@ export class KBotify extends KaiheilaBot {
             console.info('bot id:', this.botId);
         });
     }
+
+    defaultHandler() {
+        this.message.on('text', (msg) => {
+            const res = this.processMsg(msg);
+            if (!res) return;
+            const [command, ...args] = res;
+            this.execute(command.toLowerCase(), args, msg);
+        });
+        this.message.on('buttonEvent', (msg) => {
+            const res = this.processMsg(msg);
+            if (!res) return;
+            const [command, ...args] = res;
+            this.execute(command.toLowerCase(), args, msg);
+        });
+    }
+
     /**
      * Process the msg object and generate [command, ...args]
      *
