@@ -1,9 +1,9 @@
-import { initFuncResult } from './command/command.app';
-import { MessageType, ResultTypes } from './types';
-import { SendFunc } from './msg.types';
-import { BaseSession } from './session/session.base';
-import { KBotify } from '..';
-import { mentionById } from '../utils/mention-by-id';
+import { initFuncResult } from '../src/core/command/command.app';
+import { MessageType, ResultTypes } from '../src/core/types';
+import { SendFunc } from '../src/core/msg.types';
+import { BaseSession } from '../src/core/session/session.base';
+import { KBotify } from '../src';
+import { mentionById } from '../src/utils/mention-by-id';
 
 /**
  * @deprecated
