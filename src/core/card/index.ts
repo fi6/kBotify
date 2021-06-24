@@ -1,10 +1,18 @@
 export type CardObject = {
     type: 'card';
     size: 'lg' | 'sm';
-    theme?: 'primary' | 'warning' | 'danger' | 'info' | 'secondary';
+    theme?: Theme;
     color?: string;
     modules: any[];
 };
+
+export type Theme =
+    | 'primary'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'info'
+    | 'secondary';
 
 export type ModuleObject = {
     type:
@@ -22,7 +30,7 @@ export type ModuleObject = {
 export class Card implements CardObject {
     type: 'card' = 'card';
     size: 'lg' | 'sm' = 'lg';
-    theme?: 'primary' | 'warning' | 'danger' | 'info' | 'secondary';
+    theme?: Theme;
     color?: string;
     modules: ModuleObject[] = [];
     constructor(content?: string | CardObject) {
