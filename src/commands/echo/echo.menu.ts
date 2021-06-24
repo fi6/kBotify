@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 import { echoNext } from './echo.next.app';
-=======
-import { MenuCommand } from '../core/menu.command';
-
-import { echoAll } from './echo.all.app';
->>>>>>> origin/main
 import { echoCard } from './echo.card.app';
 import { echoKmd } from './echo.kmd.app';
 import { echoPrivate } from './echo.private.app';
@@ -54,7 +48,6 @@ const menu = `[
   }
 ]`;
 
-<<<<<<< HEAD
 export const echoMenu = new EchoMenu(
     echoKmd,
     echoCard,
@@ -62,6 +55,3 @@ export const echoMenu = new EchoMenu(
     echoPrivate,
     echoNext2
 );
-=======
-export const echoMenu = new EchoMenu(echoKmd, echoCard, echoAll);
->>>>>>> origin/main
