@@ -82,25 +82,26 @@ export class BaseSession extends BotObject implements BaseData {
         });
     };
 
-    replyCard: SessionSendFunc = async (
-        content,
-        resultType = ResultTypes.SUCCESS
+    replyCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        return this._send(content, resultType, {
-            reply: true,
-            msgType: 10,
-        });
+        return await this._sendCard(content, false, true);
     };
 
-    replyCardTemp: SessionSendFunc = async (
-        content,
-        resultType = ResultTypes.SUCCESS
+    replyCardTemp = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        return this._send(content, resultType, {
-            reply: true,
-            msgType: 10,
-            temp: true,
-        });
+        return await this._sendCard(content, true, true);
     };
 
     quote: SessionSendFunc = async (
@@ -176,23 +177,24 @@ export class BaseSession extends BotObject implements BaseData {
             | (() => Promise<string>)
             | CardObject[]
             | Card,
-        temp = false
+        temp = false,
+        reply = false
     ) => {
         const str =
             content instanceof Card
-                ? content.output
+                ? JSON.stringify([content])
                 : Array.isArray(content)
                 ? JSON.stringify(content)
                 : content;
         return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
-            reply: false,
+            reply: reply,
             mention: false,
             temp: temp,
         });
     };
 
-    sendCard: SessionSendFunc = async (
+    sendCard = async (
         content:
             | string
             | (() => string)
@@ -203,7 +205,7 @@ export class BaseSession extends BotObject implements BaseData {
         return this._sendCard(content, false);
     };
 
-    sendCardTemp: SessionSendFunc = async (
+    sendCardTemp = async (
         content:
             | string
             | (() => string)

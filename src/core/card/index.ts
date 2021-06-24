@@ -1,7 +1,7 @@
 export type CardObject = {
     type: 'card';
     size: 'lg' | 'sm';
-    theme?: 'primary' | 'warning' | 'danger' | 'info';
+    theme?: 'primary' | 'warning' | 'danger' | 'info' | 'secondary';
     color?: string;
     modules: any[];
 };
@@ -19,11 +19,12 @@ export type ModuleObject = {
         | 'countdown';
 };
 
-export class Card {
-    theme = 'secondary';
-    size = 'lg';
-    modules: ModuleObject[] = [];
+export class Card implements CardObject {
+    type: 'card' = 'card';
+    size: 'lg' | 'sm' = 'lg';
+    theme?: 'primary' | 'warning' | 'danger' | 'info' | 'secondary';
     color?: string;
+    modules: ModuleObject[] = [];
     constructor(content?: string | CardObject) {
         if (content) {
             let card: CardObject;
@@ -48,7 +49,7 @@ export class Card {
         return true;
     }
 
-    public get output(): string {
+    public stringify(): string {
         return JSON.stringify({
             type: 'card',
             theme: this.theme,
