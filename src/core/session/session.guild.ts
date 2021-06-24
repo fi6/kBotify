@@ -35,7 +35,7 @@ export class GuildSession extends BaseSession {
             );
         }
     }
-    
+
     static fromSession = (session: BaseSession): GuildSession => {
         return new GuildSession(
             session.command,
@@ -62,6 +62,11 @@ export class GuildSession extends BaseSession {
                 });
                 collector.on('stop', () => {
                     resolve(undefined);
+                });
+                collector.on('cancel', () => {
+                    reject(
+                        `new collector for ${this} is set, cancelling current collector`
+                    );
                 });
             }
         );

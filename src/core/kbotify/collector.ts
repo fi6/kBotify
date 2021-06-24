@@ -8,6 +8,11 @@ export class CollectorManager {
 class UserCollectorManager {
     #collectors: Map<string, Collector> = new Map();
     create = (userId: string, timeout = 6e4) => {
+        const current = this.#collectors.get(userId)
+        if (current){
+            current.emit('cancel')
+            this.#collectors.delete(userId)
+        }
         const collector = new Collector(this, userId);
         this.#collectors.set(userId, collector);
         setTimeout(() => {

@@ -1,4 +1,4 @@
-type CardObject = {
+export type CardObject = {
     type: 'card';
     size: 'lg' | 'sm';
     theme?: 'primary' | 'warning' | 'danger' | 'info';
@@ -6,7 +6,7 @@ type CardObject = {
     modules: any[];
 };
 
-type ModuleObject = {
+export type ModuleObject = {
     type:
         | 'section'
         | 'header'

@@ -12,7 +12,7 @@ import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
 import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
-import { Card } from '../card';
+import { Card, CardObject } from '../card';
 
 export class BaseSession extends BotObject implements BaseData {
     /**
@@ -169,30 +169,49 @@ export class BaseSession extends BotObject implements BaseData {
         });
     };
 
-    sendCard: SessionSendFunc = async (
-        content: string | (() => string) | (() => Promise<string> | Card)
+    private _sendCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card,
+        temp = false
     ) => {
         const str =
-            content instanceof Card ? content.output : (content as string);
+            content instanceof Card
+                ? content.output
+                : Array.isArray(content)
+                ? JSON.stringify(content)
+                : content;
         return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
             reply: false,
             mention: false,
-            temp: false,
+            temp: temp,
         });
     };
 
-    sendCardTemp: SessionSendFunc = async (
-        content: string | (() => string) | (() => Promise<string> | Card)
+    sendCard: SessionSendFunc = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
     ) => {
-        const str =
-            content instanceof Card ? content.output : (content as string);
-        return this._send(str, ResultTypes.SUCCESS, {
-            msgType: 10,
-            reply: false,
-            mention: false,
-            temp: true,
-        });
+        return this._sendCard(content, false);
+    };
+
+    sendCardTemp: SessionSendFunc = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card
+    ) => {
+        return this._sendCard(content, true);
     };
 
     /**
@@ -206,7 +225,11 @@ export class BaseSession extends BotObject implements BaseData {
         content: string,
         quote?: string
     ) => {
-        this._botInstance.API.message.update(messageId, content);
+        return await this._botInstance.API.message.update(
+            messageId,
+            content,
+            quote
+        );
     };
 
     /**
@@ -220,7 +243,7 @@ export class BaseSession extends BotObject implements BaseData {
         content: string,
         quote?: string
     ) => {
-        this._botInstance.API.message.update(messageId, content);
+        this._botInstance.API.message.update(messageId, content, quote);
     };
 
     /**
