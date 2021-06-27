@@ -76,7 +76,14 @@ bot.addAlias(echoMenu, '复读', '重复');
 bot.connect();
 ```
 
-### Menu/App 用法
+### SDK 使用方法
+
+```ts
+bot.message.on('text', (msg) => {});
+bot.event.on('system', (event) => {});
+```
+
+### Menu/App 使用方法
 
 请查看 src/commands 下的示例。
 
