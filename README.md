@@ -2,6 +2,8 @@
 
 基于 botRoot 的开黑啦 Bot 开发框架
 
+[![npm version](https://badge.fury.io/js/kbotify.svg)](https://badge.fury.io/js/kbotify)
+
 ## 重要提醒
 
 **如果你的当前版本低于 0.1.3，请尽快升级，0.1.3 版本改动中将 BaseData 替换为了 BaseSession，可能会造成一定兼容性问题。**
