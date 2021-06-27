@@ -1,0 +1,306 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>kbotify</title>
+	<meta name="description" content="Documentation for kbotify">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">kbotify</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>kbotify</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#kbotify" id="kbotify" style="color: inherit; text-decoration: none;">
+					<h1>kBotify</h1>
+				</a>
+				<p>基于 botRoot 的开黑啦 Bot 开发框架。</p>
+				<p>同时具有sdk/botFramework模式，可以按需使用。</p>
+				<p><a href="https://www.npmjs.com/package/kbotify"><img src="https://badge.fury.io/js/kbotify.svg" alt="npm version"></a></p>
+				<a href="#更新历史" id="更新历史" style="color: inherit; text-decoration: none;">
+					<h2>更新历史</h2>
+				</a>
+				<a href="#023" id="023" style="color: inherit; text-decoration: none;">
+					<h3>0.2.3</h3>
+				</a>
+				<ul>
+					<li><p>可以直接在update message中使用card了</p>
+					</li>
+					<li><p>将_botInstance重命名为client，增加了deprecate标志</p>
+					</li>
+					<li><p><code>Card.toString()</code>增加了选项，可以输出带有方括号或无方括号的string。</p>
+						<a href="#021" id="021" style="color: inherit; text-decoration: none;">
+							<h3>0.2.1</h3>
+						</a>
+					</li>
+					<li><p>  更新了少量 API，0.2.2 版本将会覆盖 99%API</p>
+					</li>
+					<li><p>  增加了<code>class Card</code>，废弃了之前使用 parser 的模式，提供更好的卡片消息操作性能。</p>
+					</li>
+					<li><p>  增加了<code>GuildSession.awaitMessage</code>，允许开发者等待用户在当前频道的下一条消息。</p>
+					</li>
+					<li><p>  增加了<code>collecter</code>，允许开发者在一定时间内收集频道内的消息，并且自定义停止的 trigger。</p>
+					</li>
+					<li><p>  解决了由于 pr#5 带来的 mention、reply 错误的问题</p>
+					</li>
+				</ul>
+				<a href="#013" id="013" style="color: inherit; text-decoration: none;">
+					<h3>0.1.3</h3>
+				</a>
+				<ul>
+					<li>  替换 BaseData 为 BaseSession，简化了消息回复流程，增加对一次性文字 trigger 的支持。</li>
+				</ul>
+				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
+					<h2>TODO</h2>
+				</a>
+				<ul>
+					<li>  [x] 文档</li>
+					<li>  [x] 精简不必要的代码</li>
+					<li>  [ ] 自动生成 Menu</li>
+					<li>  [ ] session 增加 context</li>
+					<li>  [ ] 增加匹配模式：命令匹配/前缀匹配（如：直接匹配 .房间 创建，而不是先匹配.房间再匹配创建）</li>
+				</ul>
+				<a href="#简单说明" id="简单说明" style="color: inherit; text-decoration: none;">
+					<h2>简单说明</h2>
+				</a>
+				<p>请善用 ts 的自动补全。</p>
+				<a href="#结构" id="结构" style="color: inherit; text-decoration: none;">
+					<h3>结构</h3>
+				</a>
+				<p>Bot</p>
+				<ul>
+					<li>Menu/App<ul>
+							<li>  Menu/App</li>
+							<li>  ...</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#bot-用法" id="bot-用法" style="color: inherit; text-decoration: none;">
+					<h3>Bot 用法</h3>
+				</a>
+				<p><strong>当前仅支持用&quot;.&quot; &quot;。&quot;和@机器人 三种开头方式。未来考虑增加多种前缀，但是为了方便统一前缀，这里可能不会做修改，需要大家自行修改。</strong>
+				<code>bot.processMsg=()=&gt;{}</code></p>
+				<p>生成 Bot</p>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">bot</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">KBotify</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">mode:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;webhook&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">port:</span><span style="color: #000000"> </span><span style="color: #098658">12345</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">token:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;your kaiheila token&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">verifyToken:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;your kaiheila verify token&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">key:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;your kaiheila encrypt key&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">ignoreDecryptError:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">, </span><span style="color: #008000">// 如果需要可以改为true</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>添加 Command</p>
+				<pre><code class="language-ts"><span style="color: #001080">bot</span><span style="color: #000000">.</span><span style="color: #795E26">addCommands</span><span style="color: #000000">(</span><span style="color: #001080">echoMenu</span><span style="color: #000000">, </span><span style="color: #001080">echoKmd</span><span style="color: #000000">);</span>
+</code></pre>
+				<p>添加 Alias</p>
+				<pre><code class="language-ts"><span style="color: #001080">bot</span><span style="color: #000000">.</span><span style="color: #795E26">addAlias</span><span style="color: #000000">(</span><span style="color: #001080">echoMenu</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;复读&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;重复&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				<p>启动 Bot</p>
+				<pre><code class="language-ts"><span style="color: #001080">bot</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#sdk-使用方法" id="sdk-使用方法" style="color: inherit; text-decoration: none;">
+					<h3>SDK 使用方法</h3>
+				</a>
+				<pre><code class="language-ts"><span style="color: #001080">bot</span><span style="color: #000000">.</span><span style="color: #001080">message</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;text&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">msg</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {});</span>
+<span style="color: #001080">bot</span><span style="color: #000000">.</span><span style="color: #001080">event</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;system&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {});</span>
+</code></pre>
+				<a href="#menuapp-使用方法" id="menuapp-使用方法" style="color: inherit; text-decoration: none;">
+					<h3>Menu/App 使用方法</h3>
+				</a>
+				<p>请查看 src/commands 下的示例。</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">MenuCommand</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;commands/shared/menu&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BaseData</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;commands/shared/types&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">echoKmd</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;./echo.kmd.app&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">EchoMenu</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">MenuCommand</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">code</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;echo&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">trigger</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;echo&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">help</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;目前只有`.echo kmd`一个指令。&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">intro</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;复读菜单&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">echoMenu</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">EchoMenu</span><span style="color: #000000">(</span><span style="color: #001080">echoKmd</span><span style="color: #000000">);</span>
+<span style="color: #001080">echoMenu</span><span style="color: #000000">.</span><span style="color: #795E26">addAlias</span><span style="color: #000000">(</span><span style="color: #001080">echoKmd</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;kmarkdown&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;富文本&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppCommand</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;commands/shared/app&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">AppFunc</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;commands/shared/app.types&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BaseData</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;commands/shared/types&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">EchoAll</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">AppCommand</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">code</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;all&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">trigger</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;all&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">help</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;`.echo all 时间`&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #001080">intro</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;在指定时间内复读全部文字&#039;</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #795E26">func</span><span style="color: #000000">: </span><span style="color: #267F99">AppFunc</span><span style="color: #000000">&lt;</span><span style="color: #267F99">BaseSession</span><span style="color: #000000">&gt; = </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span><span style="color: #001080">session</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">session</span><span style="color: #000000">.</span><span style="color: #795E26">setTextTrigger</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&#039;</span><span style="color: #000000">, </span><span style="color: #098658">6e4</span><span style="color: #000000">, (</span><span style="color: #001080">msg</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">session</span><span style="color: #000000">.</span><span style="color: #795E26">sendOnly</span><span style="color: #000000">(</span><span style="color: #001080">msg</span><span style="color: #000000">.</span><span style="color: #001080">content</span><span style="color: #000000">));</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">session</span><span style="color: #000000">.</span><span style="color: #795E26">reply</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;将会复读下一次任意内容，1min有效&#039;</span><span style="color: #000000">, </span><span style="color: #001080">session</span><span style="color: #000000">);</span>
+<span style="color: #000000">    };</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">echoAll</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">EchoAll</span><span style="color: #000000">();</span>
+</code></pre>
+				<a href="#卡片消息相关" id="卡片消息相关" style="color: inherit; text-decoration: none;">
+					<h3>卡片消息相关</h3>
+				</a>
+				<p>官方提供的卡片消息编辑器：<a href="https://www.kaiheila.cn/tools/message-builder.html#/card">点击使用</a></p>
+				<p>完成编辑后，复制右侧自动生成的代码，然后把每张卡片使用<code>const cardObject = new Card({...这里是卡片的内容})</code>进行生成即可，发送的时候使用<code>session.sendCard(cardObject)</code>或<code>session.sendCardTemp(cardObject)</code>进行发送。</p>
+				<p>你也可以直接复制自动生成的代码，使用<code>session.sendCard([cardObjects])</code>进行发送，具体可参考 src/commands 文件夹下的示例。</p>
+				<hr>
+				<p>特别感谢：树根
+					本项目基于 BotRoot 开发
+				<a href="https://github.com/shugen002/BotRoot">https://github.com/shugen002/BotRoot</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/resulttypes.html" class="tsd-kind-icon">Result<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/appcommand.html" class="tsd-kind-icon">App<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basesession.html" class="tsd-kind-icon">Base<wbr>Session</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/baseuser.html" class="tsd-kind-icon">Base<wbr>User</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/buttoneventmessage.html" class="tsd-kind-icon">Button<wbr>Event<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/channel.html" class="tsd-kind-icon">Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/guildsession.html" class="tsd-kind-icon">Guild<wbr>Session</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/kbotify.html" class="tsd-kind-icon">KBotify</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/menucommand.html" class="tsd-kind-icon">Menu<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textmessage.html" class="tsd-kind-icon">Text<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/appcommandparams.html" class="tsd-kind-icon">App<wbr>Command<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/appfunc.html" class="tsd-kind-icon">App<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/funcresult.html" class="tsd-kind-icon">Func<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/menucommandparams.html" class="tsd-kind-icon">Menu<wbr>Command<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sendoptions.html" class="tsd-kind-icon">Send<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#appcommandfunc" class="tsd-kind-icon">App<wbr>Command<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createsession" class="tsd-kind-icon">create<wbr>Session</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#initfuncresult" class="tsd-kind-icon">init<wbr>Func<wbr>Result</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
