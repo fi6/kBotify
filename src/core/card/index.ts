@@ -57,12 +57,19 @@ export class Card implements CardObject {
         return true;
     }
 
-    public stringify(): string {
+    public toString(): string {
         return JSON.stringify({
             type: 'card',
             theme: this.theme,
             size: this.size,
             modules: this.modules,
         });
+    }
+    /**
+     *
+     * @deprecated
+     */
+    public stringify(): string {
+        return this.toString();
     }
 }
