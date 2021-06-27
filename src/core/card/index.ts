@@ -57,8 +57,8 @@ export class Card implements CardObject {
         return true;
     }
 
-    public toString(): string {
-        const object: any = array
+    public toString(arrayBracket = true): string {
+        const object = arrayBracket
             ? [
                   {
                       type: 'card',
@@ -75,7 +75,6 @@ export class Card implements CardObject {
               };
         return JSON.stringify(object);
     }
-    public toArrayString()
     /**
      *
      * @deprecated
