@@ -3,8 +3,8 @@ import {
     KHMessage,
     KHSystemMessage,
 } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
-import { KBotify } from '../../utils/kbotify';
-import { mentionById } from '../../utils/mention-by-id';
+import { KBotify } from '../../src/utils/kbotify';
+import { mentionById } from '../../src/utils/mention-by-id';
 import { AppCommand, initFuncResult } from './app.command';
 import { BaseData } from './app.types';
 import { MenuCommand } from './menu.command';

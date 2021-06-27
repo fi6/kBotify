@@ -1,7 +1,7 @@
-import { KBotify } from '../../utils/kbotify';
+import { KBotify } from '../../src/utils/kbotify';
 import { TextMessage } from 'kaiheila-bot-root/dist/types';
 
-import { mentionById } from '../../utils/mention-by-id';
+import { mentionById } from '../../src/utils/mention-by-id';
 import { MenuCommand } from './menu.command';
 import { MsgSender } from './msg.sender';
 import { BaseCommand, ResultTypes, CommandTypes } from './types';

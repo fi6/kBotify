@@ -1,8 +1,8 @@
-import { AppCommand } from '../commands/core/app.command';
-import { MenuCommand } from '../commands/core/menu.command';
+import { AppCommand } from '../../_deprecated/core/app.command';
+import { MenuCommand } from '../../_deprecated/core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
-import { BaseSession } from '../commands/core/session';
+import { BaseSession } from '../../_deprecated/core/session';
 import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
 import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
