@@ -1,9 +1,17 @@
 import { User, UserInGuild } from 'kaiheila-bot-root';
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
 import { BaseSession, GuildSession } from '../session';
 
-export class BaseUser extends BotObject implements User {
+/**
+ *
+ *
+ * @export
+ * @class BaseUser
+ * @extends {BaseObject}
+ * @implements {User}
+ */
+export class BaseUser extends BaseObject implements User {
     id = '';
     username = '';
     identifyNum: string;

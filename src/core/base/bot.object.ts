@@ -1,6 +1,6 @@
 import { KBotify } from '../kbotify';
 
-export abstract class BotObject {
+export abstract class BaseObject {
     client: KBotify;
     constructor(bot: KBotify) {
         this.client = bot;
@@ -10,7 +10,7 @@ export abstract class BotObject {
      * @deprecated
      * @readonly
      * @type {KBotify}
-     * @memberof BotObject
+     * @memberof BaseObject
      */
     get _botInstance(): KBotify {
         return this.client;

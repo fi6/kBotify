@@ -1,15 +1,15 @@
-import { AppCommand } from '../../_deprecated/core/app.command';
-import { MenuCommand } from '../../_deprecated/core/menu.command';
+import { AppCommand } from './core/app.command';
+import { MenuCommand } from './core/menu.command';
 import { BotConfig, KaiheilaBot } from 'kaiheila-bot-root';
 import { KMarkDownMessage, TextMessage } from 'kaiheila-bot-root/dist/types';
-import { BaseSession } from '../../_deprecated/core/session';
+import { BaseSession } from './core/session';
 import { CurrentUserInfo } from 'kaiheila-bot-root/dist/types/api';
 import { KHMessage } from 'kaiheila-bot-root/dist/types/kaiheila/kaiheila.type';
 
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand<any> | MenuCommand<any>>();
     help = 'help for this bot.';
-    botId: string | number = 'kaiheila user id for this bot.';
+    userId: string | number = 'kaiheila user id for this bot.';
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
@@ -32,7 +32,7 @@ export class KBotify extends KaiheilaBot {
             });
         }
         this.getCurrentUserInfo().then((info: CurrentUserInfo) => {
-            this.botId = info.id;
+            this.userId = info.id;
         });
     }
     /**
@@ -47,7 +47,7 @@ export class KBotify extends KaiheilaBot {
             // console.log(msg)
             return msg.content.slice(1).trim().split(/ +/);
         }
-        if (msg.mention.user[0] == this.botId && msg.content.startsWith('@')) {
+        if (msg.mention.user[0] == this.userId && msg.content.startsWith('@')) {
             const [, command, ...rest] = msg.content.trim().split(/ +/);
             return [command ? command.toLowerCase() : '', ...rest];
         }

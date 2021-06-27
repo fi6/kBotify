@@ -11,7 +11,7 @@ export function messageParser(
     }
     if (
         msg instanceof TextMessage &&
-        msg.mention.user[0] == bot.botId &&
+        msg.mention.user[0] == bot.userId &&
         msg.content.startsWith('@')
     ) {
         const [, command, ...rest] = msg.content.trim().split(/ +/);

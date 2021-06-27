@@ -2,7 +2,7 @@ import { KBotify } from '../..';
 import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from '../command/command.app';
 
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { Channel } from '../channel';
 
 import { ButtonEventMessage, TextMessage } from '../message';
@@ -14,7 +14,7 @@ import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
 
-export class BaseSession extends BotObject implements BaseData {
+export class BaseSession extends BaseObject implements BaseData {
     /**
      * 命令字符串
      */

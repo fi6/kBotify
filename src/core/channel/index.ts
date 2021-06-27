@@ -1,8 +1,8 @@
 import { MessageType } from 'kaiheila-bot-root';
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
 
-export class Channel extends BotObject {
+export class Channel extends BaseObject {
     id: string;
     constructor(rawChannel: any, bot: KBotify) {
         super(bot);

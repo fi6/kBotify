@@ -32,7 +32,7 @@ export abstract class MenuCommand implements BaseCommand {
     /**
      * 此命令绑定的bot实例
      */
-    bot: KBotify | undefined;
+    client: KBotify | undefined;
     /**
      * 是否使用cardmessage作为菜单，默认为否。如果为是，则菜单文字内容必须为cardmessage。
      */
@@ -54,10 +54,10 @@ export abstract class MenuCommand implements BaseCommand {
         });
     }
 
-    init = (bot: KBotify): void => {
-        this.bot = bot;
+    init = (client: KBotify): void => {
+        this.client = client;
         for (const app of this.commandMap.values()) {
-            app.init(bot);
+            app.init(client);
         }
     };
 
@@ -72,14 +72,14 @@ export abstract class MenuCommand implements BaseCommand {
      * @memberof MenuCommand
      */
     addAlias(app: AppCommand, ...aliases: string[]): void {
-        if (!this.bot)
+        if (!this.client)
             throw new Error(
                 `You must init menu ${this.code} with a bot before adding alias to apps.`
             );
         aliases.forEach((alias) => {
             this.commandMap.set(alias, app);
             app.parent = this;
-            app.init(this.bot!);
+            app.init(this.client!);
         });
     }
 
@@ -156,33 +156,4 @@ export abstract class MenuCommand implements BaseCommand {
     async exec(session: BaseSession): Promise<ResultTypes | void> {
         return this.func(session);
     }
-
-    // defaultMessageSender = async <T extends BaseData>(
-    //     result: FuncResult<T> | null,
-    //     inputMsg?: TextMessage,
-    //     inputContent?: string
-    // ): Promise<FuncResult<T> | ResultTypes> => {
-    //     let msg, content;
-    //     if (!result?.returnData) {
-    //         if (inputMsg && inputContent) {
-    //             msg = inputMsg;
-    //             content = inputContent;
-    //         } else {
-    //             throw new Error();
-    //         }
-    //     } else {
-    //         msg = inputMsg ? inputMsg : result.returnData.msg;
-
-    //         content = inputContent
-    //             ? inputContent
-    //             : (result.returnData.content as string);
-    //     }
-
-    //     if (!this.bot)
-    //         throw new Error('Menu command used before bot assigned:');
-
-    //     this.bot.sendChannelMessage(9, msg.channelId, content, msg.msgId);
-
-    //     return result ? result.resultType : ResultTypes.SUCCESS;
-    // };
 }

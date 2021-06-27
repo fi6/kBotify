@@ -40,9 +40,9 @@ export class TextMessage {
      * Transfer message info class
      *
      * @param rawMessage TextMessageInterface, from kaiheila-bot-root
-     * @param bot
+     * @param client
      */
-    constructor(rawMessage: Kmd | Text, bot: KBotify) {
+    constructor(rawMessage: Kmd | Text, client: KBotify) {
         this.type = rawMessage.type;
         this.author = rawMessage.author;
         this.authorId = rawMessage.authorId;
@@ -55,6 +55,6 @@ export class TextMessage {
         this.channelId = rawMessage.channelId;
         this.guildId = rawMessage.guildId;
         this.channelType = rawMessage.channelType;
-        this.client = bot;
+        this.client = client;
     }
 }

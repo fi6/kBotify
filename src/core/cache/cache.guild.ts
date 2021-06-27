@@ -1,11 +1,11 @@
 import LRU from 'lru-cache';
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
 import { GuildUser } from '../user/user.guild';
 
 const options = { max: 256, maxAge: 10 * 6e4 };
 
-export class GuildCache extends BotObject {
+export class GuildCache extends BaseObject {
     id: string;
     user = new LRU<string, Required<GuildUser>>(options);
     constructor(id: string, bot: KBotify) {
