@@ -2,7 +2,7 @@
 
 基于 botRoot 的开黑啦 Bot 开发框架
 
-[![npm version](https://badge.fury.io/js/kbotify.svg)](https://badge.fury.io/js/kbotify)
+[![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
 ## 重要提醒
 
