@@ -46,7 +46,7 @@ export class Card implements CardObject {
             this.theme = card.theme ?? 'primary';
             this.size = card.size;
             this.color = card.color;
-            this.modules = card.modules;
+            this.modules = [...card.modules];
         }
     }
 
