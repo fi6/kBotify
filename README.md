@@ -1,15 +1,17 @@
 # kBotify
 
-基于 botRoot 的开黑啦 Bot 开发框架
+基于 botRoot 的开黑啦 Bot 开发框架。
+
+同时具有sdk/botFramework模式，可以按需使用。
 
 [![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
-## 重要提醒
-
-**如果你的当前版本低于 0.1.3，请尽快升级，0.1.3 版本改动中将 BaseData 替换为了 BaseSession，可能会造成一定兼容性问题。**
-
 ## 更新历史
 
+### 0.2.3
+- 可以直接在update message中使用card了
+- 将_botInstance重命名为client，增加了deprecate标志
+- `Card.toString()`增加了选项，可以输出带有方括号或无方括号的string。
 ### 0.2.1
 
 -   更新了少量 API，0.2.2 版本将会覆盖 99%API
@@ -24,8 +26,8 @@
 
 ## TODO
 
--   [ ] 文档
--   [ ] 精简不必要的代码
+-   [x] 文档
+-   [x] 精简不必要的代码
 -   [ ] 自动生成 Menu
 -   [ ] session 增加 context
 -   [ ] 增加匹配模式：命令匹配/前缀匹配（如：直接匹配 .房间 创建，而不是先匹配.房间再匹配创建）
