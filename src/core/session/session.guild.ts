@@ -18,20 +18,20 @@ export class GuildSession extends BaseSession {
         super(command, args, msg, bot);
         if (!msg.guildId) throw new TypeError('getting msg without guildId');
 
-        this.guild = new Guild(msg.guildId, this._botInstance); // TODO
+        this.guild = new Guild(msg.guildId, this.client); // TODO
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new GuildUser(
                 msg.author,
                 this.guild.id,
-                this._botInstance
+                this.client
             );
         } else {
             this.userId = msg.userId;
             this.user = new GuildUser(
                 msg.user as any,
                 this.guild.id,
-                this._botInstance
+                this.client
             );
         }
     }
@@ -40,7 +40,7 @@ export class GuildSession extends BaseSession {
             session.command,
             session.args,
             session.msg,
-            session._botInstance
+            session.client
         );
     };
     awaitMessage = async (
@@ -49,7 +49,7 @@ export class GuildSession extends BaseSession {
     ): Promise<TextMessage | undefined> => {
         if (timeout < 1e3)
             console.warn(`timeout too short: ${timeout}, ${this}`);
-        const collector = this._botInstance.collectors.user.create(
+        const collector = this.client.collectors.user.create(
             this.userId,
             timeout
         );

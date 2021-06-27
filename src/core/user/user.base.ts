@@ -27,14 +27,14 @@ export class BaseUser extends BotObject implements User {
     }
 
     get mention() {
-        if (this._botInstance.mentionWithSpace) return `(met)${this.id}(met) `;
+        if (this.client.mentionWithSpace) return `(met)${this.id}(met) `;
         else return `(met)${this.id}(met)`;
     }
 
     grantRole = (roleId: string | number, guildId: string) => {
-        return this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
+        return this.client.API.guildRole.grant(guildId, this.id, roleId);
     };
     revokeRole = (roleId: string | number, guildId: string) => {
-        return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
+        return this.client.API.guildRole.revoke(guildId, this.id, roleId);
     };
 }

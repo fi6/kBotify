@@ -58,13 +58,24 @@ export class Card implements CardObject {
     }
 
     public toString(): string {
-        return JSON.stringify({
-            type: 'card',
-            theme: this.theme,
-            size: this.size,
-            modules: this.modules,
-        });
+        const object: any = array
+            ? [
+                  {
+                      type: 'card',
+                      theme: this.theme,
+                      size: this.size,
+                      modules: this.modules,
+                  },
+              ]
+            : {
+                  type: 'card',
+                  theme: this.theme,
+                  size: this.size,
+                  modules: this.modules,
+              };
+        return JSON.stringify(object);
     }
+    public toArrayString()
     /**
      *
      * @deprecated

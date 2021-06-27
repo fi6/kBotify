@@ -34,7 +34,7 @@ export class TextMessage {
     guildId?: string;
     channelType: string;
     authorId: string;
-    _botInstance: KBotify;
+    client: KBotify;
 
     /**
      * Transfer message info class
@@ -55,6 +55,6 @@ export class TextMessage {
         this.channelId = rawMessage.channelId;
         this.guildId = rawMessage.guildId;
         this.channelType = rawMessage.channelType;
-        this._botInstance = bot;
+        this.client = bot;
     }
 }

@@ -16,7 +16,7 @@ export class GuildCache extends BotObject {
         id: string,
         username?: string
     ): Promise<Required<GuildUser>> => {
-        let cachedUser = this.user.get(id);
+        const cachedUser = this.user.get(id);
         if (cachedUser && 'roles' in cachedUser) {
             return cachedUser;
         } else {
@@ -24,12 +24,12 @@ export class GuildCache extends BotObject {
                 username ?? '',
                 this.id,
                 id,
-                this._botInstance
+                this.client
             );
             const guildUser = new GuildUser(
                 user,
                 this.id,
-                this._botInstance
+                this.client
             ) as Required<GuildUser>;
             // this.setUser(guildUser);
             return guildUser;

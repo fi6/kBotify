@@ -16,7 +16,7 @@ export class CacheManager extends BotObject {
         let guildCache = this.#guildCache.get(id);
         if (guildCache) return guildCache;
         else {
-            guildCache = new GuildCache(id, this._botInstance);
+            guildCache = new GuildCache(id, this.client);
             this.#guildCache.set(id, guildCache);
             return guildCache;
         }

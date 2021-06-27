@@ -9,7 +9,7 @@ export class Channel extends BotObject {
         this.id = rawChannel.channelId;
     }
     get mention() {
-        if (this._botInstance.mentionWithSpace) return `(chn)${this.id}(chn) `;
+        if (this.client.mentionWithSpace) return `(chn)${this.id}(chn) `;
         else return `(chn)${this.id}(chn)`;
     }
     sendMessage = (
@@ -18,7 +18,7 @@ export class Channel extends BotObject {
         quote?: string,
         tempTargetId?: string
     ) => {
-        this._botInstance.API.message.create(
+        this.client.API.message.create(
             type,
             this.id,
             content,
