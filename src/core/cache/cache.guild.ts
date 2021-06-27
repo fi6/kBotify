@@ -1,11 +1,11 @@
 import LRU from 'lru-cache';
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
 import { GuildUser } from '../user/user.guild';
 
 const options = { max: 256, maxAge: 10 * 6e4 };
 
-export class GuildCache extends BotObject {
+export class GuildCache extends BaseObject {
     id: string;
     user = new LRU<string, Required<GuildUser>>(options);
     constructor(id: string, bot: KBotify) {
@@ -16,7 +16,7 @@ export class GuildCache extends BotObject {
         id: string,
         username?: string
     ): Promise<Required<GuildUser>> => {
-        let cachedUser = this.user.get(id);
+        const cachedUser = this.user.get(id);
         if (cachedUser && 'roles' in cachedUser) {
             return cachedUser;
         } else {
@@ -24,12 +24,12 @@ export class GuildCache extends BotObject {
                 username ?? '',
                 this.id,
                 id,
-                this._botInstance
+                this.client
             );
             const guildUser = new GuildUser(
                 user,
                 this.id,
-                this._botInstance
+                this.client
             ) as Required<GuildUser>;
             // this.setUser(guildUser);
             return guildUser;

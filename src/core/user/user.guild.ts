@@ -15,36 +15,27 @@ export class GuildUser extends BaseUser {
         this.nickname = userObject.nickname;
         if ('roles' in userObject && userObject.roles) {
             this.roles = userObject.roles;
-            this._botInstance.cache
+            this.client.cache
                 .guild(this.guild.id)
                 .setUser(this as Required<GuildUser>);
         }
     }
 
     full = async (): Promise<GuildUserFull> => {
-        const guildCache = this._botInstance.cache.guild(this.guild.id);
+        const guildCache = this.client.cache.guild(this.guild.id);
         return await guildCache.getUser(this.id, this.username);
-        // const userFull = await getUserFromGuild(
-        //     this.username,
-        //     this.guild.id,
-        //     this.id,
-        //     this._botInstance
-        // );
-        // const roles = userFull.roles;
-        // this.roles = roles;
-        // return this as GuildUserFull;
     };
     grantRole = (roleId: string | number, guildId?: string) => {
         if (!guildId) guildId = this.guild.id;
-        return this._botInstance.API.guildRole.grant(guildId, this.id, roleId);
+        return this.client.API.guildRole.grant(guildId, this.id, roleId);
     };
     revokeRole = (roleId: string | number, guildId?: string) => {
         if (!guildId) guildId = this.guild.id;
-        return this._botInstance.API.guildRole.revoke(guildId, this.id, roleId);
+        return this.client.API.guildRole.revoke(guildId, this.id, roleId);
     };
     changeNickname = (nickname: string, guildId?: string) => {
         if (!guildId) guildId = this.guild.id;
-        return this._botInstance.API.guild.nickname(guildId, nickname, this.id);
+        return this.client.API.guild.nickname(guildId, nickname, this.id);
     };
 }
 

@@ -54,7 +54,10 @@ export abstract class AppCommand implements BaseCommand {
      * 命令介绍，自动生成菜单时调用
      */
     intro = 'intro';
-    _botInstance: KBotify | undefined;
+    client: KBotify | undefined;
+    get _botInstance(): KBotify | undefined {
+        return this.client;
+    }
     parent: MenuCommand | null = null;
     func: AppFunc<BaseSession | GuildSession> = async (_data) => {
         throw new Error(`${this.code}的func尚未定义`);
@@ -66,20 +69,8 @@ export abstract class AppCommand implements BaseCommand {
     }
 
     init = (bot: KBotify): void => {
-        this._botInstance = bot;
+        this.client = bot;
     };
-
-    // setTriggerOnce(trigger: string | RegExp, timeout: number): void {
-    //     if (!this._botInstance)
-    //         throw new Error('Temp trigger set before bot is assigned.');
-    //     this._botInstance.once('message', (msg: TextMessage) => {
-    //         if (trigger instanceof RegExp) {
-    //             if (!trigger.test(msg.content)) return;
-    //         } else {
-    //             if (!msg.content.includes(trigger)) return;
-    //         }
-    //     });
-    // }
 
     async exec(
         command: string,
@@ -98,16 +89,15 @@ export abstract class AppCommand implements BaseCommand {
         args?: string[],
         msg?: ButtonEventMessage | TextMessage
     ): Promise<ResultTypes | void> {
-        if (!this._botInstance)
+        if (!this.client)
             throw new Error('command used before assigning a bot');
 
         if (sessionOrCommand instanceof BaseSession) {
             // try to change basesession to guildsession if guildid exists
             if (sessionOrCommand.msg.guildId) {
                 try {
-                    sessionOrCommand = GuildSession.fromSession(
-                        sessionOrCommand
-                    );
+                    sessionOrCommand =
+                        GuildSession.fromSession(sessionOrCommand);
                 } catch (error) {
                     undefined;
                 }
@@ -128,7 +118,7 @@ export abstract class AppCommand implements BaseCommand {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            return this.run(createSession(this, args, msg, this._botInstance));
+            return this.run(createSession(this, args, msg, this.client));
         }
     }
 
@@ -138,7 +128,7 @@ export abstract class AppCommand implements BaseCommand {
         const args = session.args;
         const msg = session.msg;
         console.debug('running command: ', session.cmdString, args, msg);
-        if (!this._botInstance)
+        if (!this.client)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
             );

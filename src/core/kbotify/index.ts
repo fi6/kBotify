@@ -23,7 +23,7 @@ export declare interface KBotify {
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
-    botId: string | number = 'kaiheila user id for this bot.';
+    userId: string | number = 'kaiheila user id for this bot.';
     message: MessageProcessor;
     event: EventProcessor;
     mentionWithSpace: boolean;
@@ -62,11 +62,11 @@ export class KBotify extends KaiheilaBot {
         });
         this.defaultHandler();
         this.messageSource.connect().then((res) => {
-            console.info('connected:', res);
+            console.debug('connected:', res);
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
-            this.botId = info.id;
-            console.info('bot id:', this.botId);
+            this.userId = info.id;
+            console.debug('bot userId:', this.userId);
         });
     }
 

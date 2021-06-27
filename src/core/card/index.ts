@@ -46,7 +46,7 @@ export class Card implements CardObject {
             this.theme = card.theme ?? 'primary';
             this.size = card.size;
             this.color = card.color;
-            this.modules = card.modules;
+            this.modules = [...card.modules];
         }
     }
 
@@ -57,12 +57,29 @@ export class Card implements CardObject {
         return true;
     }
 
+    public toString(arrayBracket = true): string {
+        const object = arrayBracket
+            ? [
+                  {
+                      type: 'card',
+                      theme: this.theme,
+                      size: this.size,
+                      modules: this.modules,
+                  },
+              ]
+            : {
+                  type: 'card',
+                  theme: this.theme,
+                  size: this.size,
+                  modules: this.modules,
+              };
+        return JSON.stringify(object);
+    }
+    /**
+     *
+     * @deprecated
+     */
     public stringify(): string {
-        return JSON.stringify({
-            type: 'card',
-            theme: this.theme,
-            size: this.size,
-            modules: this.modules,
-        });
+        return this.toString();
     }
 }

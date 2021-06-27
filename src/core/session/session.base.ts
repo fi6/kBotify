@@ -2,7 +2,7 @@ import { KBotify } from '../..';
 import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from '../command/command.app';
 
-import { BotObject } from '../base/bot.object';
+import { BaseObject } from '../base/bot.object';
 import { Channel } from '../channel';
 
 import { ButtonEventMessage, TextMessage } from '../message';
@@ -14,7 +14,7 @@ import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
 
-export class BaseSession extends BotObject implements BaseData {
+export class BaseSession extends BaseObject implements BaseData {
     /**
      * 命令字符串
      */
@@ -42,20 +42,20 @@ export class BaseSession extends BotObject implements BaseData {
         msg: ButtonEventMessage | TextMessage,
         bot?: KBotify
     ) {
-        super(bot ?? msg._botInstance);
+        super(bot ?? msg.client);
         this.command = command;
         this.args = args;
         this.msg = msg;
         this.channel = new Channel(
             { channelId: msg.channelId, channelType: msg.channelType },
-            this._botInstance
+            this.client
         );
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
-            this.user = new BaseUser(msg.author, this._botInstance);
+            this.user = new BaseUser(msg.author, this.client);
         } else {
             this.userId = msg.userId;
-            this.user = new BaseUser(msg.user, this._botInstance);
+            this.user = new BaseUser(msg.user, this.client);
         }
         // console.debug(this.user);
     }
@@ -224,10 +224,13 @@ export class BaseSession extends BotObject implements BaseData {
      */
     updateMessage = async (
         messageId: string,
-        content: string,
+        content: string | CardObject[],
         quote?: string
     ) => {
-        return await this._botInstance.API.message.update(
+        if (Array.isArray(content)) {
+            content = JSON.stringify(content);
+        }
+        return await this.client.API.message.update(
             messageId,
             content,
             quote
@@ -242,10 +245,18 @@ export class BaseSession extends BotObject implements BaseData {
      */
     updateMessageTemp = async (
         messageId: string,
-        content: string,
+        content: string | CardObject[],
         quote?: string
     ) => {
-        this._botInstance.API.message.update(messageId, content, quote);
+        if (Array.isArray(content)) {
+            content = JSON.stringify(content);
+        }
+        this.client.post('v3/message/update', {
+            msg_id: messageId,
+            content: content,
+            quote: quote,
+            temp_target_id: this.user.id,
+        });
     };
 
     /**
@@ -268,15 +279,15 @@ export class BaseSession extends BotObject implements BaseData {
                 if (!condition.test(msg.content)) return;
             } else if (!msg.content.includes(condition)) return;
             callback(msg);
-            this._botInstance.message.off('text', func);
+            this.client.message.off('text', func);
         };
-        this._botInstance.message.on('text', func);
+        this.client.message.on('text', func);
         if (timeout)
             setTimeout(() => {
-                this._botInstance.message.off('text', func);
+                this.client.message.off('text', func);
             }, timeout);
         return () => {
-            this._botInstance.message.off('text', func);
+            this.client.message.off('text', func);
         };
     };
 
@@ -312,7 +323,7 @@ export class BaseSession extends BotObject implements BaseData {
 
         let withMention = sendOptions?.mention ?? false;
 
-        if (!this._botInstance)
+        if (!this.client)
             throw new Error('session send used before bot assigned.');
 
         if (msgType == 10) {
@@ -331,7 +342,7 @@ export class BaseSession extends BotObject implements BaseData {
             }
         }
         try {
-            const msgSent = await this._botInstance.API.message.create(
+            const msgSent = await this.client.API.message.create(
                 msgType,
                 replyChannelId,
                 content,

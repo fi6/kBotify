@@ -106,3 +106,4 @@ dist
 lib/
 tools/
 tool.sh
+_deprecated

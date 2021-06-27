@@ -14,7 +14,7 @@ export class ButtonEventMessage implements Partial<ButtonClickEvent> {
     content: string;
     userId: string;
     user: BaseUser;
-    _botInstance: KBotify;
+    client: KBotify;
     constructor(rawEvent: ButtonClickEvent, bot: KBotify) {
         this.msgId = rawEvent.msgId;
         this.msgTimestamp = rawEvent.msgTimestamp;
@@ -25,6 +25,15 @@ export class ButtonEventMessage implements Partial<ButtonClickEvent> {
         this.content = rawEvent.value;
         this.userId = rawEvent.userId;
         this.user = new BaseUser(rawEvent.user, bot);
-        this._botInstance = bot;
+        this.client = bot;
+    }
+    /**
+     * use client instead
+     * @deprecated
+     * @readonly
+     * @memberof ButtonEventMessage
+     */
+    get _botInstance() {
+        return this.client;
     }
 }
