@@ -2,7 +2,7 @@
 
 基于 botRoot 的开黑啦 Bot 开发框架。
 
-同时具有sdk/botFramework模式，可以按需使用。
+同时具有sdk/botFramework模式，可以按需使用。[文档链接](https://fi6.github.io/kBotify/)
 
 [![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
