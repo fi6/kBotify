@@ -5,6 +5,7 @@ import { MenuCommand } from '../command';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { BaseSession } from './session.base';
 import { GuildUser } from '../user/user.guild';
+import { log } from '../logger';
 
 export class GuildSession extends BaseSession {
     user: GuildUser;
@@ -48,7 +49,7 @@ export class GuildSession extends BaseSession {
         timeout: number | undefined = 6e4
     ): Promise<TextMessage | undefined> => {
         if (timeout < 1e3)
-            console.warn(`timeout too short: ${timeout}, ${this}`);
+            log.warn(`timeout too short: ${timeout}, ${this}`);
         const collector = this.client.collectors.user.create(
             this.userId,
             timeout

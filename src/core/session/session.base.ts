@@ -13,6 +13,7 @@ import { BaseUser } from '../user';
 import { BaseData } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
+import { log } from '../logger';
 
 export class BaseSession extends BaseObject implements BaseData {
     /**
@@ -230,11 +231,7 @@ export class BaseSession extends BaseObject implements BaseData {
         if (Array.isArray(content)) {
             content = JSON.stringify(content);
         }
-        return await this.client.API.message.update(
-            messageId,
-            content,
-            quote
-        );
+        return await this.client.API.message.update(messageId, content, quote);
     };
 
     /**
@@ -251,12 +248,18 @@ export class BaseSession extends BaseObject implements BaseData {
         if (Array.isArray(content)) {
             content = JSON.stringify(content);
         }
-        this.client.post('v3/message/update', {
-            msg_id: messageId,
-            content: content,
-            quote: quote,
-            temp_target_id: this.user.id,
-        });
+        // this.client.post('v3/message/update', {
+        //     msg_id: messageId,
+        //     content: content,
+        //     quote: quote,
+        //     temp_target_id: this.user.id,
+        // });
+        return await this.client.API.message.update(
+            messageId,
+            content,
+            quote,
+            this.user.id
+        );
     };
 
     /**
@@ -328,7 +331,7 @@ export class BaseSession extends BaseObject implements BaseData {
 
         if (msgType == 10) {
             if (withMention)
-                console.warn('发送卡片消息时使用了mention！', this);
+                log.info('发送卡片消息时使用了mention！', this);
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
@@ -337,7 +340,7 @@ export class BaseSession extends BaseObject implements BaseData {
 
         if (this.msg instanceof ButtonEventMessage) {
             if (sendOptions?.reply) {
-                console.warn('回复按钮点击事件时使用了引用！', this);
+                log.info('回复按钮点击事件时使用了引用！', this);
                 sendOptions.reply = undefined;
             }
         }

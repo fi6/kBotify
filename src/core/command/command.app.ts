@@ -7,6 +7,7 @@ import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { GuildSession } from '../session';
 import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
+import { log } from '../logger';
 
 export function initFuncResult<T>(
     data: T,
@@ -106,7 +107,7 @@ export abstract class AppCommand implements BaseCommand {
                 !(sessionOrCommand instanceof GuildSession) &&
                 this.response == 'guild'
             ) {
-                console.debug(
+                log.debug(
                     'guild only command receiving base session. return.'
                 );
                 return;
@@ -127,7 +128,7 @@ export abstract class AppCommand implements BaseCommand {
     ): Promise<ResultTypes> {
         const args = session.args;
         const msg = session.msg;
-        console.debug('running command: ', session.cmdString, args, msg);
+        log.debug('running command: ', session.cmdString, args, msg);
         if (!this.client)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
@@ -144,7 +145,7 @@ export abstract class AppCommand implements BaseCommand {
                 return result ? result : ResultTypes.SUCCESS;
             return result.resultType;
         } catch (error) {
-            console.error(error);
+            log.error(error);
             return ResultTypes.ERROR;
         }
     }

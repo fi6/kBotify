@@ -1,4 +1,5 @@
 import { KBotify } from '../kbotify';
+import { log } from '../logger';
 import { BaseSession, GuildSession } from '../session';
 import { BaseCommand, CommandTypes, ResultTypes } from '../types';
 import { AppCommand } from './command.app';
@@ -142,7 +143,7 @@ export abstract class MenuCommand implements BaseCommand {
             }
             return app.exec(session);
         } catch (err) {
-            console.error(err);
+            log.error(err);
         }
     }
     /**

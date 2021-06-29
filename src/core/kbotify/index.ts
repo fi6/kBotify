@@ -10,6 +10,8 @@ import { messageParser } from './message.parse';
 import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
 import { CollectorManager } from './collector';
+import { log } from '../logger';
+import { LogLevel } from 'bunyan';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -29,30 +31,29 @@ export class KBotify extends KaiheilaBot {
     mentionWithSpace: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
+    logger = log;
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
      * @param [default_process=true] Deprecated. if you want to process message yourself, please change the KBotify.defaultHandler() method.
      * @memberof KBotify
      */
-    constructor(config: BotConfig, defaultProcess = true) {
+    constructor(
+        config: BotConfig & { debug?: boolean },
+        defaultProcess = true
+    ) {
         super(config);
+        if (config.debug === true) {
+            this.logger.addStream({
+                level: 'debug',
+                stream: process.stdout, // log INFO and above to stdout
+            });
+        }
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
         this.cache = new CacheManager(this);
         this.mentionWithSpace =
             config.mentionWithSpace === false ? false : true;
-    }
-
-    get(url: string, params: any): Promise<any> {
-        for (var propName in params) {
-            if (params[propName] === null || params[propName] === undefined) {
-                delete params[propName];
-            }
-        }
-        return this.axios.get(url, {
-            params: params,
-        });
     }
 
     connect() {
@@ -62,11 +63,11 @@ export class KBotify extends KaiheilaBot {
         });
         this.defaultHandler();
         this.messageSource.connect().then((res) => {
-            console.debug('connected:', res);
+            log.debug('connected: ', res);
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.userId = info.id;
-            console.debug('bot userId:', this.userId);
+            log.debug('bot userId:', this.userId);
         });
     }
 
