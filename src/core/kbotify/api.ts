@@ -23,6 +23,7 @@ class ChannelAPI extends rawChannelAPI {
         super(client);
         this.client = client;
     }
+
     async create(
         guildId: string,
         name: string,
@@ -31,30 +32,22 @@ class ChannelAPI extends rawChannelAPI {
         limitAmount?: number,
         voiceQuality?: number
     ): Promise<Required<Channel>> {
-        super.create(guildId, name, type, parentId, limitAmount, voiceQuality);
-        const data = (
-            await this.client.post('v3/channel/create', {
-                guild_id: guildId,
-                name,
-                type,
-                parent_id: parentId,
-                limit_amount: limitAmount,
-                voice_quality: voiceQuality,
-            })
-        ).data as KHAPIResponse<KHChannel>;
-        if (data.code === 0) {
-            return new Channel(
-                transformChannel(data.data),
-                this.client
-            ) as Required<Channel>;
-        } else {
-            throw new RequestError(data.code, data.message);
-        }
+        const raw = await super.create(
+            guildId,
+            name,
+            type,
+            parentId,
+            limitAmount,
+            voiceQuality
+        );
+        return Channel.fromRaw(raw, this.client);
     }
+
     async view(channelId: string): Promise<Required<Channel>> {
         const raw = await super.view(channelId);
         return new Channel(raw, this.client) as Required<Channel>;
     }
+
     async list(guildId: string): Promise<ChannelListResponse> {
         const raw = await super.list(guildId);
         raw.items = raw.items.map((c) => Channel.fromRaw(c, this.client));
