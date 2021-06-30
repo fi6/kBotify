@@ -22,11 +22,7 @@ export class GuildSession extends BaseSession {
         this.guild = new Guild(msg.guildId, this.client); // TODO
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
-            this.user = new GuildUser(
-                msg.author,
-                this.guild.id,
-                this.client
-            );
+            this.user = new GuildUser(msg.author, this.guild.id, this.client);
         } else {
             this.userId = msg.userId;
             this.user = new GuildUser(
@@ -44,12 +40,19 @@ export class GuildSession extends BaseSession {
             session.client
         );
     };
+
+    /**
+     * 等待用户在当前频道发送的下一条消息。
+     *
+     * @param {RegExp} condition
+     * @param {(number | undefined)} [timeout=6e4] timeout time, in **ms**
+     * @memberof GuildSession
+     */
     awaitMessage = async (
         condition: RegExp,
         timeout: number | undefined = 6e4
     ): Promise<TextMessage | undefined> => {
-        if (timeout < 1e3)
-            log.warn(`timeout too short: ${timeout}, ${this}`);
+        if (timeout < 1e3) log.warn(`timeout too short: ${timeout}, ${this}`);
         const collector = this.client.collectors.user.create(
             this.userId,
             timeout

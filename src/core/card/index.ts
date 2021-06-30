@@ -15,8 +15,10 @@ export type Theme =
     | 'secondary';
 
 export type ModuleObject = {
+    [key: string]: any;
     type:
         | 'section'
+        | 'image-group'
         | 'header'
         | 'divider'
         | 'action-group'
@@ -57,6 +59,65 @@ export class Card implements CardObject {
         return true;
     }
 
+    public setSize(size: CardObject['size']): this {
+        this.size = size;
+        return this;
+    }
+
+    public setTheme(theme: Theme): this {
+        this.theme = theme;
+        return this;
+    }
+
+    public setColor(color: string): this {
+        this.color = color;
+        return this;
+    }
+
+    public addTitle(title: string, emoji?: boolean): this {
+        this.modules.push({
+            type: 'header',
+            text: {
+                type: 'plain-text',
+                content: title,
+                emoji: emoji,
+            },
+        });
+        return this;
+    }
+
+    public addImage(
+        source: string,
+        options?: {
+            alt?: string;
+            size?: CardObject['size'];
+            circle?: boolean;
+        }
+    ): this {
+        this.modules.push({
+            type: 'image-group',
+            elements: [{ type: 'image', src: source, ...options }],
+        });
+        return this;
+    }
+
+    public addText(
+        content: string,
+        emoji = true,
+        accesory: undefined = undefined
+    ): this {
+        this.modules.push({
+            type: 'section',
+            text: { type: 'kmarkdown', content, emoji: emoji },
+        });
+        return this;
+    }
+
+    public addDivider(): this {
+        this.modules.push({ type: 'divider' });
+        return this;
+    }
+
     public toString(arrayBracket = true): string {
         const object = arrayBracket
             ? [
@@ -75,6 +136,7 @@ export class Card implements CardObject {
               };
         return JSON.stringify(object);
     }
+
     /**
      *
      * @deprecated

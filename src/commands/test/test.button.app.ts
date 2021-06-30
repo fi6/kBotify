@@ -14,7 +14,7 @@ class TestButton extends AppCommand {
         // if (session instanceof GuildSession) {
         //     console.log(await session.user.full());
         // }
-        return session.sendCard(getComplexCard());
+        return session.sendCard(getCard());
     };
 }
 

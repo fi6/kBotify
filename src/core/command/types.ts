@@ -51,7 +51,7 @@ export interface AppCommandParams<T extends BaseData> {
 export type AppCommandFunc<T extends BaseSession> = AppFunc<T>;
 
 export interface AppFunc<T extends GuildSession | BaseSession> {
-    (session: T): Promise<FuncResult<T> | ResultTypes | void>;
+    (session: T): Promise<FuncResult<any> | ResultTypes | void>;
 }
 
 /**
@@ -67,9 +67,9 @@ export interface AppFunc<T extends GuildSession | BaseSession> {
  */
 export interface FuncResult<T> {
     resultType: ResultTypes;
-    session?: T;
+    session?: BaseSession;
     msgSent?: MessageCreateResponseInternal;
-    detail?: unknown;
+    detail?: T;
 }
 
 export interface BaseData {

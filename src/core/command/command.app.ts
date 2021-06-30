@@ -14,8 +14,8 @@ export function initFuncResult<T>(
     resultType?: ResultTypes,
     msgSent?: MessageCreateResponseInternal
 ): FuncResult<any> {
-    const funcResult: FuncResult<any> = {
-        session: data,
+    const funcResult: FuncResult<T> = {
+        detail: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
         msgSent: msgSent,
     };
@@ -107,9 +107,7 @@ export abstract class AppCommand implements BaseCommand {
                 !(sessionOrCommand instanceof GuildSession) &&
                 this.response == 'guild'
             ) {
-                log.debug(
-                    'guild only command receiving base session. return.'
-                );
+                log.debug('guild only command receiving base session. return.');
                 return;
             }
             sessionOrCommand.command = this;

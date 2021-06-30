@@ -28,10 +28,6 @@ bot.messageSource.on('message', (e) => {
 
 // bot.addAlias(echoKmd, 'hello');
 
-// bot.on('systemMessage', (msg) => {
-//     console.debug(`system message! ${msg}`)
-// })
-
 bot.connect();
 
 console.debug('system init success');

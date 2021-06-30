@@ -2,8 +2,8 @@ import { KBotify } from '../kbotify';
 
 export abstract class BaseObject {
     client: KBotify;
-    constructor(bot: KBotify) {
-        this.client = bot;
+    constructor(client: KBotify) {
+        this.client = client;
     }
     /**
      *

@@ -10,7 +10,7 @@ import { SendOptions } from '../msg.types';
 import { SessionSendFunc } from './session.type';
 import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
-import { BaseData } from '../command/types';
+import { BaseData, FuncResult } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
 import { log } from '../logger';
@@ -47,16 +47,15 @@ export class BaseSession extends BaseObject implements BaseData {
         this.command = command;
         this.args = args;
         this.msg = msg;
-        this.channel = new Channel(
-            { channelId: msg.channelId, channelType: msg.channelType },
-            this.client
-        );
+        this.channel = new Channel({ id: msg.channelId }, this.client);
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new BaseUser(msg.author, this.client);
+            this.channel = new Channel({ id: msg.channelId }, this.client);
         } else {
             this.userId = msg.userId;
             this.user = new BaseUser(msg.user, this.client);
+            this.channel = new Channel({ id: msg.channelId }, this.client);
         }
         // console.debug(this.user);
     }
@@ -218,7 +217,7 @@ export class BaseSession extends BaseObject implements BaseData {
     };
 
     /**
-     * WIP, Do not use
+     *
      * @param messageId
      * @param content
      * @param quote
@@ -226,16 +225,26 @@ export class BaseSession extends BaseObject implements BaseData {
     updateMessage = async (
         messageId: string,
         content: string | CardObject[],
-        quote?: string
-    ) => {
+        quote?: string,
+        tempTargetId?: string
+    ): Promise<FuncResult<boolean>> => {
         if (Array.isArray(content)) {
             content = JSON.stringify(content);
         }
-        return await this.client.API.message.update(messageId, content, quote);
+        const result = await this.client.API.message.update(
+            messageId,
+            content,
+            quote,
+            tempTargetId
+        );
+        return initFuncResult(
+            result,
+            result ? ResultTypes.SUCCESS : ResultTypes.FAIL
+        );
     };
 
     /**
-     * WIP, Do not use
+     *
      * @param messageId
      * @param content
      * @param quote
@@ -245,16 +254,7 @@ export class BaseSession extends BaseObject implements BaseData {
         content: string | CardObject[],
         quote?: string
     ) => {
-        if (Array.isArray(content)) {
-            content = JSON.stringify(content);
-        }
-        // this.client.post('v3/message/update', {
-        //     msg_id: messageId,
-        //     content: content,
-        //     quote: quote,
-        //     temp_target_id: this.user.id,
-        // });
-        return await this.client.API.message.update(
+        return await this.updateMessage(
             messageId,
             content,
             quote,
@@ -330,8 +330,7 @@ export class BaseSession extends BaseObject implements BaseData {
             throw new Error('session send used before bot assigned.');
 
         if (msgType == 10) {
-            if (withMention)
-                log.info('发送卡片消息时使用了mention！', this);
+            if (withMention) log.info('发送卡片消息时使用了mention！', this);
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }

@@ -12,6 +12,7 @@ import { CacheManager } from '../cache/cache.manager';
 import { CollectorManager } from './collector';
 import { log } from '../logger';
 import { LogLevel } from 'bunyan';
+import { API } from './api';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -25,13 +26,14 @@ export declare interface KBotify {
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
-    userId: string | number = 'kaiheila user id for this bot.';
+    userId = 'kaiheila user id for this bot.';
     message: MessageProcessor;
     event: EventProcessor;
     mentionWithSpace: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
     logger = log;
+    API: API;
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
@@ -46,9 +48,10 @@ export class KBotify extends KaiheilaBot {
         if (config.debug === true) {
             this.logger.addStream({
                 level: 'debug',
-                stream: process.stdout, // log INFO and above to stdout
+                stream: process.stdout,
             });
         }
+        this.API = new API(this);
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
         this.cache = new CacheManager(this);
