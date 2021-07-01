@@ -14,9 +14,9 @@ export class GuildSession extends BaseSession {
         command: AppCommand | MenuCommand,
         args: string[],
         msg: TextMessage | ButtonEventMessage,
-        bot?: KBotify
+        client?: KBotify
     ) {
-        super(command, args, msg, bot);
+        super(command, args, msg, client);
         if (!msg.guildId) throw new TypeError('getting msg without guildId');
 
         this.guild = new Guild(msg.guildId, this.client); // TODO
@@ -32,7 +32,18 @@ export class GuildSession extends BaseSession {
             );
         }
     }
-    static fromSession = (session: BaseSession): GuildSession => {
+    static fromSession = async (
+        session: BaseSession,
+        full = false
+    ): Promise<GuildSession> => {
+        if (full && !(session.msg instanceof TextMessage)) {
+            const user = await new GuildUser(
+                session.user as any,
+                session.guildId!,
+                session.client
+            ).full();
+            session.msg.user = user;
+        }
         return new GuildSession(
             session.command,
             session.args,

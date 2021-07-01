@@ -25,6 +25,7 @@ export class GuildUser extends BaseUser {
         const guildCache = this.client.cache.guild(this.guild.id);
         return await guildCache.getUser(this.id, this.username);
     };
+
     grantRole = (roleId: string | number, guildId?: string) => {
         if (!guildId) guildId = this.guild.id;
         return this.client.API.guildRole.grant(guildId, this.id, roleId);
