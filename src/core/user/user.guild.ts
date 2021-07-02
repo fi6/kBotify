@@ -22,6 +22,8 @@ export class GuildUser extends BaseUser {
     }
 
     full = async (): Promise<GuildUserFull> => {
+        if (!this.guild.id)
+            throw new Error('no guild id provided for guild user');
         const guildCache = this.client.cache.guild(this.guild.id);
         return await guildCache.getUser(this.id, this.username);
     };

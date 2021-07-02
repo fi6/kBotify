@@ -10,6 +10,7 @@ import { log } from '../logger';
 export class GuildSession extends BaseSession {
     user: GuildUser;
     guild: Guild;
+    guildId: string;
     constructor(
         command: AppCommand | MenuCommand,
         args: string[],
@@ -20,6 +21,7 @@ export class GuildSession extends BaseSession {
         if (!msg.guildId) throw new TypeError('getting msg without guildId');
 
         this.guild = new Guild(msg.guildId, this.client); // TODO
+        this.guildId = msg.guildId;
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new GuildUser(msg.author, this.guild.id, this.client);
@@ -36,13 +38,18 @@ export class GuildSession extends BaseSession {
         session: BaseSession,
         full = false
     ): Promise<GuildSession> => {
+        if (!session.guild?.id)
+            throw new Error(
+                'Trying to construct GuildSession without guild id'
+            );
+
         if (full && !(session.msg instanceof TextMessage)) {
-            const user = await new GuildUser(
+            const user = new GuildUser(
                 session.user as any,
-                session.guildId!,
+                session.guild.id,
                 session.client
-            ).full();
-            session.msg.user = user;
+            );
+            session.msg.user = await user.full();
         }
         return new GuildSession(
             session.command,

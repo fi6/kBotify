@@ -14,6 +14,7 @@ import { BaseData, FuncResult } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
 import { log } from '../logger';
+import { Guild } from '../guild';
 
 export class BaseSession extends BaseObject implements BaseData {
     /**
@@ -25,8 +26,7 @@ export class BaseSession extends BaseObject implements BaseData {
     msg: ButtonEventMessage | TextMessage;
     channel: Channel;
     content: string | undefined;
-    // TODO: add guild
-    guildId?: string;
+    guild?: Guild;
     other?: any;
     /**
      * 会话的用户ID。
@@ -51,13 +51,17 @@ export class BaseSession extends BaseObject implements BaseData {
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new BaseUser(msg.author, this.client);
-            this.channel = new Channel({ id: msg.channelId }, this.client);
         } else {
             this.userId = msg.userId;
             this.user = new BaseUser(msg.user, this.client);
-            this.channel = new Channel({ id: msg.channelId }, this.client);
         }
+        this.channel = new Channel({ id: msg.channelId }, this.client);
+        if (msg.guildId) this.guild = new Guild(msg.guildId, this.client);
         // console.debug(this.user);
+    }
+
+    get guildId(): string | undefined {
+        return this.guild?.id;
     }
 
     reply: SessionSendFunc = async (

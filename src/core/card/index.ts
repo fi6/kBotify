@@ -118,6 +118,13 @@ export class Card implements CardObject {
         return this;
     }
 
+    /**
+     * Export card object to string. You can use this if you need stringified card with array bracket(usually used when sending single card).
+     *
+     * @param {boolean} [arrayBracket=true]
+     * @return {*}  {string}
+     * @memberof Card
+     */
     public toString(arrayBracket = true): string {
         const object = arrayBracket
             ? [
