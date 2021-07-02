@@ -10,7 +10,6 @@ import { log } from '../logger';
 export class GuildSession extends BaseSession {
     user: GuildUser;
     guild: Guild;
-    guildId: string;
     constructor(
         command: AppCommand | MenuCommand,
         args: string[],
@@ -19,9 +18,7 @@ export class GuildSession extends BaseSession {
     ) {
         super(command, args, msg, client);
         if (!msg.guildId) throw new TypeError('getting msg without guildId');
-
         this.guild = new Guild(msg.guildId, this.client); // TODO
-        this.guildId = msg.guildId;
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new GuildUser(msg.author, this.guild.id, this.client);
