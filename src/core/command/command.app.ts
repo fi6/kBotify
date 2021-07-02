@@ -97,10 +97,15 @@ export abstract class AppCommand implements BaseCommand {
             // try to change basesession to guildsession if guildid exists
             if (sessionOrCommand.msg.guildId) {
                 try {
-                    sessionOrCommand =
-                        await GuildSession.fromSession(sessionOrCommand, false);
+                    sessionOrCommand = await GuildSession.fromSession(
+                        sessionOrCommand,
+                        false
+                    );
                 } catch (error) {
-                    undefined;
+                    log.error(
+                        'Error when getting guild session',
+                        sessionOrCommand
+                    );
                 }
             }
             if (

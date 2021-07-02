@@ -44,7 +44,18 @@ class ChannelAPI extends rawChannelAPI {
     }
 
     async view(channelId: string): Promise<Required<Channel>> {
-        const raw = await super.view(channelId);
+        // const raw = await super.view(channelId);
+        let raw;
+        const data = (
+            await this.client.get('v3/channel/view', {
+                target_id: channelId,
+            })
+        ).data as KHAPIResponse<KHChannel>;
+        if (data.code === 0) {
+            raw = transformChannel(data.data);
+        } else {
+            throw new RequestError(data.code, data.message);
+        }
         return new Channel(raw, this.client) as Required<Channel>;
     }
 

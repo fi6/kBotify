@@ -108,7 +108,7 @@ export abstract class MenuCommand implements BaseCommand {
             try {
                 session = await GuildSession.fromSession(session, false);
             } catch (error) {
-                undefined;
+                log.error('Error when getting guild session', session);
             }
         }
         try {

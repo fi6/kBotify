@@ -357,7 +357,7 @@ export class BaseSession extends BaseObject implements BaseData {
             );
             return initFuncResult(this, resultType, msgSent);
         } catch (error) {
-            console.error(error);
+            log.error(error);
         }
         return initFuncResult(this, resultType);
     };
