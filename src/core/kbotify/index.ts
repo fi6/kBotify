@@ -29,6 +29,12 @@ export class KBotify extends KaiheilaBot {
     userId = 'kaiheila user id for this bot.';
     message: MessageProcessor;
     event: EventProcessor;
+    /**
+     * @deprecated
+     *
+     * @type {boolean}
+     * @memberof KBotify
+     */
     mentionWithSpace: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
@@ -164,4 +170,12 @@ export class KBotify extends KaiheilaBot {
         }
         return;
     };
+
+    toJSON() {
+        return {
+            botUserId: this.userId,
+            mode: this.config.mode,
+            port: this.config.port,
+        };
+    }
 }
