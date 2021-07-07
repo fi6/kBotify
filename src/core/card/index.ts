@@ -1,3 +1,5 @@
+import { log } from '../logger';
+
 export type CardObject = {
     type: 'card';
     size: 'lg' | 'sm';
@@ -104,17 +106,54 @@ export class Card implements CardObject {
     public addText(
         content: string,
         emoji = true,
-        accesory: undefined = undefined
+        accessoryMode: 'right' | 'left' = 'right',
+        accessory: any = undefined
     ): this {
+        if (accessory?.type == 'button' && accessoryMode == 'left')
+            throw new Error('button + mode: left is not valid');
+
         this.modules.push({
             type: 'section',
-            text: { type: 'kmarkdown', content, emoji: emoji },
+            text: {
+                type: 'kmarkdown',
+                content,
+                emoji: emoji,
+                mode: accessoryMode,
+                accessory: accessory,
+            },
+        });
+        return this;
+    }
+
+    public addCountdown(
+        mode: 'second' | 'hour' | 'day',
+        endTime: number | Date,
+        startTime?: number | Date
+    ): this {
+        startTime = startTime
+            ? typeof startTime == 'number'
+                ? startTime
+                : startTime.valueOf()
+            : new Date().valueOf();
+        endTime = typeof endTime == 'number' ? endTime : endTime.valueOf();
+        if (endTime < new Date().valueOf())
+            log.warn('endTime < current Time, may cause problem for card');
+        this.modules.push({
+            type: 'countdown',
+            mode: mode,
+            startTime: startTime,
+            endTime: endTime,
         });
         return this;
     }
 
     public addDivider(): this {
         this.modules.push({ type: 'divider' });
+        return this;
+    }
+
+    public addModule(module: ModuleObject): this {
+        this.modules.push(module);
         return this;
     }
 

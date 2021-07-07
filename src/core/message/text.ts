@@ -57,4 +57,20 @@ export class TextMessage {
         this.channelType = rawMessage.channelType;
         this.client = client;
     }
+
+    async delete(): Promise<boolean> {
+        return await this.client.API.message.delete(this.msgId);
+    }
+    async update(
+        content: string,
+        quote?: string,
+        tempTargetId?: string
+    ): Promise<boolean> {
+        return await this.client.API.message.update(
+            this.msgId,
+            content,
+            quote,
+            tempTargetId
+        );
+    }
 }
