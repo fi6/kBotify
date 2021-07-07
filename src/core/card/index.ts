@@ -107,7 +107,7 @@ export class Card implements CardObject {
         content: string,
         emoji = true,
         accessoryMode: 'right' | 'left' = 'right',
-        accessory: any = undefined
+        accessory: any = {}
     ): this {
         if (accessory?.type == 'button' && accessoryMode == 'left')
             throw new Error('button + mode: left is not valid');
@@ -117,10 +117,10 @@ export class Card implements CardObject {
             text: {
                 type: 'kmarkdown',
                 content,
-                emoji: emoji,
-                mode: accessoryMode,
-                accessory: accessory,
             },
+            emoji: emoji,
+            mode: accessoryMode,
+            accessory: accessory,
         });
         return this;
     }
