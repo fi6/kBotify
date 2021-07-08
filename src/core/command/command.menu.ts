@@ -1,3 +1,4 @@
+import { Card, CardObject } from '../card';
 import { KBotify } from '../kbotify';
 import { log } from '../logger';
 import { BaseSession, GuildSession } from '../session';
@@ -28,7 +29,7 @@ export abstract class MenuCommand implements BaseCommand {
     /**
      * 菜单文字。如果设置useCardMenu=true，此处应为json样式的字符串。
      */
-    menu = 'menu';
+    menu: string | CardObject[] = [new Card().addText('menu card')];
     commandMap = new Map<string, AppCommand>();
     /**
      * 此命令绑定的bot实例
@@ -37,7 +38,7 @@ export abstract class MenuCommand implements BaseCommand {
     /**
      * 是否使用cardmessage作为菜单，默认为否。如果为是，则菜单文字内容必须为cardmessage。
      */
-    useCardMenu = false;
+    useCardMenu = true;
     useTempMenu = true;
     readonly type = CommandTypes.MENU;
 
@@ -53,6 +54,8 @@ export abstract class MenuCommand implements BaseCommand {
             this.commandMap.set(app.trigger, app);
             app.parent = this;
         });
+        if (!this.useCardMenu && typeof this.menu !== 'string')
+            throw new Error(`using text menu with non-string menu`);
     }
 
     init = (client: KBotify): void => {
@@ -113,15 +116,14 @@ export abstract class MenuCommand implements BaseCommand {
         }
         try {
             if (!args.length) {
-                if (this.useCardMenu) {
-                    session._send(this.menu, ResultTypes.SUCCESS, {
-                        msgType: 10,
-                        temp: this.useTempMenu,
-                    });
+                if (!this.useCardMenu) {
+                    const result = this.useTempMenu
+                        ? session.sendTemp(this.menu as string)
+                        : session.send(this.menu as string);
                 } else {
-                    session._send(this.menu, ResultTypes.SUCCESS, {
-                        temp: this.useTempMenu,
-                    });
+                    const result = this.useTempMenu
+                        ? session.sendCardTemp(this.menu)
+                        : session.sendCard(this.menu);
                 }
                 return ResultTypes.HELP;
             }
