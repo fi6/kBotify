@@ -161,7 +161,6 @@ export class KBotify extends KaiheilaBot {
         // const data: [string, string[], TextMessage] = [command, args, msg];
         const regex = /^[\u4e00-\u9fa5]/;
         const cmd = this.commandMap.get(command);
-        let session;
         if (cmd) {
             return cmd.exec(createSession(cmd, args, msg, this));
         }
