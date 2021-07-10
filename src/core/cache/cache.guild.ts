@@ -4,7 +4,7 @@ import { KBotify } from '../kbotify';
 import { log } from '../logger';
 import { GuildUser } from '../user/user.guild';
 
-const options = { max: 256, maxAge: 10 * 6e4 };
+const options = { max: 256, maxAge: 0.5 * 6e4 };
 
 export class GuildCache extends BaseObject {
     id: string;
