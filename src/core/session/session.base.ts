@@ -7,7 +7,6 @@ import { Channel } from '../channel';
 
 import { ButtonEventMessage, TextMessage } from '../message';
 import { SendOptions } from '../msg.types';
-import { SessionSendFunc } from './session.type';
 import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
 import { BaseData, FuncResult } from '../command/types';
@@ -15,6 +14,7 @@ import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
 import { kBotifyLogger } from '../logger';
 import { Guild } from '../guild';
+import { SessionSendFunc } from './session.type';
 
 export class BaseSession extends BaseObject implements BaseData {
     /**
@@ -56,7 +56,9 @@ export class BaseSession extends BaseObject implements BaseData {
             this.user = new BaseUser(msg.user, this.client);
         }
         this.channel = new Channel({ id: msg.channelId }, this.client);
-        if (msg.guildId) this.guild = new Guild(msg.guildId, this.client);
+        if (msg.guildId) {
+            this.guild = new Guild(msg.guildId, this.client);
+        }
         // console.debug(this.user);
     }
 
@@ -174,7 +176,7 @@ export class BaseSession extends BaseObject implements BaseData {
         });
     };
 
-    private _sendCard = async (
+    private readonly _sendCard = async (
         content:
             | string
             | (() => string)
@@ -190,11 +192,12 @@ export class BaseSession extends BaseObject implements BaseData {
                 : Array.isArray(content)
                 ? JSON.stringify(content)
                 : content;
+
         return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
-            reply: reply,
+            reply,
             mention: false,
-            temp: temp,
+            temp,
         });
     };
 
@@ -241,6 +244,7 @@ export class BaseSession extends BaseObject implements BaseData {
             quote,
             tempTargetId
         );
+
         return initFuncResult(
             result,
             result ? ResultTypes.SUCCESS : ResultTypes.FAIL
@@ -281,18 +285,26 @@ export class BaseSession extends BaseObject implements BaseData {
     ) => {
         const func = (msg: any) => {
             msg = msg as TextMessage;
-            if (msg.authorId != this.userId) return;
+            if (msg.authorId != this.userId) {
+                return;
+            }
             if (condition instanceof RegExp) {
-                if (!condition.test(msg.content)) return;
-            } else if (!msg.content.includes(condition)) return;
+                if (!condition.test(msg.content)) {
+                    return;
+                }
+            } else if (!msg.content.includes(condition)) {
+                return;
+            }
             callback(msg);
             this.client.message.off('text', func);
         };
         this.client.message.on('text', func);
-        if (timeout)
+        if (timeout) {
             setTimeout(() => {
                 this.client.message.off('text', func);
             }, timeout);
+        }
+
         return () => {
             this.client.message.off('text', func);
         };
@@ -318,9 +330,11 @@ export class BaseSession extends BaseObject implements BaseData {
         resultType = ResultTypes.SUCCESS,
         sendOptions?: SendOptions
     ) => {
-        if (typeof content !== 'string') content = await content();
+        if (typeof content !== 'string') {
+            content = await content();
+        }
 
-        //decide if msg should be sent in specific channel.
+        // decide if msg should be sent in specific channel.
         let replyChannelId = this.msg.channelId;
         replyChannelId = sendOptions?.channel ?? replyChannelId;
 
@@ -330,11 +344,13 @@ export class BaseSession extends BaseObject implements BaseData {
 
         let withMention = sendOptions?.mention ?? false;
 
-        if (!this.client)
+        if (!this.client) {
             throw new Error('session send used before bot assigned.');
+        }
 
         if (msgType == 10) {
-            if (withMention) kBotifyLogger.info('发送卡片消息时使用了mention！', this);
+            if (withMention)
+                kBotifyLogger.info('发送卡片消息时使用了mention！', this);
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
@@ -355,10 +371,12 @@ export class BaseSession extends BaseObject implements BaseData {
                 sendOptions?.reply ? this.msg.msgId : undefined,
                 sendOptions?.temp ? this.userId : undefined
             );
+
             return initFuncResult(this, resultType, msgSent);
         } catch (error) {
             kBotifyLogger.error(error);
         }
+
         return initFuncResult(this, resultType);
     };
 }

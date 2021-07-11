@@ -1,9 +1,9 @@
-import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { EventEmitter } from 'events';
-import { KBotify } from '.';
+import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { MessageEmissions } from './types';
 import { kBotifyLogger } from '../logger';
+import { KBotify } from '.';
 
 export declare interface MessageProcessor {
     on<K extends keyof MessageEmissions>(
@@ -28,6 +28,7 @@ export class MessageProcessor extends EventEmitter {
         super();
         this.client = bot;
     }
+
     process = (result: any, bot: KBotify) => {
         const data = result.data;
         switch (result.type) {
@@ -37,11 +38,12 @@ export class MessageProcessor extends EventEmitter {
                 const userCollectors = this.client.collectors.user;
                 const collector = userCollectors.get(message.authorId);
                 try {
-                    if (collector) collector.add(message);
+                    if (collector) {collector.add(message); }
                 } catch (error) {
                     kBotifyLogger.error(error);
                 }
                 this.emit('text', message);
+
                 // if (userCollectors.collecting(message.authorId)) {
                 //     userCollectors.get(message.authorId).add(message);
                 // }
@@ -50,6 +52,7 @@ export class MessageProcessor extends EventEmitter {
             case 'systemMessage':
                 if (data.type === 'buttonClick') {
                     this.emit('buttonEvent', new ButtonEventMessage(data, bot));
+
                     return;
                 }
                 break;

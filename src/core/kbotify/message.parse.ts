@@ -1,5 +1,5 @@
-import { KBotify } from '.';
 import { ButtonEventMessage, TextMessage } from '../message';
+import { KBotify } from '.';
 
 export function messageParser(
     msg: TextMessage | ButtonEventMessage,
@@ -15,7 +15,9 @@ export function messageParser(
         msg.content.startsWith('@')
     ) {
         const [, command, ...rest] = msg.content.trim().split(/ +/);
+
         return [command ? command.toLowerCase() : '', ...rest];
     }
+
     return;
 }

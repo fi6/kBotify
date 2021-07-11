@@ -6,8 +6,8 @@ import { KHChannel } from 'kaiheila-bot-root/dist/types/kaiheila/common';
 import RequestError from 'kaiheila-bot-root/dist/models/Error/RequestError';
 import { transformChannel } from 'kaiheila-bot-root/dist/helper/transformer/channel';
 import { ChannelListResponseInternal } from 'kaiheila-bot-root/dist/api/channel/channel.types';
-import { KBotify } from '.';
 import { Channel } from '../channel';
+import { KBotify } from '.';
 
 export class API extends rawAPI {
     channel: ChannelAPI;
@@ -18,7 +18,7 @@ export class API extends rawAPI {
 }
 
 class ChannelAPI extends rawChannelAPI {
-    private client: KBotify;
+    private readonly client: KBotify;
     constructor(client: KBotify) {
         super(client);
         this.client = client;
@@ -40,6 +40,7 @@ class ChannelAPI extends rawChannelAPI {
             limitAmount,
             voiceQuality
         );
+
         return Channel.fromRaw(raw, this.client);
     }
 
@@ -48,7 +49,7 @@ class ChannelAPI extends rawChannelAPI {
         let raw;
         const data = (
             await this.client.get('v3/channel/view', {
-                target_id: channelId,
+                target_id: channelId
             })
         ).data as KHAPIResponse<KHChannel>;
         if (data.code === 0) {
@@ -56,12 +57,14 @@ class ChannelAPI extends rawChannelAPI {
         } else {
             throw new RequestError(data.code, data.message);
         }
+
         return new Channel(raw, this.client) as Required<Channel>;
     }
 
     async list(guildId: string): Promise<ChannelListResponse> {
         const raw = await super.list(guildId);
-        raw.items = raw.items.map((c) => Channel.fromRaw(c, this.client));
+        raw.items = raw.items.map(c => {return Channel.fromRaw(c, this.client); });
+
         return raw as ChannelListResponse;
     }
 }

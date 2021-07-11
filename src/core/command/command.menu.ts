@@ -50,12 +50,11 @@ export abstract class MenuCommand implements BaseCommand {
      * @memberof MenuCommand
      */
     constructor(...apps: AppCommand[]) {
-        apps.forEach((app) => {
+        apps.forEach(app => {
             this.commandMap.set(app.trigger, app);
             app.parent = this;
         });
-        if (!this.useCardMenu && typeof this.menu !== 'string')
-            throw new Error(`using text menu with non-string menu`);
+        if (!this.useCardMenu && typeof this.menu !== 'string') {throw new Error('using text menu with non-string menu'); }
     }
 
     init = (client: KBotify): void => {
@@ -76,11 +75,10 @@ export abstract class MenuCommand implements BaseCommand {
      * @memberof MenuCommand
      */
     addAlias(app: AppCommand, ...aliases: string[]): void {
-        if (!this.client)
-            throw new Error(
+        if (!this.client) {throw new Error(
                 `You must init menu ${this.code} with a bot before adding alias to apps.`
-            );
-        aliases.forEach((alias) => {
+            ); }
+        aliases.forEach(alias => {
             this.commandMap.set(alias, app);
             app.parent = this;
             app.init(this.client!);
@@ -125,10 +123,12 @@ export abstract class MenuCommand implements BaseCommand {
                         ? session.sendCardTemp(this.menu)
                         : session.sendCard(this.menu);
                 }
+
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {
                 session.reply(this.help);
+
                 return ResultTypes.HELP;
             }
 
@@ -141,13 +141,16 @@ export abstract class MenuCommand implements BaseCommand {
                         `${this.trigger}` +
                         '`'
                 );
+
                 return ResultTypes.WRONG_ARGS;
             }
+
             return app.exec(session);
         } catch (err) {
             kBotifyLogger.error(err);
         }
     }
+
     /**
      * If you want to have something done before executing app command, please overwrite this.
      * 默认情况下直接调用菜单的func功能。
