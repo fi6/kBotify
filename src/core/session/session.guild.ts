@@ -3,9 +3,9 @@ import { Guild } from '../guild';
 import { KBotify } from '../kbotify';
 import { MenuCommand } from '../command';
 import { ButtonEventMessage, TextMessage } from '../message';
-import { BaseSession } from './session.base';
 import { GuildUser } from '../user/user.guild';
 import { log } from '../logger';
+import { BaseSession } from './session.base';
 
 export class GuildSession extends BaseSession {
     user: GuildUser;
@@ -17,7 +17,7 @@ export class GuildSession extends BaseSession {
         client?: KBotify
     ) {
         super(command, args, msg, client);
-        if (!msg.guildId) throw new TypeError('getting msg without guildId');
+        if (!msg.guildId) {throw new TypeError('getting msg without guildId'); }
         this.guild = new Guild(msg.guildId, this.client); // TODO
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
@@ -31,14 +31,14 @@ export class GuildSession extends BaseSession {
             );
         }
     }
+
     static fromSession = async (
         session: BaseSession,
         full = false
     ): Promise<GuildSession> => {
-        if (!session.guild?.id)
-            throw new Error(
+        if (!session.guild?.id) {throw new Error(
                 'Trying to construct GuildSession without guild id'
-            );
+            ); }
 
         if (full && !(session.msg instanceof TextMessage)) {
             const user = new GuildUser(
@@ -48,6 +48,7 @@ export class GuildSession extends BaseSession {
             );
             session.msg.user = await user.full();
         }
+
         return new GuildSession(
             session.command,
             session.args,
@@ -67,7 +68,7 @@ export class GuildSession extends BaseSession {
         condition: RegExp,
         timeout: number | undefined = 6e4
     ): Promise<TextMessage | undefined> => {
-        if (timeout < 1e3) log.warn(`timeout too short: ${timeout}, ${this}`);
+        if (timeout < 1e3) {log.warn(`timeout too short: ${timeout}, ${this}`); }
         const collector = this.client.collectors.user.create(
             this.userId,
             timeout
@@ -90,6 +91,7 @@ export class GuildSession extends BaseSession {
                 });
             }
         );
+
         return result;
     };
 }

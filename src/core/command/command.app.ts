@@ -1,13 +1,13 @@
-import { MenuCommand } from './command.menu';
-import { BaseCommand, ResultTypes, CommandTypes } from '../types';
-import { AppFunc, FuncResult } from './types';
+import { ButtonClickEvent } from 'kaiheila-bot-root';
+import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
 import { BaseSession, createSession } from '../session';
 import { KBotify } from '../..';
-import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { GuildSession } from '../session';
-import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
+import { BaseCommand, ResultTypes, CommandTypes } from '../types';
 import { log } from '../logger';
+import { AppFunc, FuncResult } from './types';
+import { MenuCommand } from './command.menu';
 
 export function initFuncResult<T>(
     data: T,
@@ -17,8 +17,9 @@ export function initFuncResult<T>(
     const funcResult: FuncResult<T> = {
         detail: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
-        msgSent: msgSent,
+        msgSent
     };
+
     return funcResult;
 }
 
@@ -59,10 +60,12 @@ export abstract class AppCommand implements BaseCommand {
     get _botInstance(): KBotify | undefined {
         return this.client;
     }
+
     parent: MenuCommand | null = null;
-    func: AppFunc<BaseSession | GuildSession> = async (_data) => {
+    func: AppFunc<BaseSession | GuildSession> = async _data => {
         throw new Error(`${this.code}的func尚未定义`);
     };
+
     readonly type = CommandTypes.APP;
 
     constructor() {
@@ -90,8 +93,7 @@ export abstract class AppCommand implements BaseCommand {
         args?: string[],
         msg?: ButtonEventMessage | TextMessage
     ): Promise<ResultTypes | void> {
-        if (!this.client)
-            throw new Error('command used before assigning a bot');
+        if (!this.client) {throw new Error('command used before assigning a bot'); }
 
         if (sessionOrCommand instanceof BaseSession) {
             // try to change basesession to guildsession if guildid exists
@@ -113,15 +115,17 @@ export abstract class AppCommand implements BaseCommand {
                 this.response == 'guild'
             ) {
                 log.debug('guild only command receiving base session. return.');
+
                 return;
             }
             sessionOrCommand.command = this;
+
             return this.run(sessionOrCommand);
         } else {
-            if (!args || !msg)
-                throw new Error(
+            if (!args || !msg) {throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
-                );
+                ); }
+
             return this.run(createSession(this, args, msg, this.client));
         }
     }
@@ -132,23 +136,24 @@ export abstract class AppCommand implements BaseCommand {
         const args = session.args;
         const msg = session.msg;
         log.debug('running command: ', session.cmdString, args, msg);
-        if (!this.client)
-            throw new Error(
+        if (!this.client) {throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
-            );
+            ); }
 
         try {
             if (args[0] === '帮助') {
                 session.reply(this.help);
+
                 return ResultTypes.HELP;
             }
 
             const result = await this.func(session as any);
-            if (typeof result === 'string' || !result)
-                return result ? result : ResultTypes.SUCCESS;
+            if (typeof result === 'string' || !result) {return result ? result : ResultTypes.SUCCESS; }
+
             return result.resultType;
         } catch (error) {
             log.error(error);
+
             return ResultTypes.ERROR;
         }
     }

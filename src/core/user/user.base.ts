@@ -35,14 +35,14 @@ export class BaseUser extends BaseObject implements User {
     }
 
     get mention() {
-        if (this.client.mentionWithSpace) return `(met)${this.id}(met) `;
-        else return `(met)${this.id}(met)`;
+        if (this.client.mentionWithSpace) {return `(met)${this.id}(met) `; } else {return `(met)${this.id}(met)`; }
     }
 
-    grantRole = (roleId: string | number, guildId: string) => {
+    grantRole = async (roleId: string | number, guildId: string) => {
         return this.client.API.guildRole.grant(guildId, this.id, roleId);
     };
-    revokeRole = (roleId: string | number, guildId: string) => {
+
+    revokeRole = async (roleId: string | number, guildId: string) => {
         return this.client.API.guildRole.revoke(guildId, this.id, roleId);
     };
 }
