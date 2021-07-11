@@ -176,31 +176,6 @@ export class BaseSession extends BaseObject implements BaseData {
         });
     };
 
-    private readonly _sendCard = async (
-        content:
-            | string
-            | (() => string)
-            | (() => Promise<string>)
-            | CardObject[]
-            | Card,
-        temp = false,
-        reply = false
-    ) => {
-        const str =
-            content instanceof Card
-                ? JSON.stringify([content])
-                : Array.isArray(content)
-                ? JSON.stringify(content)
-                : content;
-
-        return this._send(str, ResultTypes.SUCCESS, {
-            msgType: 10,
-            reply,
-            mention: false,
-            temp,
-        });
-    };
-
     sendCard = async (
         content:
             | string
@@ -379,5 +354,30 @@ export class BaseSession extends BaseObject implements BaseData {
         }
 
         return initFuncResult(this, resultType);
+    };
+
+    private readonly _sendCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card,
+        temp = false,
+        reply = false
+    ) => {
+        const str =
+            content instanceof Card
+                ? JSON.stringify([content])
+                : Array.isArray(content)
+                ? JSON.stringify(content)
+                : content;
+
+        return this._send(str, ResultTypes.SUCCESS, {
+            msgType: 10,
+            reply,
+            mention: false,
+            temp,
+        });
     };
 }
