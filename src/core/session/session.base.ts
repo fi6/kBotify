@@ -73,7 +73,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: true,
             mention: true,
-            temp: false,
+            temp: false
         });
     };
 
@@ -84,7 +84,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: true,
             mention: true,
-            temp: true,
+            temp: true
         });
     };
 
@@ -117,7 +117,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: true,
             mention: false,
-            temp: false,
+            temp: false
         });
     };
 
@@ -128,7 +128,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: true,
             mention: false,
-            temp: true,
+            temp: true
         });
     };
 
@@ -139,7 +139,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: false,
             mention: true,
-            temp: false,
+            temp: false
         });
     };
 
@@ -150,7 +150,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: false,
             mention: true,
-            temp: true,
+            temp: true
         });
     };
 
@@ -161,7 +161,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: false,
             mention: false,
-            temp: false,
+            temp: false
         });
     };
 
@@ -172,7 +172,7 @@ export class BaseSession extends BaseObject implements BaseData {
         return this._send(content, resultType, {
             reply: false,
             mention: false,
-            temp: true,
+            temp: true
         });
     };
 
@@ -197,7 +197,7 @@ export class BaseSession extends BaseObject implements BaseData {
             msgType: 10,
             reply,
             mention: false,
-            temp,
+            temp
         });
     };
 
@@ -349,8 +349,9 @@ export class BaseSession extends BaseObject implements BaseData {
         }
 
         if (msgType == 10) {
-            if (withMention)
+            if (withMention) {
                 kBotifyLogger.info('发送卡片消息时使用了mention！', this);
+            }
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }

@@ -17,7 +17,7 @@ export function initFuncResult<T>(
     const funcResult: FuncResult<T> = {
         detail: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
-        msgSent,
+        msgSent
     };
 
     return funcResult;
@@ -50,8 +50,9 @@ export abstract class AppCommand implements BaseCommand {
     abstract trigger: string;
     acceptMessageType: (typeof TextMessage | typeof ButtonEventMessage)[] = [
         TextMessage,
-        ButtonEventMessage,
+        ButtonEventMessage
     ];
+
     /**
      * 帮助文字，发送`.命令 帮助`时自动回复，kmarkdown消息
      */
@@ -97,10 +98,14 @@ export abstract class AppCommand implements BaseCommand {
         args?: string[],
         msg?: ButtonEventMessage | TextMessage
     ): Promise<ResultTypes | void> {
-        if (!this.client)
+        if (!this.client) {
             throw new Error('command used before assigning a bot');
-        if (!this.checkInput(sessionOrCommand, msg)) return;
+        }
+        if (!this.checkInput(sessionOrCommand, msg)) {
+            return;
+        }
         kBotifyLogger.debug('running command', this.constructor.name);
+
         return this.run(await this.createSession(sessionOrCommand, args, msg));
         /*
         if (sessionOrCommand instanceof BaseSession) {
@@ -156,6 +161,7 @@ export abstract class AppCommand implements BaseCommand {
                 'guild only command receiving base session. return.',
                 this.constructor.name
             );
+
             return false;
         }
         msg = msg ?? (sessionOrCommand as BaseSession).msg;
@@ -164,6 +170,7 @@ export abstract class AppCommand implements BaseCommand {
                 return true;
             }
         }
+
         return false;
     };
 
@@ -189,14 +196,19 @@ export abstract class AppCommand implements BaseCommand {
                 }
             }
             sessionOrCommand.command = this;
+
             return sessionOrCommand;
         } else {
-            if (!args || !msg)
+            if (!args || !msg) {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            if (msg.guildId) return new GuildSession(this, args, msg, client);
-            else return new BaseSession(this, args, msg, client);
+            }
+            if (msg.guildId) {
+                return new GuildSession(this, args, msg, client);
+            } else {
+                return new BaseSession(this, args, msg, client);
+            }
         }
     };
 
@@ -206,10 +218,11 @@ export abstract class AppCommand implements BaseCommand {
         const args = session.args;
         const msg = session.msg;
         kBotifyLogger.debug('running command: ', session.cmdString, args);
-        if (!this.client)
+        if (!this.client) {
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
             );
+        }
 
         try {
             if (args[0] === '帮助') {
@@ -226,6 +239,7 @@ export abstract class AppCommand implements BaseCommand {
             return result.resultType;
         } catch (error) {
             kBotifyLogger.error(error);
+
             return ResultTypes.ERROR;
         }
     }

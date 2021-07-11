@@ -15,7 +15,10 @@ export interface BaseCommand {
     exec(...args: any): unknown;
 }
 
-export type ResultHandler<T extends BaseSession> = (data: T, type: string | number) => Promise<FuncResult<T>>;
+export type ResultHandler<T extends BaseSession> = (
+    data: T,
+    type: string | number
+) => Promise<FuncResult<T>>;
 
 export enum CommandTypes {
     MENU = 'MENU',

@@ -22,26 +22,34 @@ export class GuildUser extends BaseUser {
     }
 
     full = async (): Promise<GuildUserFull> => {
-        if (!this.guild.id) {throw new Error('no guild id provided for guild user'); }
+        if (!this.guild.id) {
+            throw new Error('no guild id provided for guild user');
+        }
         const guildCache = this.client.cache.guild(this.guild.id);
 
         return await guildCache.getUser(this.id, this.username);
     };
 
     grantRole = async (roleId: string | number, guildId?: string) => {
-        if (!guildId) {guildId = this.guild.id; }
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
 
         return this.client.API.guildRole.grant(guildId, this.id, roleId);
     };
 
     revokeRole = async (roleId: string | number, guildId?: string) => {
-        if (!guildId) {guildId = this.guild.id; }
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
 
         return this.client.API.guildRole.revoke(guildId, this.id, roleId);
     };
 
     changeNickname = async (nickname: string, guildId?: string) => {
-        if (!guildId) {guildId = this.guild.id; }
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
 
         return this.client.API.guild.nickname(guildId, nickname, this.id);
     };

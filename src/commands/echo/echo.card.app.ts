@@ -6,7 +6,7 @@ class EchoCard extends AppCommand {
     trigger = 'card';
     help = '`.echo card 内容`';
     intro = '复读你所说的文字, 并用CardMessage格式返回。';
-    func: AppFunc<BaseSession> = async session => {
+    func: AppFunc<BaseSession> = async (session) => {
         const msg: string = ''.concat(...session.args).replace('\\n', '');
 
         // console.log(msg)

@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
-import { MessageEmissions } from './types';
 import { kBotifyLogger } from '../logger';
+import { MessageEmissions } from './types';
 import { KBotify } from '.';
 
 export declare interface MessageProcessor {
@@ -38,7 +38,9 @@ export class MessageProcessor extends EventEmitter {
                 const userCollectors = this.client.collectors.user;
                 const collector = userCollectors.get(message.authorId);
                 try {
-                    if (collector) {collector.add(message); }
+                    if (collector) {
+                        collector.add(message);
+                    }
                 } catch (error) {
                     kBotifyLogger.error(error);
                 }

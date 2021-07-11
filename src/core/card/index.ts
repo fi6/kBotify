@@ -45,7 +45,9 @@ export class Card implements CardObject {
             } else {
                 card = content;
             }
-            if (!Card.validate(card)) {throw new Error(`card is not valid: ${content}`); }
+            if (!Card.validate(card)) {
+                throw new Error(`card is not valid: ${content}`);
+            }
             this.theme = card.theme ?? 'primary';
             this.size = card.size;
             this.color = card.color;
@@ -55,7 +57,9 @@ export class Card implements CardObject {
 
     static validate(content: CardObject): boolean {
         for (const module of content.modules) {
-            if (Array.isArray(module)) {return false; } // TODO
+            if (Array.isArray(module)) {
+                return false;
+            } // TODO
         }
 
         return true;
@@ -114,7 +118,9 @@ export class Card implements CardObject {
         accessoryMode: 'right' | 'left' = 'right',
         accessory: any = {}
     ): this {
-        if (accessory?.type == 'button' && accessoryMode == 'left') {throw new Error('button + mode: left is not valid'); }
+        if (accessory?.type == 'button' && accessoryMode == 'left') {
+            throw new Error('button + mode: left is not valid');
+        }
 
         this.modules.push({
             type: 'section',
@@ -141,8 +147,11 @@ export class Card implements CardObject {
                 : startTime.valueOf()
             : new Date().valueOf();
         endTime = typeof endTime == 'number' ? endTime : endTime.valueOf();
-        if (endTime < new Date().valueOf())
-            kBotifyLogger.warn('endTime < current Time, may cause problem for card');
+        if (endTime < new Date().valueOf()) {
+            kBotifyLogger.warn(
+                'endTime < current Time, may cause problem for card'
+            );
+        }
         this.modules.push({
             type: 'countdown',
             mode,

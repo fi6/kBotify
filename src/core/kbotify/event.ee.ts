@@ -13,7 +13,9 @@ export class EventProcessor extends EventEmitter {
     }
 
     process = (event: any, bot: KBotify) => {
-        if (event.type !== 'systemMessage') {return; }
+        if (event.type !== 'systemMessage') {
+            return;
+        }
         const data = event.data;
         this.emit('system', data);
     };

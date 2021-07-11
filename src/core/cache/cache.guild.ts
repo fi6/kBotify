@@ -11,7 +11,9 @@ export class GuildCache extends BaseObject {
     user = new LRU<string, Required<GuildUser>>(options);
     constructor(id: string, bot: KBotify) {
         super(bot);
-        if (!id) {throw new Error('no id provided when constructing GuildCache.'); }
+        if (!id) {
+            throw new Error('no id provided when constructing GuildCache.');
+        }
         this.id = id;
     }
 
@@ -29,7 +31,9 @@ export class GuildCache extends BaseObject {
                 id,
                 this.client
             );
-            if (!user) {throw new Error(`Cannot find user ${id} in guild ${this.id}`); }
+            if (!user) {
+                throw new Error(`Cannot find user ${id} in guild ${this.id}`);
+            }
             const guildUser = new GuildUser(
                 user,
                 this.id,
@@ -59,7 +63,9 @@ async function getUserFromGuild(
 ) {
     const users = await bot.API.guild.userList(guildId, undefined, username);
     for (const user of users.items) {
-        if (user.id == userId) {return user; }
+        if (user.id == userId) {
+            return user;
+        }
     }
     throw new Error(
         'Cannot find user by username, userid, guildid, maxMatchUsers'

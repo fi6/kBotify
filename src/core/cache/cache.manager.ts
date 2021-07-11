@@ -15,7 +15,9 @@ export class CacheManager extends BaseObject {
 
     guild = (id: string): GuildCache => {
         let guildCache = this.#guildCache.get(id);
-        if (guildCache) {return guildCache; } else {
+        if (guildCache) {
+            return guildCache;
+        } else {
             guildCache = new GuildCache(id, this.client);
             this.#guildCache.set(id, guildCache);
 

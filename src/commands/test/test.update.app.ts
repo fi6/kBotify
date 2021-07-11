@@ -8,7 +8,7 @@ class TestUpdate extends AppCommand {
     trigger = 'update';
     help = '';
     intro = '发送一个更新消息';
-    func: AppFunc<BaseSession> = async s => {
+    func: AppFunc<BaseSession> = async (s) => {
         // console.debug(JSON.stringify([getCard()]));
         const session = await GuildSession.fromSession(s, true);
         console.log(session);

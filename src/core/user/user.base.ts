@@ -35,7 +35,11 @@ export class BaseUser extends BaseObject implements User {
     }
 
     get mention() {
-        if (this.client.mentionWithSpace) {return `(met)${this.id}(met) `; } else {return `(met)${this.id}(met)`; }
+        if (this.client.mentionWithSpace) {
+            return `(met)${this.id}(met) `;
+        } else {
+            return `(met)${this.id}(met)`;
+        }
     }
 
     grantRole = async (roleId: string | number, guildId: string) => {

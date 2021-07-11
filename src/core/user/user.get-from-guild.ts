@@ -19,7 +19,9 @@ export async function getUserFromGuild(
         maxMatchUsers
     );
     for (const user of users.items) {
-        if (user.id == userId) {return user; }
+        if (user.id == userId) {
+            return user;
+        }
     }
     throw new Error(
         'Cannot find user by username, userid, guildid, maxMatchUsers'

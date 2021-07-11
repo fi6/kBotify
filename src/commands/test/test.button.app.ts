@@ -7,7 +7,7 @@ class TestButton extends AppCommand {
     trigger = 'button';
     help = '`.test button`';
     intro = '发送一个按钮以进行按钮测试';
-    func: AppFunc<BaseSession> = async session => {
+    func: AppFunc<BaseSession> = async (session) => {
         // console.debug(JSON.stringify([getCard()]));
         // if (!session.args.length) return session.replyCard(getCard());
         console.log(session);

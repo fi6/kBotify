@@ -50,7 +50,9 @@ export interface AppCommandParams<T extends BaseData> {
  */
 export type AppCommandFunc<T extends BaseSession> = AppFunc<T>;
 
-export type AppFunc<T extends GuildSession | BaseSession> = (session: T) => Promise<FuncResult<any> | ResultTypes | void>;
+export type AppFunc<T extends GuildSession | BaseSession> = (
+    session: T
+) => Promise<FuncResult<any> | ResultTypes | void>;
 
 /**
  * Result for App Funcs.

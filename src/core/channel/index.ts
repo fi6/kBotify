@@ -45,7 +45,11 @@ export class Channel extends BaseObject implements Partial<rawChannel> {
     }
 
     get mention(): string {
-        if (this.client.mentionWithSpace) {return `(chn)${this.id}(chn) `; } else {return `(chn)${this.id}(chn)`; }
+        if (this.client.mentionWithSpace) {
+            return `(chn)${this.id}(chn) `;
+        } else {
+            return `(chn)${this.id}(chn)`;
+        }
     }
 
     static fromRaw = (
@@ -77,7 +81,9 @@ export class Channel extends BaseObject implements Partial<rawChannel> {
     };
 
     getInvite = async (): Promise<string> => {
-        if (this.invite) {return this.invite; }
+        if (this.invite) {
+            return this.invite;
+        }
         const result = await this.client.API.invite.create(undefined, this.id);
 
         return result.url;

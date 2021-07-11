@@ -5,13 +5,12 @@ import { AppCommand, MenuCommand } from '../..';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
+import { kBotifyLogger } from '../logger';
 import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { CollectorManager } from './collector';
-import { kBotifyLogger } from '../logger';
-import { LogLevel } from 'bunyan';
 import { API } from './api';
 
 export declare interface KBotify {
@@ -23,6 +22,7 @@ export declare interface KBotify {
     ): boolean;
 }
 
+// eslint-disable-next-line no-redeclare
 export class KBotify extends KaiheilaBot {
     commandMap = new Map<string, AppCommand | MenuCommand>();
     help = 'help for this bot.';
@@ -39,6 +39,7 @@ export class KBotify extends KaiheilaBot {
     cache: CacheManager;
     collectors = new CollectorManager();
     logger = kBotifyLogger;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     API: API;
     /**
      * Creates an instance of KBotify.
@@ -48,7 +49,7 @@ export class KBotify extends KaiheilaBot {
      */
     constructor(
         config: BotConfig & { debug?: boolean },
-        defaultProcess = true
+        _defaultProcess = true
     ) {
         super(config);
         if (config.debug === true) {
@@ -81,15 +82,19 @@ export class KBotify extends KaiheilaBot {
     }
 
     defaultHandler() {
-        this.message.on('text', msg => {
+        this.message.on('text', (msg) => {
             const res = this.processMsg(msg);
-            if (!res) {return; }
+            if (!res) {
+                return;
+            }
             const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
         });
-        this.message.on('buttonEvent', msg => {
+        this.message.on('buttonEvent', (msg) => {
             const res = this.processMsg(msg);
-            if (!res) {return; }
+            if (!res) {
+                return;
+            }
             const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
         });
@@ -141,7 +146,7 @@ export class KBotify extends KaiheilaBot {
                 app.init(this);
             }
         }
-        aliases.forEach(alias => {
+        aliases.forEach((alias) => {
             this.commandMap.set(alias, command);
         });
     };

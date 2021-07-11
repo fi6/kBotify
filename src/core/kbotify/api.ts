@@ -63,7 +63,9 @@ class ChannelAPI extends rawChannelAPI {
 
     async list(guildId: string): Promise<ChannelListResponse> {
         const raw = await super.list(guildId);
-        raw.items = raw.items.map(c => {return Channel.fromRaw(c, this.client); });
+        raw.items = raw.items.map((c) => {
+            return Channel.fromRaw(c, this.client);
+        });
 
         return raw as ChannelListResponse;
     }
