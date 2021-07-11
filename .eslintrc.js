@@ -99,7 +99,7 @@ module.exports = {
         'arrow-body-style': ['error', 'always'],
         'arrow-parens': ['error', 'always'],
         camelcase: 'error',
-        'comma-dangle': 'error',
+        // 'comma-dangle': 'error',
         complexity: [
             'error',
             {

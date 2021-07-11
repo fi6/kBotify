@@ -1,7 +1,6 @@
 import { User, UserInGuild } from 'kaiheila-bot-root';
 import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
-import { BaseSession, GuildSession } from '../session';
 
 /**
  *

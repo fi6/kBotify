@@ -1,9 +1,7 @@
 import { User, UserInGuild } from 'kaiheila-bot-root';
 import { Guild } from '../guild';
 import { KBotify } from '../kbotify';
-import { GuildSession } from '../session/session.guild';
 import { BaseUser } from './user.base';
-import { getUserFromGuild } from './user.get-from-guild';
 
 export class GuildUser extends BaseUser {
     roles?: number[];
@@ -27,7 +25,7 @@ export class GuildUser extends BaseUser {
         }
         const guildCache = this.client.cache.guild(this.guild.id);
 
-        return await guildCache.getUser(this.id, this.username);
+        return guildCache.getUser(this.id, this.username);
     };
 
     grantRole = async (roleId: string | number, guildId?: string) => {

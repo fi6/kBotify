@@ -17,11 +17,11 @@ import { AppCommand } from './command.app';
  * @template T extends BaseData
  */
 export abstract class MenuCommand implements BaseCommand {
+    readonly type = CommandTypes.MENU;
     code = 'code';
     /**
      * 菜单触发文字
      */
-    abstract trigger: string;
     /**
      * 帮助文字。当发送`(菜单触发文字) 帮助`时返回的提示。
      */
@@ -40,7 +40,7 @@ export abstract class MenuCommand implements BaseCommand {
      */
     useCardMenu = true;
     useTempMenu = true;
-    readonly type = CommandTypes.MENU;
+    abstract trigger: string;
 
     /**
      * Creates an instance of MenuCommand.
@@ -122,11 +122,11 @@ export abstract class MenuCommand implements BaseCommand {
         try {
             if (!args.length) {
                 if (!this.useCardMenu) {
-                    const result = this.useTempMenu
+                    const omit = this.useTempMenu
                         ? session.sendTemp(this.menu as string)
                         : session.send(this.menu as string);
                 } else {
-                    const result = this.useTempMenu
+                    const omit = this.useTempMenu
                         ? session.sendCardTemp(this.menu)
                         : session.sendCard(this.menu);
                 }
