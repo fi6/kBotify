@@ -1,7 +1,7 @@
 import LRU from 'lru-cache';
 import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 import { GuildUser } from '../user/user.guild';
 
 const options = { max: 256, maxAge: 0.5 * 6e4 };
@@ -45,7 +45,7 @@ export class GuildCache extends BaseObject {
         if ('roles' in user) {
             this.user.set(user.id, user);
         } else {
-            log.error('no roles in instance', user);
+            this.client.logger.error('no roles in instance', user);
         }
     };
 }

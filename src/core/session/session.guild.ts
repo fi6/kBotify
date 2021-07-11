@@ -4,7 +4,7 @@ import { KBotify } from '../kbotify';
 import { MenuCommand } from '../command';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { GuildUser } from '../user/user.guild';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 import { BaseSession } from './session.base';
 
 export class GuildSession extends BaseSession {
@@ -68,7 +68,7 @@ export class GuildSession extends BaseSession {
         condition: RegExp,
         timeout: number | undefined = 6e4
     ): Promise<TextMessage | undefined> => {
-        if (timeout < 1e3) {log.warn(`timeout too short: ${timeout}, ${this}`); }
+        if (timeout < 1e3) kBotifyLogger.warn(`timeout too short: ${timeout}, ${this}`);
         const collector = this.client.collectors.user.create(
             this.userId,
             timeout

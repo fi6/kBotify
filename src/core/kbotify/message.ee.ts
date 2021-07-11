@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
 import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
-import { log } from '../logger';
 import { MessageEmissions } from './types';
+import { kBotifyLogger } from '../logger';
 import { KBotify } from '.';
 
 export declare interface MessageProcessor {
@@ -40,7 +40,7 @@ export class MessageProcessor extends EventEmitter {
                 try {
                     if (collector) {collector.add(message); }
                 } catch (error) {
-                    log.error(error);
+                    kBotifyLogger.error(error);
                 }
                 this.emit('text', message);
 

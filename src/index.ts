@@ -4,7 +4,7 @@ export { ResultTypes } from './core/types';
 export * from './core/command';
 export * from './core/card';
 export { SendOptions } from './core/msg.types';
-export { log as kBotifyLogger } from './core/logger';
+export { kBotifyLogger as kBotifyLogger } from './core/logger';
 export { KBotify } from './core/kbotify';
 
 export * from './core/user';

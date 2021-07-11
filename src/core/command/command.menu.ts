@@ -1,6 +1,6 @@
 import { Card, CardObject } from '../card';
 import { KBotify } from '../kbotify';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 import { BaseSession, GuildSession } from '../session';
 import { BaseCommand, CommandTypes, ResultTypes } from '../types';
 import { AppCommand } from './command.app';
@@ -109,7 +109,7 @@ export abstract class MenuCommand implements BaseCommand {
             try {
                 session = await GuildSession.fromSession(session, false);
             } catch (error) {
-                log.error('Error when getting guild session', session);
+                kBotifyLogger.error('Error when getting guild session', session);
             }
         }
         try {
@@ -147,7 +147,7 @@ export abstract class MenuCommand implements BaseCommand {
 
             return app.exec(session);
         } catch (err) {
-            log.error(err);
+            kBotifyLogger.error(err);
         }
     }
 

@@ -1,17 +1,17 @@
 import { KaiheilaBot } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
-import { LogLevel } from 'bunyan';
 import { AppCommand, MenuCommand } from '../..';
 
 import { ButtonEventMessage, TextMessage } from '../message';
 import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
-import { log } from '../logger';
 import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { CollectorManager } from './collector';
+import { kBotifyLogger } from '../logger';
+import { LogLevel } from 'bunyan';
 import { API } from './api';
 
 export declare interface KBotify {
@@ -38,7 +38,7 @@ export class KBotify extends KaiheilaBot {
     mentionWithSpace: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
-    logger = log;
+    logger = kBotifyLogger;
     API: API;
     /**
      * Creates an instance of KBotify.
@@ -71,12 +71,12 @@ export class KBotify extends KaiheilaBot {
             this.event.process(msg, this);
         });
         this.defaultHandler();
-        this.messageSource.connect().then(res => {
-            log.debug('connected: ', res);
+        this.messageSource.connect().then((res) => {
+            kBotifyLogger.debug('connected: ', res);
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.userId = info.id;
-            log.debug('bot userId:', this.userId);
+            kBotifyLogger.debug('bot userId:', this.userId);
         });
     }
 
