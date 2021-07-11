@@ -41,7 +41,7 @@ export interface AppCommandParams<T extends BaseData> {
     trigger: string;
     help: string;
     intro: string;
-    func: (data: T) => Promise<FuncResult<T> | ResultTypes | BaseSession>;
+    func(data: T): Promise<FuncResult<T> | ResultTypes | BaseSession>;
     useHelp: boolean;
 }
 /**
@@ -50,9 +50,7 @@ export interface AppCommandParams<T extends BaseData> {
  */
 export type AppCommandFunc<T extends BaseSession> = AppFunc<T>;
 
-export interface AppFunc<T extends GuildSession | BaseSession> {
-    (session: T): Promise<FuncResult<any> | ResultTypes | void>;
-}
+export type AppFunc<T extends GuildSession | BaseSession> = (session: T) => Promise<FuncResult<any> | ResultTypes | void>;
 
 /**
  * Result for App Funcs.

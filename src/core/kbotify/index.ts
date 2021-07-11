@@ -1,14 +1,14 @@
-import { AppCommand, MenuCommand } from '../..';
 import { KaiheilaBot } from 'kaiheila-bot-root';
 import { CurrentUserInfoInternal } from 'kaiheila-bot-root/dist/api/user/user.types';
+import { AppCommand, MenuCommand } from '../..';
 
 import { ButtonEventMessage, TextMessage } from '../message';
+import { createSession } from '../session';
+import { CacheManager } from '../cache/cache.manager';
 import { BotConfig, RawEmissions } from './types';
 import { MessageProcessor } from './message.ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
-import { createSession } from '../session';
-import { CacheManager } from '../cache/cache.manager';
 import { CollectorManager } from './collector';
 import { kBotifyLogger } from '../logger';
 import { LogLevel } from 'bunyan';
@@ -54,7 +54,7 @@ export class KBotify extends KaiheilaBot {
         if (config.debug === true) {
             this.logger.addStream({
                 level: 'debug',
-                stream: process.stdout,
+                stream: process.stdout
             });
         }
         this.API = new API(this);
@@ -81,15 +81,15 @@ export class KBotify extends KaiheilaBot {
     }
 
     defaultHandler() {
-        this.message.on('text', (msg) => {
+        this.message.on('text', msg => {
             const res = this.processMsg(msg);
-            if (!res) return;
+            if (!res) {return; }
             const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
         });
-        this.message.on('buttonEvent', (msg) => {
+        this.message.on('buttonEvent', msg => {
             const res = this.processMsg(msg);
-            if (!res) return;
+            if (!res) {return; }
             const [command, ...args] = res;
             this.execute(command.toLowerCase(), args, msg);
         });
@@ -141,10 +141,11 @@ export class KBotify extends KaiheilaBot {
                 app.init(this);
             }
         }
-        aliases.forEach((alias) => {
+        aliases.forEach(alias => {
             this.commandMap.set(alias, command);
         });
     };
+
     /**
      * Process the command.
      *
@@ -167,6 +168,7 @@ export class KBotify extends KaiheilaBot {
 
         if (regex.test(command)) {
         }
+
         return;
     };
 
@@ -174,7 +176,7 @@ export class KBotify extends KaiheilaBot {
         return {
             botUserId: this.userId,
             mode: this.config.mode,
-            port: this.config.port,
+            port: this.config.port
         };
     }
 }

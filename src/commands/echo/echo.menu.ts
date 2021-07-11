@@ -1,8 +1,8 @@
+import { MenuCommand } from '../..';
 import { echoNext } from './echo.next.app';
 import { echoCard } from './echo.card.app';
 import { echoKmd } from './echo.kmd.app';
 import { echoPrivate } from './echo.private.app';
-import { MenuCommand } from '../..';
 import { echoNext2 } from './echo.next2.app';
 
 class EchoMenu extends MenuCommand {
@@ -10,6 +10,7 @@ class EchoMenu extends MenuCommand {
     trigger = 'echo';
     help =
         '如需测试KMarkDown请发送".echo kmd", 测试CardMessage请发送".echo card"';
+
     intro = '复读菜单';
     menu = menu;
     useCardMenu = true;

@@ -1,12 +1,12 @@
 import { kBotifyLogger } from '../logger';
 
-export type CardObject = {
+export interface CardObject {
     type: 'card';
     size: 'lg' | 'sm';
     theme?: Theme;
     color?: string;
     modules: any[];
-};
+}
 
 export type Theme =
     | 'primary'
@@ -16,7 +16,7 @@ export type Theme =
     | 'info'
     | 'secondary';
 
-export type ModuleObject = {
+export interface ModuleObject {
     [key: string]: any;
     type:
         | 'section'
@@ -29,7 +29,7 @@ export type ModuleObject = {
         | 'audio'
         | 'video'
         | 'countdown';
-};
+}
 
 export class Card implements CardObject {
     type: 'card' = 'card';
@@ -45,8 +45,7 @@ export class Card implements CardObject {
             } else {
                 card = content;
             }
-            if (!Card.validate(card))
-                throw new Error(`card is not valid: ${content}`);
+            if (!Card.validate(card)) {throw new Error(`card is not valid: ${content}`); }
             this.theme = card.theme ?? 'primary';
             this.size = card.size;
             this.color = card.color;
@@ -54,41 +53,46 @@ export class Card implements CardObject {
         }
     }
 
-    public static validate(content: CardObject): boolean {
+    static validate(content: CardObject): boolean {
         for (const module of content.modules) {
-            if (Array.isArray(module)) return false; // TODO
+            if (Array.isArray(module)) {return false; } // TODO
         }
+
         return true;
     }
 
-    public setSize(size: CardObject['size']): this {
+    setSize(size: CardObject['size']): this {
         this.size = size;
+
         return this;
     }
 
-    public setTheme(theme: Theme): this {
+    setTheme(theme: Theme): this {
         this.theme = theme;
+
         return this;
     }
 
-    public setColor(color: string): this {
+    setColor(color: string): this {
         this.color = color;
+
         return this;
     }
 
-    public addTitle(title: string, emoji?: boolean): this {
+    addTitle(title: string, emoji?: boolean): this {
         this.modules.push({
             type: 'header',
             text: {
                 type: 'plain-text',
                 content: title,
-                emoji: emoji,
-            },
+                emoji
+            }
         });
+
         return this;
     }
 
-    public addImage(
+    addImage(
         source: string,
         options?: {
             alt?: string;
@@ -98,34 +102,35 @@ export class Card implements CardObject {
     ): this {
         this.modules.push({
             type: 'image-group',
-            elements: [{ type: 'image', src: source, ...options }],
+            elements: [{ type: 'image', src: source, ...options }]
         });
+
         return this;
     }
 
-    public addText(
+    addText(
         content: string,
         emoji = true,
         accessoryMode: 'right' | 'left' = 'right',
         accessory: any = {}
     ): this {
-        if (accessory?.type == 'button' && accessoryMode == 'left')
-            throw new Error('button + mode: left is not valid');
+        if (accessory?.type == 'button' && accessoryMode == 'left') {throw new Error('button + mode: left is not valid'); }
 
         this.modules.push({
             type: 'section',
             text: {
                 type: 'kmarkdown',
-                content,
+                content
             },
-            emoji: emoji,
+            emoji,
             mode: accessoryMode,
-            accessory: accessory,
+            accessory
         });
+
         return this;
     }
 
-    public addCountdown(
+    addCountdown(
         mode: 'second' | 'hour' | 'day',
         endTime: number | Date,
         startTime?: number | Date
@@ -140,20 +145,23 @@ export class Card implements CardObject {
             kBotifyLogger.warn('endTime < current Time, may cause problem for card');
         this.modules.push({
             type: 'countdown',
-            mode: mode,
-            startTime: startTime,
-            endTime: endTime,
+            mode,
+            startTime,
+            endTime
         });
+
         return this;
     }
 
-    public addDivider(): this {
+    addDivider(): this {
         this.modules.push({ type: 'divider' });
+
         return this;
     }
 
-    public addModule(module: ModuleObject): this {
+    addModule(module: ModuleObject): this {
         this.modules.push(module);
+
         return this;
     }
 
@@ -164,22 +172,23 @@ export class Card implements CardObject {
      * @return {*}  {string}
      * @memberof Card
      */
-    public toString(arrayBracket = true): string {
+    toString(arrayBracket = true): string {
         const object = arrayBracket
             ? [
                   {
                       type: 'card',
                       theme: this.theme,
                       size: this.size,
-                      modules: this.modules,
-                  },
+                      modules: this.modules
+                  }
               ]
             : {
                   type: 'card',
                   theme: this.theme,
                   size: this.size,
-                  modules: this.modules,
+                  modules: this.modules
               };
+
         return JSON.stringify(object);
     }
 
@@ -187,7 +196,7 @@ export class Card implements CardObject {
      *
      * @deprecated
      */
-    public stringify(): string {
+    stringify(): string {
         return this.toString();
     }
 }

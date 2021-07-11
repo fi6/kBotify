@@ -5,6 +5,7 @@ export abstract class BaseObject {
     constructor(client: KBotify) {
         this.client = client;
     }
+
     /**
      *
      * @deprecated
@@ -15,6 +16,7 @@ export abstract class BaseObject {
     get _botInstance(): KBotify {
         return this.client;
     }
+
     getBotInstance = (): KBotify => {
         return this.client;
     };

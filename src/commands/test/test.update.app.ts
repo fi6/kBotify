@@ -2,16 +2,16 @@ import { AppCommand, AppFunc, BaseSession } from '../..';
 import { Card } from '../../core/card';
 import { GuildSession } from '../../core/session';
 
-let msgId: string | undefined = '';
+const msgId: string | undefined = '';
 
 class TestUpdate extends AppCommand {
     trigger = 'update';
     help = '';
     intro = '发送一个更新消息';
-    func: AppFunc<BaseSession> = async (s) => {
+    func: AppFunc<BaseSession> = async s => {
         // console.debug(JSON.stringify([getCard()]));
         const session = await GuildSession.fromSession(s, true);
-        console.log(session)
+        console.log(session);
         // if (!session.args.length) {
         //     session.updateMessage(msgId!, getCard(true).toString(true));
         //     return;
@@ -39,8 +39,8 @@ function getCard(update = false) {
                     type: 'plain-text',
                     content: update
                         ? 'updated'
-                        : '开黑啦：一款出色的文字、语音与组队工具',
-                },
+                        : '开黑啦：一款出色的文字、语音与组队工具'
+                }
             },
             {
                 type: 'action-group',
@@ -52,11 +52,11 @@ function getCard(update = false) {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '按钮1',
-                        },
-                    },
-                ],
-            },
-        ],
+                            content: '按钮1'
+                        }
+                    }
+                ]
+            }
+        ]
     });
 }
