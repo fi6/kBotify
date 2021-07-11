@@ -10,6 +10,7 @@ import { log } from '../core/logger';
 
 dotenv.config();
 
+// mod .env-template file
 const bot = new KBotify({
     mode: 'websocket',
     port: parseInt(process.env.KPORT!),

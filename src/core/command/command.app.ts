@@ -47,6 +47,10 @@ export abstract class AppCommand implements BaseCommand {
      * 默认的触发命令，如果有上级菜单需要先触发菜单
      */
     abstract trigger: string;
+    acceptMessageType: (typeof TextMessage | typeof ButtonEventMessage)[] = [
+        TextMessage,
+        ButtonEventMessage,
+    ];
     /**
      * 帮助文字，发送`.命令 帮助`时自动回复，kmarkdown消息
      */
@@ -92,7 +96,10 @@ export abstract class AppCommand implements BaseCommand {
     ): Promise<ResultTypes | void> {
         if (!this.client)
             throw new Error('command used before assigning a bot');
-
+        if (!this.checkInput(sessionOrCommand, msg)) return;
+        log.debug('running command', this.constructor.name);
+        return this.run(await this.createSession(sessionOrCommand, args, msg));
+        /*
         if (sessionOrCommand instanceof BaseSession) {
             // try to change basesession to guildsession if guildid exists
             if (sessionOrCommand.msg.guildId) {
@@ -122,16 +129,79 @@ export abstract class AppCommand implements BaseCommand {
                 throw new Error(
                     'Missing args or msg when using exec(command, args, msg)'
                 );
-            return this.run(createSession(this, args, msg, this.client));
-        }
+            return this.run(this.createSession(this, args, msg, this.client));
+        }*/
     }
+
+    /**
+     * return true if check passed
+     *
+     * @param {(BaseSession | string)} sessionOrCommand
+     * @param {(TextMessage | ButtonEventMessage)} [msg]
+     * @memberof AppCommand
+     */
+    checkInput = async (
+        sessionOrCommand: BaseSession | string,
+        msg?: TextMessage | ButtonEventMessage
+    ): Promise<boolean> => {
+        if (
+            !(sessionOrCommand instanceof GuildSession) &&
+            this.response == 'guild'
+        ) {
+            log.debug(
+                'guild only command receiving base session. return.',
+                this.constructor.name
+            );
+            return false;
+        }
+        msg = msg ?? (sessionOrCommand as BaseSession).msg;
+        for (const messageType of this.acceptMessageType) {
+            if (msg instanceof messageType) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    createSession = async (
+        sessionOrCommand: BaseSession | string,
+        args?: string[],
+        msg?: TextMessage | ButtonEventMessage,
+        client?: KBotify
+    ): Promise<BaseSession | GuildSession> => {
+        if (sessionOrCommand instanceof BaseSession) {
+            // try to change basesession to guildsession if guildid exists
+            if (sessionOrCommand.msg.guildId) {
+                try {
+                    sessionOrCommand = await GuildSession.fromSession(
+                        sessionOrCommand,
+                        false
+                    );
+                } catch (error) {
+                    log.error(
+                        'Error when getting guild session',
+                        sessionOrCommand
+                    );
+                }
+            }
+            sessionOrCommand.command = this;
+            return sessionOrCommand;
+        } else {
+            if (!args || !msg)
+                throw new Error(
+                    'Missing args or msg when using exec(command, args, msg)'
+                );
+            if (msg.guildId) return new GuildSession(this, args, msg, client);
+            else return new BaseSession(this, args, msg, client);
+        }
+    };
 
     private async run(
         session: BaseSession | GuildSession
     ): Promise<ResultTypes> {
         const args = session.args;
         const msg = session.msg;
-        log.debug('running command: ', session.cmdString, args, msg);
+        log.debug('running command: ', session.cmdString, args);
         if (!this.client)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
