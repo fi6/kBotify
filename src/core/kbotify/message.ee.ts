@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { KBotify } from '.';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { MessageEmissions } from './types';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 
 export declare interface MessageProcessor {
     on<K extends keyof MessageEmissions>(
@@ -39,7 +39,7 @@ export class MessageProcessor extends EventEmitter {
                 try {
                     if (collector) collector.add(message);
                 } catch (error) {
-                    log.error(error);
+                    kBotifyLogger.error(error);
                 }
                 this.emit('text', message);
                 // if (userCollectors.collecting(message.authorId)) {

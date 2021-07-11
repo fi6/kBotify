@@ -13,7 +13,7 @@ import { BaseUser } from '../user';
 import { BaseData, FuncResult } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 import { Guild } from '../guild';
 
 export class BaseSession extends BaseObject implements BaseData {
@@ -334,7 +334,7 @@ export class BaseSession extends BaseObject implements BaseData {
             throw new Error('session send used before bot assigned.');
 
         if (msgType == 10) {
-            if (withMention) log.info('发送卡片消息时使用了mention！', this);
+            if (withMention) kBotifyLogger.info('发送卡片消息时使用了mention！', this);
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
@@ -343,7 +343,7 @@ export class BaseSession extends BaseObject implements BaseData {
 
         if (this.msg instanceof ButtonEventMessage) {
             if (sendOptions?.reply) {
-                log.info('回复按钮点击事件时使用了引用！', this);
+                kBotifyLogger.info('回复按钮点击事件时使用了引用！', this);
                 sendOptions.reply = undefined;
             }
         }
@@ -357,7 +357,7 @@ export class BaseSession extends BaseObject implements BaseData {
             );
             return initFuncResult(this, resultType, msgSent);
         } catch (error) {
-            log.error(error);
+            kBotifyLogger.error(error);
         }
         return initFuncResult(this, resultType);
     };

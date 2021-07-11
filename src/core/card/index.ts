@@ -1,4 +1,4 @@
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 
 export type CardObject = {
     type: 'card';
@@ -137,7 +137,7 @@ export class Card implements CardObject {
             : new Date().valueOf();
         endTime = typeof endTime == 'number' ? endTime : endTime.valueOf();
         if (endTime < new Date().valueOf())
-            log.warn('endTime < current Time, may cause problem for card');
+            kBotifyLogger.warn('endTime < current Time, may cause problem for card');
         this.modules.push({
             type: 'countdown',
             mode: mode,

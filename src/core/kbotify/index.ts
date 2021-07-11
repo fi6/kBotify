@@ -10,7 +10,7 @@ import { messageParser } from './message.parse';
 import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
 import { CollectorManager } from './collector';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 import { LogLevel } from 'bunyan';
 import { API } from './api';
 
@@ -38,7 +38,7 @@ export class KBotify extends KaiheilaBot {
     mentionWithSpace: boolean;
     cache: CacheManager;
     collectors = new CollectorManager();
-    logger = log;
+    logger = kBotifyLogger;
     API: API;
     /**
      * Creates an instance of KBotify.
@@ -72,11 +72,11 @@ export class KBotify extends KaiheilaBot {
         });
         this.defaultHandler();
         this.messageSource.connect().then((res) => {
-            log.debug('connected: ', res);
+            kBotifyLogger.debug('connected: ', res);
         });
         this.API.user.me().then((info: CurrentUserInfoInternal) => {
             this.userId = info.id;
-            log.debug('bot userId:', this.userId);
+            kBotifyLogger.debug('bot userId:', this.userId);
         });
     }
 

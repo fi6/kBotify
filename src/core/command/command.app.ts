@@ -7,7 +7,7 @@ import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { GuildSession } from '../session';
 import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
-import { log } from '../logger';
+import { kBotifyLogger } from '../logger';
 
 export function initFuncResult<T>(
     data: T,
@@ -97,7 +97,7 @@ export abstract class AppCommand implements BaseCommand {
         if (!this.client)
             throw new Error('command used before assigning a bot');
         if (!this.checkInput(sessionOrCommand, msg)) return;
-        log.debug('running command', this.constructor.name);
+        kBotifyLogger.debug('running command', this.constructor.name);
         return this.run(await this.createSession(sessionOrCommand, args, msg));
         /*
         if (sessionOrCommand instanceof BaseSession) {
@@ -148,7 +148,7 @@ export abstract class AppCommand implements BaseCommand {
             !(sessionOrCommand instanceof GuildSession) &&
             this.response == 'guild'
         ) {
-            log.debug(
+            kBotifyLogger.debug(
                 'guild only command receiving base session. return.',
                 this.constructor.name
             );
@@ -178,7 +178,7 @@ export abstract class AppCommand implements BaseCommand {
                         false
                     );
                 } catch (error) {
-                    log.error(
+                    kBotifyLogger.error(
                         'Error when getting guild session',
                         sessionOrCommand
                     );
@@ -201,7 +201,7 @@ export abstract class AppCommand implements BaseCommand {
     ): Promise<ResultTypes> {
         const args = session.args;
         const msg = session.msg;
-        log.debug('running command: ', session.cmdString, args);
+        kBotifyLogger.debug('running command: ', session.cmdString, args);
         if (!this.client)
             throw new Error(
                 "'Command used before assigning a bot instance or message sender.'"
@@ -218,7 +218,7 @@ export abstract class AppCommand implements BaseCommand {
                 return result ? result : ResultTypes.SUCCESS;
             return result.resultType;
         } catch (error) {
-            log.error(error);
+            kBotifyLogger.error(error);
             return ResultTypes.ERROR;
         }
     }
