@@ -4,7 +4,7 @@ import {
     TextMessage as Text,
     User,
     UserInGuild,
-    UserInGuildNonStandard,
+    UserInGuildNonStandard
 } from 'kaiheila-bot-root';
 import { KBotify } from '../kbotify';
 
@@ -25,6 +25,7 @@ export class TextMessage {
               all: boolean;
               here: boolean;
           };
+
     channelName?: string;
     content: string;
     code: string;
@@ -56,5 +57,22 @@ export class TextMessage {
         this.guildId = rawMessage.guildId;
         this.channelType = rawMessage.channelType;
         this.client = client;
+    }
+
+    async delete(): Promise<boolean> {
+        return await this.client.API.message.delete(this.msgId);
+    }
+
+    async update(
+        content: string,
+        quote?: string,
+        tempTargetId?: string
+    ): Promise<boolean> {
+        return await this.client.API.message.update(
+            this.msgId,
+            content,
+            quote,
+            tempTargetId
+        );
     }
 }

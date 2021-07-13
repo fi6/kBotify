@@ -7,12 +7,14 @@ import { Channel } from '../channel';
 
 import { ButtonEventMessage, TextMessage } from '../message';
 import { SendOptions } from '../msg.types';
-import { SessionSendFunc } from './session.type';
 import { ResultTypes } from '../types';
 import { BaseUser } from '../user';
-import { BaseData } from '../command/types';
+import { BaseData, FuncResult } from '../command/types';
 import { MenuCommand } from '../command/command.menu';
 import { Card, CardObject } from '../card';
+import { kBotifyLogger } from '../logger';
+import { Guild } from '../guild';
+import { SessionSendFunc } from './session.type';
 
 export class BaseSession extends BaseObject implements BaseData {
     /**
@@ -24,8 +26,7 @@ export class BaseSession extends BaseObject implements BaseData {
     msg: ButtonEventMessage | TextMessage;
     channel: Channel;
     content: string | undefined;
-    // TODO: add guild
-    guildId?: string;
+    guild?: Guild;
     other?: any;
     /**
      * 会话的用户ID。
@@ -46,10 +47,7 @@ export class BaseSession extends BaseObject implements BaseData {
         this.command = command;
         this.args = args;
         this.msg = msg;
-        this.channel = new Channel(
-            { channelId: msg.channelId, channelType: msg.channelType },
-            this.client
-        );
+        this.channel = new Channel({ id: msg.channelId }, this.client);
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new BaseUser(msg.author, this.client);
@@ -57,7 +55,15 @@ export class BaseSession extends BaseObject implements BaseData {
             this.userId = msg.userId;
             this.user = new BaseUser(msg.user, this.client);
         }
+        this.channel = new Channel({ id: msg.channelId }, this.client);
+        if (msg.guildId) {
+            this.guild = new Guild(msg.guildId, this.client);
+        }
         // console.debug(this.user);
+    }
+
+    get guildId(): string | undefined {
+        return this.guild?.id;
     }
 
     reply: SessionSendFunc = async (
@@ -170,30 +176,6 @@ export class BaseSession extends BaseObject implements BaseData {
         });
     };
 
-    private _sendCard = async (
-        content:
-            | string
-            | (() => string)
-            | (() => Promise<string>)
-            | CardObject[]
-            | Card,
-        temp = false,
-        reply = false
-    ) => {
-        const str =
-            content instanceof Card
-                ? JSON.stringify([content])
-                : Array.isArray(content)
-                ? JSON.stringify(content)
-                : content;
-        return this._send(str, ResultTypes.SUCCESS, {
-            msgType: 10,
-            reply: reply,
-            mention: false,
-            temp: temp,
-        });
-    };
-
     sendCard = async (
         content:
             | string
@@ -217,7 +199,7 @@ export class BaseSession extends BaseObject implements BaseData {
     };
 
     /**
-     * WIP, Do not use
+     *
      * @param messageId
      * @param content
      * @param quote
@@ -225,20 +207,27 @@ export class BaseSession extends BaseObject implements BaseData {
     updateMessage = async (
         messageId: string,
         content: string | CardObject[],
-        quote?: string
-    ) => {
+        quote?: string,
+        tempTargetId?: string
+    ): Promise<FuncResult<boolean>> => {
         if (Array.isArray(content)) {
             content = JSON.stringify(content);
         }
-        return await this.client.API.message.update(
+        const result = await this.client.API.message.update(
             messageId,
             content,
-            quote
+            quote,
+            tempTargetId
+        );
+
+        return initFuncResult(
+            result,
+            result ? ResultTypes.SUCCESS : ResultTypes.FAIL
         );
     };
 
     /**
-     * WIP, Do not use
+     *
      * @param messageId
      * @param content
      * @param quote
@@ -248,15 +237,12 @@ export class BaseSession extends BaseObject implements BaseData {
         content: string | CardObject[],
         quote?: string
     ) => {
-        if (Array.isArray(content)) {
-            content = JSON.stringify(content);
-        }
-        this.client.post('v3/message/update', {
-            msg_id: messageId,
-            content: content,
-            quote: quote,
-            temp_target_id: this.user.id,
-        });
+        return await this.updateMessage(
+            messageId,
+            content,
+            quote,
+            this.user.id
+        );
     };
 
     /**
@@ -274,18 +260,26 @@ export class BaseSession extends BaseObject implements BaseData {
     ) => {
         const func = (msg: any) => {
             msg = msg as TextMessage;
-            if (msg.authorId != this.userId) return;
+            if (msg.authorId != this.userId) {
+                return;
+            }
             if (condition instanceof RegExp) {
-                if (!condition.test(msg.content)) return;
-            } else if (!msg.content.includes(condition)) return;
+                if (!condition.test(msg.content)) {
+                    return;
+                }
+            } else if (!msg.content.includes(condition)) {
+                return;
+            }
             callback(msg);
             this.client.message.off('text', func);
         };
         this.client.message.on('text', func);
-        if (timeout)
+        if (timeout) {
             setTimeout(() => {
                 this.client.message.off('text', func);
             }, timeout);
+        }
+
         return () => {
             this.client.message.off('text', func);
         };
@@ -311,9 +305,11 @@ export class BaseSession extends BaseObject implements BaseData {
         resultType = ResultTypes.SUCCESS,
         sendOptions?: SendOptions
     ) => {
-        if (typeof content !== 'string') content = await content();
+        if (typeof content !== 'string') {
+            content = await content();
+        }
 
-        //decide if msg should be sent in specific channel.
+        // decide if msg should be sent in specific channel.
         let replyChannelId = this.msg.channelId;
         replyChannelId = sendOptions?.channel ?? replyChannelId;
 
@@ -323,12 +319,14 @@ export class BaseSession extends BaseObject implements BaseData {
 
         let withMention = sendOptions?.mention ?? false;
 
-        if (!this.client)
+        if (!this.client) {
             throw new Error('session send used before bot assigned.');
+        }
 
         if (msgType == 10) {
-            if (withMention)
-                console.warn('发送卡片消息时使用了mention！', this);
+            if (withMention) {
+                kBotifyLogger.info('发送卡片消息时使用了mention！', this);
+            }
             withMention = false;
             content = content.replace(/(\r\n|\n|\r)/gm, '');
         }
@@ -337,7 +335,7 @@ export class BaseSession extends BaseObject implements BaseData {
 
         if (this.msg instanceof ButtonEventMessage) {
             if (sendOptions?.reply) {
-                console.warn('回复按钮点击事件时使用了引用！', this);
+                kBotifyLogger.info('回复按钮点击事件时使用了引用！', this);
                 sendOptions.reply = undefined;
             }
         }
@@ -349,10 +347,37 @@ export class BaseSession extends BaseObject implements BaseData {
                 sendOptions?.reply ? this.msg.msgId : undefined,
                 sendOptions?.temp ? this.userId : undefined
             );
+
             return initFuncResult(this, resultType, msgSent);
         } catch (error) {
-            console.error(error);
+            kBotifyLogger.error(error);
         }
+
         return initFuncResult(this, resultType);
+    };
+
+    private readonly _sendCard = async (
+        content:
+            | string
+            | (() => string)
+            | (() => Promise<string>)
+            | CardObject[]
+            | Card,
+        temp = false,
+        reply = false
+    ) => {
+        const str =
+            content instanceof Card
+                ? JSON.stringify([content])
+                : Array.isArray(content)
+                ? JSON.stringify(content)
+                : content;
+
+        return this._send(str, ResultTypes.SUCCESS, {
+            msgType: 10,
+            reply,
+            mention: false,
+            temp,
+        });
     };
 }

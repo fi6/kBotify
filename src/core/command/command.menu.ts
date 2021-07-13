@@ -1,4 +1,6 @@
+import { Card, CardObject } from '../card';
 import { KBotify } from '../kbotify';
+import { kBotifyLogger } from '../logger';
 import { BaseSession, GuildSession } from '../session';
 import { BaseCommand, CommandTypes, ResultTypes } from '../types';
 import { AppCommand } from './command.app';
@@ -15,11 +17,11 @@ import { AppCommand } from './command.app';
  * @template T extends BaseData
  */
 export abstract class MenuCommand implements BaseCommand {
+    readonly type = CommandTypes.MENU;
     code = 'code';
     /**
      * 菜单触发文字
      */
-    abstract trigger: string;
     /**
      * 帮助文字。当发送`(菜单触发文字) 帮助`时返回的提示。
      */
@@ -27,7 +29,7 @@ export abstract class MenuCommand implements BaseCommand {
     /**
      * 菜单文字。如果设置useCardMenu=true，此处应为json样式的字符串。
      */
-    menu = 'menu';
+    menu: string | CardObject[] = [new Card().addText('menu card')];
     commandMap = new Map<string, AppCommand>();
     /**
      * 此命令绑定的bot实例
@@ -36,9 +38,9 @@ export abstract class MenuCommand implements BaseCommand {
     /**
      * 是否使用cardmessage作为菜单，默认为否。如果为是，则菜单文字内容必须为cardmessage。
      */
-    useCardMenu = false;
+    useCardMenu = true;
     useTempMenu = true;
-    readonly type = CommandTypes.MENU;
+    abstract trigger: string;
 
     /**
      * Creates an instance of MenuCommand.
@@ -52,6 +54,9 @@ export abstract class MenuCommand implements BaseCommand {
             this.commandMap.set(app.trigger, app);
             app.parent = this;
         });
+        if (!this.useCardMenu && typeof this.menu !== 'string') {
+            throw new Error('using text menu with non-string menu');
+        }
     }
 
     init = (client: KBotify): void => {
@@ -72,10 +77,11 @@ export abstract class MenuCommand implements BaseCommand {
      * @memberof MenuCommand
      */
     addAlias(app: AppCommand, ...aliases: string[]): void {
-        if (!this.client)
+        if (!this.client) {
             throw new Error(
                 `You must init menu ${this.code} with a bot before adding alias to apps.`
             );
+        }
         aliases.forEach((alias) => {
             this.commandMap.set(alias, app);
             app.parent = this;
@@ -105,27 +111,31 @@ export abstract class MenuCommand implements BaseCommand {
         }
         if (session.msg.guildId) {
             try {
-                session = GuildSession.fromSession(session);
+                session = await GuildSession.fromSession(session, false);
             } catch (error) {
-                undefined;
+                kBotifyLogger.error(
+                    'Error when getting guild session',
+                    session
+                );
             }
         }
         try {
             if (!args.length) {
-                if (this.useCardMenu) {
-                    session._send(this.menu, ResultTypes.SUCCESS, {
-                        msgType: 10,
-                        temp: this.useTempMenu,
-                    });
+                if (!this.useCardMenu) {
+                    const omit = this.useTempMenu
+                        ? session.sendTemp(this.menu as string)
+                        : session.send(this.menu as string);
                 } else {
-                    session._send(this.menu, ResultTypes.SUCCESS, {
-                        temp: this.useTempMenu,
-                    });
+                    const omit = this.useTempMenu
+                        ? session.sendCardTemp(this.menu)
+                        : session.sendCard(this.menu);
                 }
+
                 return ResultTypes.HELP;
             }
             if (args[0] === '帮助') {
                 session.reply(this.help);
+
                 return ResultTypes.HELP;
             }
 
@@ -138,13 +148,16 @@ export abstract class MenuCommand implements BaseCommand {
                         `${this.trigger}` +
                         '`'
                 );
+
                 return ResultTypes.WRONG_ARGS;
             }
+
             return app.exec(session);
         } catch (err) {
-            console.error(err);
+            kBotifyLogger.error(err);
         }
     }
+
     /**
      * If you want to have something done before executing app command, please overwrite this.
      * 默认情况下直接调用菜单的func功能。

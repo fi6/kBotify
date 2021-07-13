@@ -3,11 +3,11 @@ import { KBotify } from '../kbotify';
 import { BaseUser } from '../user';
 import { GuildUser } from '../user/user.guild';
 
-export class ButtonEventMessage implements Partial<ButtonClickEvent> {
+export class ButtonEventMessage /* implements Partial<ButtonClickEvent>*/ {
     msgId: string;
     msgTimestamp: number;
     static type = 'buttonClick';
-    channelType: string;
+    channelType: 'GROUP' | string;
     guildId?: string;
     channelId: string;
     targetMsgId: string;
@@ -27,6 +27,7 @@ export class ButtonEventMessage implements Partial<ButtonClickEvent> {
         this.user = new BaseUser(rawEvent.user, bot);
         this.client = bot;
     }
+
     /**
      * use client instead
      * @deprecated
