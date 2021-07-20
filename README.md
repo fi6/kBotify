@@ -6,7 +6,6 @@
 
 [![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
-
 ## 优势
 
 ## 更新历史
@@ -34,6 +33,7 @@
 -   [x] 文档
 -   [x] 精简不必要的代码
 -   [ ] 自动生成 Menu
+-   [ ] 增加命令速率限制（全局，服务器，频道，角色，用户）
 -   [ ] session 增加 context
 -   [ ] 增加匹配模式：命令匹配/前缀匹配（如：直接匹配 .房间 创建，而不是先匹配.房间再匹配创建）
 -   [ ] 增加 test
