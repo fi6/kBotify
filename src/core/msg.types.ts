@@ -11,13 +11,11 @@ export interface SendOptions {
     temp?: boolean;
 }
 
-export interface SendFunc {
-    <T extends BaseSession>(
-        content: string | (() => string) | string | (() => Promise<string>),
-        data: T,
-        resultType?: ResultTypes,
-        sendOptions?: SendOptions
-    ): Promise<FuncResult<T>>;
-}
+export type SendFunc = <T extends BaseSession>(
+    content: string | (() => string) | string | (() => Promise<string>),
+    data: T,
+    resultType?: ResultTypes,
+    sendOptions?: SendOptions
+) => Promise<FuncResult<T>>;
 
 export {};

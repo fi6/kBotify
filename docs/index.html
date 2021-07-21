@@ -62,8 +62,11 @@
 					<h1>kBotify</h1>
 				</a>
 				<p>基于 botRoot 的开黑啦 Bot 开发框架。</p>
-				<p>同时具有sdk/botFramework模式，可以按需使用。</p>
+				<p>同时具有 sdk/botFramework 模式，可以按需使用。<a href="https://fi6.github.io/kBotify/">文档链接</a></p>
 				<p><a href="https://www.npmjs.com/package/kbotify"><img src="https://badge.fury.io/js/kbotify.svg" alt="npm version"></a></p>
+				<a href="#优势" id="优势" style="color: inherit; text-decoration: none;">
+					<h2>优势</h2>
+				</a>
 				<a href="#更新历史" id="更新历史" style="color: inherit; text-decoration: none;">
 					<h2>更新历史</h2>
 				</a>
@@ -71,25 +74,19 @@
 					<h3>0.2.3</h3>
 				</a>
 				<ul>
-					<li><p>可以直接在update message中使用card了</p>
-					</li>
-					<li><p>将_botInstance重命名为client，增加了deprecate标志</p>
-					</li>
-					<li><p><code>Card.toString()</code>增加了选项，可以输出带有方括号或无方括号的string。</p>
-						<a href="#021" id="021" style="color: inherit; text-decoration: none;">
-							<h3>0.2.1</h3>
-						</a>
-					</li>
-					<li><p>  更新了少量 API，0.2.2 版本将会覆盖 99%API</p>
-					</li>
-					<li><p>  增加了<code>class Card</code>，废弃了之前使用 parser 的模式，提供更好的卡片消息操作性能。</p>
-					</li>
-					<li><p>  增加了<code>GuildSession.awaitMessage</code>，允许开发者等待用户在当前频道的下一条消息。</p>
-					</li>
-					<li><p>  增加了<code>collecter</code>，允许开发者在一定时间内收集频道内的消息，并且自定义停止的 trigger。</p>
-					</li>
-					<li><p>  解决了由于 pr#5 带来的 mention、reply 错误的问题</p>
-					</li>
+					<li>  可以直接在 update message 中使用 card 了</li>
+					<li>  将_botInstance 重命名为 client，增加了 deprecate 标志</li>
+					<li>  <code>Card.toString()</code>增加了选项，可以输出带有方括号或无方括号的 string。</li>
+				</ul>
+				<a href="#021" id="021" style="color: inherit; text-decoration: none;">
+					<h3>0.2.1</h3>
+				</a>
+				<ul>
+					<li>  更新了少量 API，0.2.2 版本将会覆盖 99%API</li>
+					<li>  增加了<code>class Card</code>，废弃了之前使用 parser 的模式，提供更好的卡片消息操作性能。</li>
+					<li>  增加了<code>GuildSession.awaitMessage</code>，允许开发者等待用户在当前频道的下一条消息。</li>
+					<li>  增加了<code>collecter</code>，允许开发者在一定时间内收集频道内的消息，并且自定义停止的 trigger。</li>
+					<li>  解决了由于 pr#5 带来的 mention、reply 错误的问题</li>
 				</ul>
 				<a href="#013" id="013" style="color: inherit; text-decoration: none;">
 					<h3>0.1.3</h3>
@@ -104,8 +101,12 @@
 					<li>  [x] 文档</li>
 					<li>  [x] 精简不必要的代码</li>
 					<li>  [ ] 自动生成 Menu</li>
+					<li>  [ ] 增加命令速率限制（全局，服务器，频道，角色，用户）</li>
 					<li>  [ ] session 增加 context</li>
 					<li>  [ ] 增加匹配模式：命令匹配/前缀匹配（如：直接匹配 .房间 创建，而不是先匹配.房间再匹配创建）</li>
+					<li>  [ ] 增加 test</li>
+					<li>  [ ] 插件化</li>
+					<li>  [ ] aws lambda 接口</li>
 				</ul>
 				<a href="#简单说明" id="简单说明" style="color: inherit; text-decoration: none;">
 					<h2>简单说明</h2>
@@ -225,6 +226,9 @@
 						<a href="classes/buttoneventmessage.html" class="tsd-kind-icon">Button<wbr>Event<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/card.html" class="tsd-kind-icon">Card</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/channel.html" class="tsd-kind-icon">Channel</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -242,11 +246,11 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="interfaces/appcommandparams.html" class="tsd-kind-icon">App<wbr>Command<wbr>Params</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/appfunc.html" class="tsd-kind-icon">App<wbr>Func</a>
-					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cardobject.html" class="tsd-kind-icon">Card<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="interfaces/funcresult.html" class="tsd-kind-icon">Func<wbr>Result</a>
@@ -255,10 +259,22 @@
 						<a href="interfaces/menucommandparams.html" class="tsd-kind-icon">Menu<wbr>Command<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/moduleobject.html" class="tsd-kind-icon">Module<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/sendoptions.html" class="tsd-kind-icon">Send<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#appcommandfunc" class="tsd-kind-icon">App<wbr>Command<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#appfunc" class="tsd-kind-icon">App<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#theme" class="tsd-kind-icon">Theme</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#kbotifylogger" class="tsd-kind-icon">k<wbr>Botify<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#createsession" class="tsd-kind-icon">create<wbr>Session</a>
@@ -281,18 +297,20 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 		</div>
 	</div>

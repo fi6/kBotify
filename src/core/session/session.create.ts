@@ -11,6 +11,9 @@ export function createSession(
     msg: TextMessage | ButtonEventMessage,
     bot?: KBotify
 ): BaseSession | GuildSession {
-    if (msg.guildId) return new GuildSession(command, args, msg, bot);
-    else return new BaseSession(command, args, msg, bot);
+    if (msg.guildId) {
+        return new GuildSession(command, args, msg, bot);
+    } else {
+        return new BaseSession(command, args, msg, bot);
+    }
 }

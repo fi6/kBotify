@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AppFunc | kbotify</title>
+	<title>ModuleObject | kbotify</title>
 	<meta name="description" content="Documentation for kbotify">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,53 +55,53 @@
 					<a href="../modules.html">kbotify</a>
 				</li>
 				<li>
-					<a href="appfunc.html">AppFunc</a>
+					<a href="moduleobject.html">ModuleObject</a>
 				</li>
 			</ul>
-			<h1>Interface AppFunc&lt;T&gt;</h1>
+			<h1>Interface ModuleObject</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>T<span class="tsd-signature-symbol">: </span><a href="../classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol"> | </span><a href="../classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">AppFunc</span>
+						<span class="target">ModuleObject</span>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel">
-				<h3 class="tsd-before-signature">Callable</h3>
-				<ul class="tsd-signatures tsd-kind-interface tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">App<wbr>Func<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#pending" class="tsd-signature-type" data-tsd-kind="Enumeration member">PENDING</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#success" class="tsd-signature-type" data-tsd-kind="Enumeration member">SUCCESS</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#fail" class="tsd-signature-type" data-tsd-kind="Enumeration member">FAIL</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#error" class="tsd-signature-type" data-tsd-kind="Enumeration member">ERROR</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#help" class="tsd-signature-type" data-tsd-kind="Enumeration member">HELP</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#wrong_args" class="tsd-signature-type" data-tsd-kind="Enumeration member">WRONG_ARGS</a><span class="tsd-signature-symbol"> | </span><a href="funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/command/types.ts#L53">src/core/command/types.ts:53</a></li>
+			<section class="tsd-panel tsd-kind-interface">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">any</span></div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="moduleobject.html#type" class="tsd-kind-icon">type</a></li>
 							</ul>
-						</aside>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>session: <span class="tsd-signature-type">T</span></h5>
-							</li>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;section&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;image-group&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;header&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;divider&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;action-group&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;context&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;file&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;audio&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;video&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;countdown&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/card/index.ts#L21">src/core/card/index.ts:21</a></li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#pending" class="tsd-signature-type" data-tsd-kind="Enumeration member">PENDING</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#success" class="tsd-signature-type" data-tsd-kind="Enumeration member">SUCCESS</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#fail" class="tsd-signature-type" data-tsd-kind="Enumeration member">FAIL</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#error" class="tsd-signature-type" data-tsd-kind="Enumeration member">ERROR</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#help" class="tsd-signature-type" data-tsd-kind="Enumeration member">HELP</a><span class="tsd-signature-symbol"> | </span><a href="../enums/resulttypes.html#wrong_args" class="tsd-signature-type" data-tsd-kind="Enumeration member">WRONG_ARGS</a><span class="tsd-signature-symbol"> | </span><a href="funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
-					</li>
-				</ul>
+					</aside>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -130,6 +130,9 @@
 						<a href="../classes/buttoneventmessage.html" class="tsd-kind-icon">Button<wbr>Event<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="../classes/card.html" class="tsd-kind-icon">Card</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="../classes/channel.html" class="tsd-kind-icon">Channel</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -147,15 +150,11 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="appcommandparams.html" class="tsd-kind-icon">App<wbr>Command<wbr>Params</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-has-type-parameter">
-						<a href="appfunc.html" class="tsd-kind-icon">App<wbr>Func</a>
-					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="cardobject.html" class="tsd-kind-icon">Card<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="funcresult.html" class="tsd-kind-icon">Func<wbr>Result</a>
@@ -163,11 +162,32 @@
 					<li class=" tsd-kind-interface">
 						<a href="menucommandparams.html" class="tsd-kind-icon">Menu<wbr>Command<wbr>Params</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="moduleobject.html" class="tsd-kind-icon">Module<wbr>Object</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="moduleobject.html#type" class="tsd-kind-icon">type</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="sendoptions.html" class="tsd-kind-icon">Send<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#appcommandfunc" class="tsd-kind-icon">App<wbr>Command<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#appfunc" class="tsd-kind-icon">App<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#theme" class="tsd-kind-icon">Theme</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../modules.html#kbotifylogger" class="tsd-kind-icon">k<wbr>Botify<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#createsession" class="tsd-kind-icon">create<wbr>Session</a>
@@ -190,18 +210,20 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 		</div>
 	</div>

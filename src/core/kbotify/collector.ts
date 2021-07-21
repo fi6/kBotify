@@ -8,25 +8,29 @@ export class CollectorManager {
 class UserCollectorManager {
     #collectors: Map<string, Collector> = new Map();
     create = (userId: string, timeout = 6e4) => {
-        const current = this.#collectors.get(userId)
-        if (current){
-            current.emit('cancel')
-            this.#collectors.delete(userId)
+        const current = this.#collectors.get(userId);
+        if (current) {
+            current.emit('cancel');
+            this.#collectors.delete(userId);
         }
         const collector = new Collector(this, userId);
         this.#collectors.set(userId, collector);
         setTimeout(() => {
             this.remove(userId);
         }, timeout);
+
         return collector;
     };
+
     get = (userId: string) => {
         return this.#collectors.get(userId);
     };
+
     remove = (userId: string) => {
         this.#collectors.get(userId)?.emit('stop');
         this.#collectors.delete(userId);
     };
+
     collecting(userId: string) {
         return this.#collectors.has(userId);
     }
@@ -46,6 +50,7 @@ class Collector extends EventEmitter {
         this.messages.push(message);
         this.emit('add', message);
     };
+
     stop = () => {
         this.manager.remove(this.#id);
     };

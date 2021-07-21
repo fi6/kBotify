@@ -97,8 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#cmdstring" class="tsd-kind-icon">cmd<wbr>String</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#command" class="tsd-kind-icon">command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#content" class="tsd-kind-icon">content</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="guildsession.html#guild" class="tsd-kind-icon">guild</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#guildid" class="tsd-kind-icon">guild<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="guildsession.html#guild" class="tsd-kind-icon">guild</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#mention" class="tsd-kind-icon">mention</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#mentiontemp" class="tsd-kind-icon">mention<wbr>Temp</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#msg" class="tsd-kind-icon">msg</a></li>
@@ -117,6 +116,7 @@
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#_botinstance" class="tsd-kind-icon">_bot<wbr>Instance</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildsession.html#guildid" class="tsd-kind-icon">guild<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -144,14 +144,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Guild<wbr>Session<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="appcommand.html" class="tsd-signature-type" data-tsd-kind="Class">AppCommand</a><span class="tsd-signature-symbol"> | </span><a href="menucommand.html" class="tsd-signature-type" data-tsd-kind="Class">MenuCommand</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, msg<span class="tsd-signature-symbol">: </span><a href="textmessage.html" class="tsd-signature-type" data-tsd-kind="Class">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="buttoneventmessage.html" class="tsd-signature-type" data-tsd-kind="Class">ButtonEventMessage</a>, bot<span class="tsd-signature-symbol">?: </span><a href="kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Guild<wbr>Session<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="appcommand.html" class="tsd-signature-type" data-tsd-kind="Class">AppCommand</a><span class="tsd-signature-symbol"> | </span><a href="menucommand.html" class="tsd-signature-type" data-tsd-kind="Class">MenuCommand</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, msg<span class="tsd-signature-symbol">: </span><a href="textmessage.html" class="tsd-signature-type" data-tsd-kind="Class">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="buttoneventmessage.html" class="tsd-signature-type" data-tsd-kind="Class">ButtonEventMessage</a>, client<span class="tsd-signature-symbol">?: </span><a href="kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="basesession.html">BaseSession</a>.<a href="basesession.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.guild.ts#L11">src/core/session/session.guild.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.guild.ts#L12">src/core/session/session.guild.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +166,7 @@
 									<h5>msg: <a href="textmessage.html" class="tsd-signature-type" data-tsd-kind="Class">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="buttoneventmessage.html" class="tsd-signature-type" data-tsd-kind="Class">ButtonEventMessage</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> bot: <a href="kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> client: <a href="kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></h4>
@@ -183,7 +183,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#args">args</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L23">src/core/session/session.base.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L25">src/core/session/session.base.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +194,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#channel">channel</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L25">src/core/session/session.base.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L27">src/core/session/session.base.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +205,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#client">client</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/base/bot.object.ts#L4">src/core/base/bot.object.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/base/bot.object.ts#L4">src/core/base/bot.object.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -216,7 +216,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#cmdstring">cmdString</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L21">src/core/session/session.base.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L23">src/core/session/session.base.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,7 +232,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#command">command</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L22">src/core/session/session.base.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L24">src/core/session/session.base.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -243,28 +243,18 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#content">content</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L26">src/core/session/session.base.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L28">src/core/session/session.base.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="guild" class="tsd-anchor"></a>
 					<h3>guild</h3>
 					<div class="tsd-signature tsd-kind-icon">guild<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Guild</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides <a href="basesession.html">BaseSession</a>.<a href="basesession.html#guild">guild</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.guild.ts#L11">src/core/session/session.guild.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="guildid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> guild<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">guild<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#guildid">guildId</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L28">src/core/session/session.base.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.guild.ts#L12">src/core/session/session.guild.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -275,7 +265,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#mention">mention</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L129">src/core/session/session.base.ts:129</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L135">src/core/session/session.base.ts:135</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,7 +276,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#mentiontemp">mentionTemp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L140">src/core/session/session.base.ts:140</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L146">src/core/session/session.base.ts:146</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -297,7 +287,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#msg">msg</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L24">src/core/session/session.base.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L26">src/core/session/session.base.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -308,7 +298,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#other">other</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L29">src/core/session/session.base.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L30">src/core/session/session.base.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -319,7 +309,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#quote">quote</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L107">src/core/session/session.base.ts:107</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L113">src/core/session/session.base.ts:113</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -330,7 +320,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#quotetemp">quoteTemp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L118">src/core/session/session.base.ts:118</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L124">src/core/session/session.base.ts:124</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -341,7 +331,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#reply">reply</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L63">src/core/session/session.base.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L69">src/core/session/session.base.ts:69</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -352,7 +342,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#replytemp">replyTemp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L74">src/core/session/session.base.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L80">src/core/session/session.base.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -363,7 +353,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#send">send</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L151">src/core/session/session.base.ts:151</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L157">src/core/session/session.base.ts:157</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -374,7 +364,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#sendtemp">sendTemp</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L162">src/core/session/session.base.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L168">src/core/session/session.base.ts:168</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -385,7 +375,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="basesession.html">BaseSession</a>.<a href="basesession.html#user">user</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.guild.ts#L10">src/core/session/session.guild.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.guild.ts#L11">src/core/session/session.guild.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -396,7 +386,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#userid">userId</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L37">src/core/session/session.base.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L38">src/core/session/session.base.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -424,7 +414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/base/bot.object.ts#L15">src/core/base/bot.object.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/base/bot.object.ts#L16">src/core/base/bot.object.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,6 +432,23 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<a name="guildid" class="tsd-anchor"></a>
+					<h3>guild<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> guildId<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L65">src/core/session/session.base.ts:65</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -456,7 +463,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#_send">_send</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L309">src/core/session/session.base.ts:309</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L303">src/core/session/session.base.ts:303</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,9 +512,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.guild.ts#L46">src/core/session/session.guild.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.guild.ts#L71">src/core/session/session.guild.ts:71</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>等待用户在当前频道发送的下一条消息。</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>GuildSession</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -532,7 +549,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#getbotinstance">getBotInstance</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/base/bot.object.ts#L18">src/core/base/bot.object.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/base/bot.object.ts#L20">src/core/base/bot.object.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a></h4>
@@ -543,20 +560,20 @@
 					<a name="replycard" class="tsd-anchor"></a>
 					<h3>reply<wbr>Card</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">reply<wbr>Card<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">reply<wbr>Card<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#replycard">replyCard</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L85">src/core/session/session.base.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L91">src/core/session/session.base.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -567,20 +584,20 @@
 					<a name="replycardtemp" class="tsd-anchor"></a>
 					<h3>reply<wbr>Card<wbr>Temp</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">reply<wbr>Card<wbr>Temp<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">reply<wbr>Card<wbr>Temp<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#replycardtemp">replyCardTemp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L96">src/core/session/session.base.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L102">src/core/session/session.base.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -591,20 +608,20 @@
 					<a name="sendcard" class="tsd-anchor"></a>
 					<h3>send<wbr>Card</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Card<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Card<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#sendcard">sendCard</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L197">src/core/session/session.base.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L179">src/core/session/session.base.ts:179</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -615,20 +632,20 @@
 					<a name="sendcardtemp" class="tsd-anchor"></a>
 					<h3>send<wbr>Card<wbr>Temp</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Card<wbr>Temp<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Card<wbr>Temp<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#sendcardtemp">sendCardTemp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L208">src/core/session/session.base.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L190">src/core/session/session.base.ts:190</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Card</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="card.html" class="tsd-signature-type" data-tsd-kind="Class">Card</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -646,7 +663,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#settexttrigger">setTextTrigger</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L270">src/core/session/session.base.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L256">src/core/session/session.base.ts:256</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -713,36 +730,34 @@
 					<a name="updatemessage" class="tsd-anchor"></a>
 					<h3>update<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Message<span class="tsd-signature-symbol">(</span>messageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span>, quote<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Message<span class="tsd-signature-symbol">(</span>messageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span>, quote<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, tempTargetId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#updatemessage">updateMessage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L225">src/core/session/session.base.ts:225</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L207">src/core/session/session.base.ts:207</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>WIP, Do not use</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>messageId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> quote: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> tempTargetId: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -750,28 +765,23 @@
 					<a name="updatemessagetemp" class="tsd-anchor"></a>
 					<h3>update<wbr>Message<wbr>Temp</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">update<wbr>Message<wbr>Temp<span class="tsd-signature-symbol">(</span>messageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span>, quote<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Message<wbr>Temp<span class="tsd-signature-symbol">(</span>messageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span>, quote<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesession.html">BaseSession</a>.<a href="basesession.html#updatemessagetemp">updateMessageTemp</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.base.ts#L246">src/core/session/session.base.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.base.ts#L235">src/core/session/session.base.ts:235</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>WIP, Do not use</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>messageId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CardObject</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/cardobject.html" class="tsd-signature-type" data-tsd-kind="Interface">CardObject</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> quote: <span class="tsd-signature-type">string</span></h5>
@@ -779,7 +789,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -787,13 +797,13 @@
 					<a name="fromsession" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Session</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Session<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></li>
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Session<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a>, full<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/591e44d/src/core/session/session.guild.ts#L38">src/core/session/session.guild.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.guild.ts#L37">src/core/session/session.guild.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -801,8 +811,11 @@
 								<li>
 									<h5>session: <a href="basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h5>
 								</li>
+								<li>
+									<h5>full: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -834,6 +847,9 @@
 						<a href="buttoneventmessage.html" class="tsd-kind-icon">Button<wbr>Event<wbr>Message</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="card.html" class="tsd-kind-icon">Card</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="channel.html" class="tsd-kind-icon">Channel</a>
 					</li>
 				</ul>
@@ -862,11 +878,8 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildsession.html#content" class="tsd-kind-icon">content</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="guildsession.html#guild" class="tsd-kind-icon">guild</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="guildsession.html#guildid" class="tsd-kind-icon">guild<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildsession.html#mention" class="tsd-kind-icon">mention</a>
@@ -906,6 +919,9 @@
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildsession.html#_botinstance" class="tsd-kind-icon">_bot<wbr>Instance</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+								<a href="guildsession.html#guildid" class="tsd-kind-icon">guild<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildsession.html#_send" class="tsd-kind-icon">_send</a>
@@ -956,11 +972,11 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="../interfaces/appcommandparams.html" class="tsd-kind-icon">App<wbr>Command<wbr>Params</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="../interfaces/appfunc.html" class="tsd-kind-icon">App<wbr>Func</a>
-					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/basedata.html" class="tsd-kind-icon">Base<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/cardobject.html" class="tsd-kind-icon">Card<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="../interfaces/funcresult.html" class="tsd-kind-icon">Func<wbr>Result</a>
@@ -969,10 +985,22 @@
 						<a href="../interfaces/menucommandparams.html" class="tsd-kind-icon">Menu<wbr>Command<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="../interfaces/moduleobject.html" class="tsd-kind-icon">Module<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/sendoptions.html" class="tsd-kind-icon">Send<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../modules.html#appcommandfunc" class="tsd-kind-icon">App<wbr>Command<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../modules.html#appfunc" class="tsd-kind-icon">App<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#theme" class="tsd-kind-icon">Theme</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../modules.html#kbotifylogger" class="tsd-kind-icon">k<wbr>Botify<wbr>Logger</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../modules.html#createsession" class="tsd-kind-icon">create<wbr>Session</a>
@@ -995,18 +1023,20 @@
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
 			</ul>
 		</div>
 	</div>

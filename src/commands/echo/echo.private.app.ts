@@ -6,7 +6,10 @@ class EchoPrivate extends AppCommand {
     help = '`.echo pr 内容`';
     intro = '复读你所说的文字, 并用kmarkdown格式返回。';
     func: AppFunc<BaseSession> = async (session) => {
-        if (!session.args.length) return session.reply(this.help);
+        if (!session.args.length) {
+            return session.reply(this.help);
+        }
+
         return session._send(`${session.args}`);
     };
 }

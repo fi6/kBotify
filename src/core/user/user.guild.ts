@@ -1,9 +1,7 @@
 import { User, UserInGuild } from 'kaiheila-bot-root';
 import { Guild } from '../guild';
 import { KBotify } from '../kbotify';
-import { GuildSession } from '../session/session.guild';
 import { BaseUser } from './user.base';
-import { getUserFromGuild } from './user.get-from-guild';
 
 export class GuildUser extends BaseUser {
     roles?: number[];
@@ -22,19 +20,35 @@ export class GuildUser extends BaseUser {
     }
 
     full = async (): Promise<GuildUserFull> => {
+        if (!this.guild.id) {
+            throw new Error('no guild id provided for guild user');
+        }
         const guildCache = this.client.cache.guild(this.guild.id);
-        return await guildCache.getUser(this.id, this.username);
+
+        return guildCache.getUser(this.id, this.username);
     };
-    grantRole = (roleId: string | number, guildId?: string) => {
-        if (!guildId) guildId = this.guild.id;
+
+    grantRole = async (roleId: string | number, guildId?: string) => {
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
+
         return this.client.API.guildRole.grant(guildId, this.id, roleId);
     };
-    revokeRole = (roleId: string | number, guildId?: string) => {
-        if (!guildId) guildId = this.guild.id;
+
+    revokeRole = async (roleId: string | number, guildId?: string) => {
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
+
         return this.client.API.guildRole.revoke(guildId, this.id, roleId);
     };
-    changeNickname = (nickname: string, guildId?: string) => {
-        if (!guildId) guildId = this.guild.id;
+
+    changeNickname = async (nickname: string, guildId?: string) => {
+        if (!guildId) {
+            guildId = this.guild.id;
+        }
+
         return this.client.API.guild.nickname(guildId, nickname, this.id);
     };
 }
