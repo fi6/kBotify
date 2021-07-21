@@ -9,7 +9,8 @@
         "build-mac": "rm -rf dist/ && tsc -p tsconfig.production.json",
         "build-win": "@powershell rd .\\dist\\* -r -Force; tsc -p tsconfig.production.json",
         "publish-patch": "@powershell npm run build; npm version patch; npm publish",
-        "eslint": "eslint . --ext .ts --fix"
+        "eslint": "eslint . --ext .ts --fix",
+        "make-docs": "npx typedoc --out docs src/index.ts"
     },
     "repository": {
         "type": "git",
