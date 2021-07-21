@@ -36,21 +36,21 @@ export interface MenuCommandParams {
  * @param messageBuilder (optional)
  * @template T
  */
-export interface AppCommandParams<T extends BaseData> {
+export interface AppCommandParams<T extends BaseSession = BaseSession> {
     code: string;
     trigger: string;
     help: string;
     intro: string;
-    func(data: T): Promise<FuncResult<T> | ResultTypes | BaseSession>;
     useHelp: boolean;
+    func(data: T): Promise<FuncResult<T> | ResultTypes | BaseSession>;
 }
 /**
  * deprecated, please use appfunc
  * @deprecated
  */
-export type AppCommandFunc<T extends BaseSession> = AppFunc<T>;
+export type AppCommandFunc<T extends BaseSession = BaseSession> = AppFunc<T>;
 
-export type AppFunc<T extends GuildSession | BaseSession> = (
+export type AppFunc<T extends GuildSession | BaseSession = BaseSession> = (
     session: T
 ) => Promise<FuncResult<any> | ResultTypes | void>;
 
@@ -65,6 +65,7 @@ export type AppFunc<T extends GuildSession | BaseSession> = (
  * @property [msgSent]
  * @property [detail]
  */
+
 export interface FuncResult<T> {
     resultType: ResultTypes;
     session?: BaseSession;

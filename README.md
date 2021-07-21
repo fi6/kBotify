@@ -6,7 +6,15 @@
 
 [![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
+## 如何开始？
+
+你可以使用仓库模板：https://github.com/fi6/kBotify-template  
+参考其中的 src/commands/echo 文件夹即可。修改 src/configs 文件夹下 template-auth.ts 中的内容，并重命名为 auth.ts 即可开始使用。
+
 ## 优势
+强大的交互功能，让你轻松完成各种需要大量交互的复杂功能。  
+完善的API，稳定的迭代，让你专注开发，无需操心SDK。  
+同时拥有SDK与命令框架模式，一行代码也能写bot。
 
 ## 更新历史
 
@@ -43,14 +51,6 @@
 ## 简单说明
 
 请善用 ts 的自动补全。
-
-### 结构
-
-Bot
-
--   Menu/App
-    -   Menu/App
-    -   ...
 
 ### Bot 用法
 
