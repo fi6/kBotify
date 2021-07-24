@@ -96,7 +96,7 @@ export class BaseSession extends BaseObject implements BaseData {
             | CardObject[]
             | Card
     ) => {
-        return await this._sendCard(content, false, true);
+        return this._sendCard(content, false, true);
     };
 
     replyCardTemp = async (
@@ -107,7 +107,7 @@ export class BaseSession extends BaseObject implements BaseData {
             | CardObject[]
             | Card
     ) => {
-        return await this._sendCard(content, true, true);
+        return this._sendCard(content, true, true);
     };
 
     quote: SessionSendFunc = async (

@@ -1,10 +1,10 @@
 import { ButtonEventMessage, TextMessage } from '../message';
 import { KBotify } from '.';
 
-export function messageParser(
+export const messageParser = (
     msg: TextMessage | ButtonEventMessage,
     bot: KBotify
-) {
+) => {
     if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
         // console.log(msg)
         return msg.content.slice(1).trim().split(/ +/);
@@ -20,4 +20,4 @@ export function messageParser(
     }
 
     return;
-}
+};
