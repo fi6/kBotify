@@ -94,9 +94,10 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => string)
             | (() => Promise<string>)
             | CardObject[]
-            | Card
+            | Card,
+        options: Omit<SendOptions, 'reply'>
     ) => {
-        return this._sendCard(content, false, true);
+        return this._sendCard(content, { ...options, reply: true });
     };
 
     replyCardTemp = async (
@@ -105,9 +106,10 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => string)
             | (() => Promise<string>)
             | CardObject[]
-            | Card
+            | Card,
+        options: Omit<SendOptions, 'temp' | 'reply'>
     ) => {
-        return this._sendCard(content, true, true);
+        return this._sendCard(content, { ...options, temp: true, reply: true });
     };
 
     quote: SessionSendFunc = async (
@@ -182,9 +184,10 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => string)
             | (() => Promise<string>)
             | CardObject[]
-            | Card
+            | Card,
+        options?: SendOptions
     ) => {
-        return this._sendCard(content, false);
+        return this._sendCard(content, options);
     };
 
     sendCardTemp = async (
@@ -193,9 +196,10 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => string)
             | (() => Promise<string>)
             | CardObject[]
-            | Card
+            | Card,
+        options?: Omit<SendOptions, 'temp'>
     ) => {
-        return this._sendCard(content, true);
+        return this._sendCard(content, { ...options, temp: true });
     };
 
     /**
@@ -363,8 +367,7 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => Promise<string>)
             | CardObject[]
             | Card,
-        temp = false,
-        reply = false
+        options: SendOptions = { reply: false, temp: false }
     ) => {
         const str =
             content instanceof Card
@@ -375,9 +378,9 @@ export class BaseSession extends BaseObject implements BaseData {
 
         return this._send(str, ResultTypes.SUCCESS, {
             msgType: 10,
-            reply,
+            reply: options.reply,
             mention: false,
-            temp,
+            temp: options.temp,
         });
     };
 }
