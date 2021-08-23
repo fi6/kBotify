@@ -55,7 +55,7 @@ export class KBotify extends KaiheilaBot {
         if (config.debug === true) {
             this.logger.addStream({
                 level: 'debug',
-                stream: process.stdout
+                stream: process.stdout,
             });
         }
         this.API = new API(this);
@@ -181,7 +181,7 @@ export class KBotify extends KaiheilaBot {
         return {
             botUserId: this.userId,
             mode: this.config.mode,
-            port: this.config.port
+            port: this.config.port,
         };
     }
 }

@@ -5,15 +5,15 @@ import { ButtonEventMessage, TextMessage } from '../message';
 import { BaseSession } from './session.base';
 import { GuildSession } from './session.guild';
 
-export function createSession(
+export const createSession = (
     command: AppCommand | MenuCommand,
     args: string[],
     msg: TextMessage | ButtonEventMessage,
     bot?: KBotify
-): BaseSession | GuildSession {
+): BaseSession | GuildSession => {
     if (msg.guildId) {
         return new GuildSession(command, args, msg, bot);
     } else {
         return new BaseSession(command, args, msg, bot);
     }
-}
+};

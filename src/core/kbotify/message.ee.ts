@@ -22,6 +22,7 @@ export declare interface MessageProcessor {
     ): this;
 }
 
+// eslint-disable-next-line no-redeclare
 export class MessageProcessor extends EventEmitter {
     client;
     constructor(bot: KBotify) {

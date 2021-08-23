@@ -1,12 +1,10 @@
 import { ButtonClickEvent, UserInGuild } from 'kaiheila-bot-root';
 import { KBotify } from '../kbotify';
 import { BaseUser } from '../user';
-import { GuildUser } from '../user/user.guild';
-
 export class ButtonEventMessage /* implements Partial<ButtonClickEvent>*/ {
+    static type = 'buttonClick';
     msgId: string;
     msgTimestamp: number;
-    static type = 'buttonClick';
     channelType: 'GROUP' | string;
     guildId?: string;
     channelId: string;

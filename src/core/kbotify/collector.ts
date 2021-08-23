@@ -1,8 +1,24 @@
 import EventEmitter from 'events';
 import { TextMessage } from '../message';
 
-export class CollectorManager {
-    user: UserCollectorManager = new UserCollectorManager();
+class Collector extends EventEmitter {
+    manager: UserCollectorManager;
+    messages: TextMessage[] = [];
+    #id: string;
+    constructor(manager: UserCollectorManager, id: string) {
+        super();
+        this.manager = manager;
+        this.#id = id;
+    }
+
+    add = (message: TextMessage) => {
+        this.messages.push(message);
+        this.emit('add', message);
+    };
+
+    stop = () => {
+        this.manager.remove(this.#id);
+    };
 }
 
 class UserCollectorManager {
@@ -36,22 +52,6 @@ class UserCollectorManager {
     }
 }
 
-class Collector extends EventEmitter {
-    manager: UserCollectorManager;
-    messages: TextMessage[] = [];
-    #id: string;
-    constructor(manager: UserCollectorManager, id: string) {
-        super();
-        this.manager = manager;
-        this.#id = id;
-    }
-
-    add = (message: TextMessage) => {
-        this.messages.push(message);
-        this.emit('add', message);
-    };
-
-    stop = () => {
-        this.manager.remove(this.#id);
-    };
+export class CollectorManager {
+    user: UserCollectorManager = new UserCollectorManager();
 }

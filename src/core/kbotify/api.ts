@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable camelcase */
 import { API as rawAPI } from 'kaiheila-bot-root/dist/api';
 import { ChannelAPI as rawChannelAPI } from 'kaiheila-bot-root/dist/api/channel';
 import { BotInstance } from 'kaiheila-bot-root/dist/BotInstance';
@@ -49,7 +51,7 @@ class ChannelAPI extends rawChannelAPI {
         let raw;
         const data = (
             await this.client.get('v3/channel/view', {
-                target_id: channelId
+                target_id: channelId,
             })
         ).data as KHAPIResponse<KHChannel>;
         if (data.code === 0) {
