@@ -8,7 +8,7 @@ import { KHChannel } from 'kaiheila-bot-root/dist/types/kaiheila/common';
 import RequestError from 'kaiheila-bot-root/dist/models/Error/RequestError';
 import { transformChannel } from 'kaiheila-bot-root/dist/helper/transformer/channel';
 import { ChannelListResponseInternal } from 'kaiheila-bot-root/dist/api/channel/channel.types';
-import { Channel } from '../channel';
+import { Channel, GuildChannel } from '../channel';
 import { KBotify } from '.';
 
 export class API extends rawAPI {
@@ -43,7 +43,7 @@ class ChannelAPI extends rawChannelAPI {
             voiceQuality
         );
 
-        return Channel.fromRaw(raw, this.client);
+        return GuildChannel.fromRaw(raw, this.client);
     }
 
     async view(channelId: string): Promise<Required<Channel>> {
@@ -60,13 +60,13 @@ class ChannelAPI extends rawChannelAPI {
             throw new RequestError(data.code, data.message);
         }
 
-        return new Channel(raw, this.client) as Required<Channel>;
+        return new GuildChannel(raw, this.client) as Required<Channel>;
     }
 
     async list(guildId: string): Promise<ChannelListResponse> {
         const raw = await super.list(guildId);
         raw.items = raw.items.map((c) => {
-            return Channel.fromRaw(c, this.client);
+            return GuildChannel.fromRaw(c, this.client);
         });
 
         return raw as ChannelListResponse;

@@ -19,8 +19,8 @@ export class BaseUser extends BaseObject implements User {
     bot: boolean;
     nickname?: string;
 
-    constructor(userObject: User | (User & UserInGuild), bot: KBotify) {
-        super(bot);
+    constructor(userObject: User | (User & UserInGuild), client: KBotify) {
+        super(client);
 
         this.id = userObject.id;
         this.username = userObject.username;

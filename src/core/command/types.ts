@@ -66,7 +66,7 @@ export type AppFunc<T extends GuildSession | BaseSession = BaseSession> = (
  * @property [detail]
  */
 
-export interface FuncResult<T> {
+export interface FuncResult<T = any> {
     resultType: ResultTypes;
     session?: BaseSession;
     msgSent?: MessageCreateResponseInternal;

@@ -1,5 +1,6 @@
 import { MenuCommand } from '../..';
 import { testButton } from './test.button.app';
+import { testPrivate } from './test.private.app';
 import { testUpdate } from './test.update.app';
 
 class TestMenu extends MenuCommand {
@@ -10,4 +11,4 @@ class TestMenu extends MenuCommand {
     useCardMenu = false;
 }
 
-export const testMenu = new TestMenu(testButton, testUpdate);
+export const testMenu = new TestMenu(testPrivate, testButton, testUpdate);
