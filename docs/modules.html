@@ -75,10 +75,12 @@
 								<li class="tsd-kind-class"><a href="classes/baseuser.html" class="tsd-kind-icon">Base<wbr>User</a></li>
 								<li class="tsd-kind-class"><a href="classes/buttoneventmessage.html" class="tsd-kind-icon">Button<wbr>Event<wbr>Message</a></li>
 								<li class="tsd-kind-class"><a href="classes/card.html" class="tsd-kind-icon">Card</a></li>
-								<li class="tsd-kind-class"><a href="classes/channel.html" class="tsd-kind-icon">Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/guildchannel.html" class="tsd-kind-icon">Guild<wbr>Channel</a></li>
 								<li class="tsd-kind-class"><a href="classes/guildsession.html" class="tsd-kind-icon">Guild<wbr>Session</a></li>
 								<li class="tsd-kind-class"><a href="classes/kbotify.html" class="tsd-kind-icon">KBotify</a></li>
 								<li class="tsd-kind-class"><a href="classes/menucommand.html" class="tsd-kind-icon">Menu<wbr>Command</a></li>
+								<li class="tsd-kind-class"><a href="classes/privatechannel.html" class="tsd-kind-icon">Private<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/privatesession.html" class="tsd-kind-icon">Private<wbr>Session</a></li>
 								<li class="tsd-kind-class"><a href="classes/textmessage.html" class="tsd-kind-icon">Text<wbr>Message</a></li>
 							</ul>
 						</section>
@@ -99,6 +101,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#appcommandfunc" class="tsd-kind-icon">App<wbr>Command<wbr>Func</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#appfunc" class="tsd-kind-icon">App<wbr>Func</a></li>
+								<li class="tsd-kind-type-alias"><a href="modules.html#channel" class="tsd-kind-icon">Channel</a></li>
 								<li class="tsd-kind-type-alias"><a href="modules.html#theme" class="tsd-kind-icon">Theme</a></li>
 							</ul>
 						</section>
@@ -126,7 +129,7 @@
 					<div class="tsd-signature tsd-kind-icon">App<wbr>Command<wbr>Func&lt;T&gt;<span class="tsd-signature-symbol">:</span> <a href="modules.html#appfunc" class="tsd-signature-type" data-tsd-kind="Type alias">AppFunc</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/command/types.ts#L51">src/core/command/types.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/command/types.ts#L51">src/core/command/types.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -141,7 +144,7 @@
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
 						<li>
-							<h4>T<span class="tsd-signature-symbol">: </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
+							<h4>T<span class="tsd-signature-symbol">: </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a> = <a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -151,13 +154,13 @@
 					<div class="tsd-signature tsd-kind-icon">App<wbr>Func&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/funcresult.html" class="tsd-signature-type" data-tsd-kind="Interface">FuncResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="enums/resulttypes.html" class="tsd-signature-type" data-tsd-kind="Enumeration">ResultTypes</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/command/types.ts#L53">src/core/command/types.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/command/types.ts#L53">src/core/command/types.ts:53</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
 						<li>
-							<h4>T<span class="tsd-signature-symbol">: </span><a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
+							<h4>T<span class="tsd-signature-symbol">: </span><a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a> = <a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
 						</li>
 					</ul>
 					<div class="tsd-type-declaration">
@@ -183,12 +186,22 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="channel" class="tsd-anchor"></a>
+					<h3>Channel</h3>
+					<div class="tsd-signature tsd-kind-icon">Channel<span class="tsd-signature-symbol">:</span> <a href="classes/guildchannel.html" class="tsd-signature-type" data-tsd-kind="Class">GuildChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/privatechannel.html" class="tsd-signature-type" data-tsd-kind="Class">PrivateChannel</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/channel/index.ts#L6">src/core/channel/index.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="theme" class="tsd-anchor"></a>
 					<h3>Theme</h3>
 					<div class="tsd-signature tsd-kind-icon">Theme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;primary&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;success&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;warning&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;danger&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;info&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;secondary&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/card/index.ts#L11">src/core/card/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/card/index.ts#L11">src/core/card/index.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">k<wbr>Botify<wbr>Logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/logger/index.ts#L3">src/core/logger/index.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/logger/index.ts#L3">src/core/logger/index.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,15 +223,15 @@
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="createsession" class="tsd-anchor"></a>
-					<h3>create<wbr>Session</h3>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> create<wbr>Session</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Session<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="classes/appcommand.html" class="tsd-signature-type" data-tsd-kind="Class">AppCommand</a><span class="tsd-signature-symbol"> | </span><a href="classes/menucommand.html" class="tsd-signature-type" data-tsd-kind="Class">MenuCommand</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, msg<span class="tsd-signature-symbol">: </span><a href="classes/textmessage.html" class="tsd-signature-type" data-tsd-kind="Class">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="classes/buttoneventmessage.html" class="tsd-signature-type" data-tsd-kind="Class">ButtonEventMessage</a>, bot<span class="tsd-signature-symbol">?: </span><a href="classes/kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Session<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="classes/appcommand.html" class="tsd-signature-type" data-tsd-kind="Class">AppCommand</a><span class="tsd-signature-symbol"> | </span><a href="classes/menucommand.html" class="tsd-signature-type" data-tsd-kind="Class">MenuCommand</a>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, msg<span class="tsd-signature-symbol">: </span><a href="classes/textmessage.html" class="tsd-signature-type" data-tsd-kind="Class">TextMessage</a><span class="tsd-signature-symbol"> | </span><a href="classes/buttoneventmessage.html" class="tsd-signature-type" data-tsd-kind="Class">ButtonEventMessage</a>, bot<span class="tsd-signature-symbol">?: </span><a href="classes/kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/session/session.create.ts#L8">src/core/session/session.create.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/session/session.create.ts#L8">src/core/session/session.create.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -236,7 +249,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> bot: <a href="classes/kbotify.html" class="tsd-signature-type" data-tsd-kind="Class">KBotify</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="classes/guildsession.html" class="tsd-signature-type" data-tsd-kind="Class">GuildSession</a><span class="tsd-signature-symbol"> | </span><a href="classes/basesession.html" class="tsd-signature-type" data-tsd-kind="Class">BaseSession</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -250,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/8451d19/src/core/command/command.app.ts#L12">src/core/command/command.app.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/fi6/kBotify/blob/a0abd67/src/core/command/command.app.ts#L11">src/core/command/command.app.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -306,7 +319,7 @@
 						<a href="classes/card.html" class="tsd-kind-icon">Card</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/channel.html" class="tsd-kind-icon">Channel</a>
+						<a href="classes/guildchannel.html" class="tsd-kind-icon">Guild<wbr>Channel</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/guildsession.html" class="tsd-kind-icon">Guild<wbr>Session</a>
@@ -316,6 +329,12 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/menucommand.html" class="tsd-kind-icon">Menu<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/privatechannel.html" class="tsd-kind-icon">Private<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/privatesession.html" class="tsd-kind-icon">Private<wbr>Session</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/textmessage.html" class="tsd-kind-icon">Text<wbr>Message</a>
@@ -346,6 +365,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#appfunc" class="tsd-kind-icon">App<wbr>Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#channel" class="tsd-kind-icon">Channel</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#theme" class="tsd-kind-icon">Theme</a>
