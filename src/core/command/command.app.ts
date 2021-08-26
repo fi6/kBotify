@@ -12,7 +12,7 @@ export function initFuncResult<T>(
     data: T,
     resultType?: ResultTypes,
     msgSent?: MessageCreateResponseInternal
-): FuncResult<any> {
+): FuncResult {
     const funcResult: FuncResult<T> = {
         detail: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
@@ -42,7 +42,7 @@ export abstract class AppCommand implements BaseCommand {
     /**
      * 命令响应：仅响应频道，仅响应私聊，全部响应
      */
-    response: 'guild' | 'pm' | 'both' = 'guild';
+    response: 'guild' | 'private' | 'both' = 'guild';
     /**
      * 默认的触发命令，如果有上级菜单需要先触发菜单
      */
@@ -157,12 +157,21 @@ export abstract class AppCommand implements BaseCommand {
         msg?: TextMessage | ButtonEventMessage
     ): Promise<boolean> => {
         if (
-            !(sessionOrCommand instanceof GuildSession) &&
-            this.response === 'guild'
+            this.response === 'guild' &&
+            !(sessionOrCommand instanceof GuildSession)
         ) {
             kBotifyLogger.debug(
-                'guild only command receiving base session. return.',
-                this.constructor.name
+                `guild only command ${this.constructor.name} receiving base session. return.`
+            );
+
+            return false;
+        }
+        if (
+            this.response === 'private' &&
+            !(sessionOrCommand instanceof PrivateSession)
+        ) {
+            kBotifyLogger.debug(
+                `private only command ${this.constructor.name} receiving private session. return.`
             );
 
             return false;
