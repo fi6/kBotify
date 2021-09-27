@@ -3,7 +3,7 @@ import { mentionById } from '../../utils/mention-by-id';
 import { AppCommand, initFuncResult } from '../command/command.app';
 
 import { BaseObject } from '../base/bot.object';
-import { Channel } from '../channel';
+import { Channel, GuildChannel, PrivateChannel } from '../channel';
 
 import { ButtonEventMessage, TextMessage } from '../message';
 import { SendOptions } from '../msg.types';
@@ -41,13 +41,12 @@ export class BaseSession extends BaseObject implements BaseData {
         command: AppCommand | MenuCommand,
         args: string[],
         msg: ButtonEventMessage | TextMessage,
-        bot?: KBotify
+        client?: KBotify
     ) {
-        super(bot ?? msg.client);
+        super(client ?? msg.client);
         this.command = command;
         this.args = args;
         this.msg = msg;
-        this.channel = new Channel({ id: msg.channelId }, this.client);
         if (msg instanceof TextMessage) {
             this.userId = msg.authorId;
             this.user = new BaseUser(msg.author, this.client);
@@ -55,9 +54,14 @@ export class BaseSession extends BaseObject implements BaseData {
             this.userId = msg.userId;
             this.user = new BaseUser(msg.user, this.client);
         }
-        this.channel = new Channel({ id: msg.channelId }, this.client);
         if (msg.guildId) {
             this.guild = new Guild(msg.guildId, this.client);
+            this.channel = new GuildChannel({ id: msg.channelId }, this.client);
+        } else {
+            this.channel = new PrivateChannel(
+                { id: msg.channelId },
+                this.client
+            );
         }
         // console.debug(this.user);
     }
@@ -308,7 +312,7 @@ export class BaseSession extends BaseObject implements BaseData {
         content: string | (() => string) | string | (() => Promise<string>),
         resultType = ResultTypes.SUCCESS,
         sendOptions?: SendOptions
-    ) => {
+    ): Promise<FuncResult> => {
         if (typeof content !== 'string') {
             content = await content();
         }

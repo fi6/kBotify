@@ -51,6 +51,9 @@ export abstract class MenuCommand implements BaseCommand {
      */
     constructor(...apps: AppCommand[]) {
         apps.forEach((app) => {
+            if (this.commandMap.has(app.trigger)) {
+                kBotifyLogger.warn(`duplicate trigger found: ${app.trigger}`);
+            }
             this.commandMap.set(app.trigger, app);
             app.parent = this;
         });

@@ -28,7 +28,8 @@ export interface ModuleObject {
         | 'file'
         | 'audio'
         | 'video'
-        | 'countdown';
+        | 'countdown'
+        | 'invite';
 }
 
 export class Card implements CardObject {
@@ -89,8 +90,8 @@ export class Card implements CardObject {
             text: {
                 type: 'plain-text',
                 content: title,
-                emoji
-            }
+                emoji,
+            },
         });
 
         return this;
@@ -106,7 +107,7 @@ export class Card implements CardObject {
     ): this {
         this.modules.push({
             type: 'image-group',
-            elements: [{ type: 'image', src: source, ...options }]
+            elements: [{ type: 'image', src: source, ...options }],
         });
 
         return this;
@@ -126,11 +127,11 @@ export class Card implements CardObject {
             type: 'section',
             text: {
                 type: 'kmarkdown',
-                content
+                content,
             },
             emoji,
             mode: accessoryMode,
-            accessory
+            accessory,
         });
 
         return this;
@@ -156,7 +157,7 @@ export class Card implements CardObject {
             type: 'countdown',
             mode,
             startTime,
-            endTime
+            endTime,
         });
 
         return this;
@@ -188,14 +189,14 @@ export class Card implements CardObject {
                       type: 'card',
                       theme: this.theme,
                       size: this.size,
-                      modules: this.modules
-                  }
+                      modules: this.modules,
+                  },
               ]
             : {
                   type: 'card',
                   theme: this.theme,
                   size: this.size,
-                  modules: this.modules
+                  modules: this.modules,
               };
 
         return JSON.stringify(object);

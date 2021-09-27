@@ -31,8 +31,8 @@ function getCard() {
                 type: 'header',
                 text: {
                     type: 'plain-text',
-                    content: '开黑啦：一款出色的文字、语音与组队工具'
-                }
+                    content: '开黑啦：一款出色的文字、语音与组队工具',
+                },
             },
             {
                 type: 'action-group',
@@ -44,12 +44,12 @@ function getCard() {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '按钮1'
-                        }
-                    }
-                ]
-            }
-        ]
+                            content: '按钮1',
+                        },
+                    },
+                ],
+            },
+        ],
     });
 }
 
@@ -63,15 +63,15 @@ function getComplexCard() {
                 type: 'header',
                 text: {
                     type: 'plain-text',
-                    content: '房间菜单'
-                }
+                    content: '房间菜单',
+                },
             },
             {
                 type: 'section',
                 text: {
                     type: 'kmarkdown',
-                    content: '开黑啦是最好的~~语音~~软件:smile:'
-                }
+                    content: '开黑啦是最好的~~语音~~软件:smile:',
+                },
             },
             {
                 type: 'action-group',
@@ -83,8 +83,8 @@ function getComplexCard() {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '查看房间列表'
-                        }
+                            content: '查看房间列表',
+                        },
                     },
                     {
                         type: 'button',
@@ -93,8 +93,8 @@ function getComplexCard() {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '创建房间'
-                        }
+                            content: '创建房间',
+                        },
                     },
                     {
                         type: 'button',
@@ -103,8 +103,8 @@ function getComplexCard() {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '管理房间'
-                        }
+                            content: '管理房间',
+                        },
                     },
                     {
                         type: 'button',
@@ -113,12 +113,12 @@ function getComplexCard() {
                         click: 'return-val',
                         text: {
                             type: 'plain-text',
-                            content: '斗天梯'
-                        }
-                    }
-                ]
-            }
-        ]
+                            content: '斗天梯',
+                        },
+                    },
+                ],
+            },
+        ],
     });
 
     return card;

@@ -1,9 +1,8 @@
 import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
-import { BaseSession, createSession } from '../session';
 import { KBotify } from '../..';
 import { ButtonEventMessage, TextMessage } from '../message';
-import { GuildSession } from '../session';
+import { GuildSession, PrivateSession, BaseSession } from '../session';
 import { BaseCommand, ResultTypes, CommandTypes } from '../types';
 import { kBotifyLogger } from '../logger';
 import { AppFunc, FuncResult } from './types';
@@ -13,11 +12,11 @@ export function initFuncResult<T>(
     data: T,
     resultType?: ResultTypes,
     msgSent?: MessageCreateResponseInternal
-): FuncResult<any> {
+): FuncResult {
     const funcResult: FuncResult<T> = {
         detail: data,
         resultType: resultType ? resultType : ResultTypes.PENDING,
-        msgSent
+        msgSent,
     };
 
     return funcResult;
@@ -43,14 +42,19 @@ export abstract class AppCommand implements BaseCommand {
     /**
      * 命令响应：仅响应频道，仅响应私聊，全部响应
      */
-    response: 'guild' | 'pm' | 'both' = 'guild';
+    response: 'guild' | 'private' | 'both' = 'guild';
     /**
      * 默认的触发命令，如果有上级菜单需要先触发菜单
      */
     abstract trigger: string;
+    /**
+     * 接受的消息类型，默认为Button和Text，如有需要可以更改
+     *
+     * @memberof AppCommand
+     */
     acceptMessageType: (typeof TextMessage | typeof ButtonEventMessage)[] = [
         TextMessage,
-        ButtonEventMessage
+        ButtonEventMessage,
     ];
 
     /**
@@ -87,10 +91,8 @@ export abstract class AppCommand implements BaseCommand {
         msg: any
     ): Promise<ResultTypes | void>;
 
-    async exec(session: GuildSession): Promise<ResultTypes | void>;
-
     async exec(
-        session: BaseSession | GuildSession
+        session: BaseSession | GuildSession | PrivateSession
     ): Promise<ResultTypes | void>;
 
     async exec(
@@ -101,12 +103,13 @@ export abstract class AppCommand implements BaseCommand {
         if (!this.client) {
             throw new Error('command used before assigning a bot');
         }
-        if (!this.checkInput(sessionOrCommand, msg)) {
+        const session = await this.createSession(sessionOrCommand, args, msg);
+        if (!this.checkInput(session, msg)) {
             return;
         }
         kBotifyLogger.debug('running command', this.constructor.name);
 
-        return this.run(await this.createSession(sessionOrCommand, args, msg));
+        return this.run(session);
         /*
         if (sessionOrCommand instanceof BaseSession) {
             // try to change basesession to guildsession if guildid exists
@@ -154,12 +157,21 @@ export abstract class AppCommand implements BaseCommand {
         msg?: TextMessage | ButtonEventMessage
     ): Promise<boolean> => {
         if (
-            !(sessionOrCommand instanceof GuildSession) &&
-            this.response == 'guild'
+            this.response === 'guild' &&
+            !(sessionOrCommand instanceof GuildSession)
         ) {
             kBotifyLogger.debug(
-                'guild only command receiving base session. return.',
-                this.constructor.name
+                `guild only command ${this.constructor.name} receiving base session. return.`
+            );
+
+            return false;
+        }
+        if (
+            this.response === 'private' &&
+            !(sessionOrCommand instanceof PrivateSession)
+        ) {
+            kBotifyLogger.debug(
+                `private only command ${this.constructor.name} receiving private session. return.`
             );
 
             return false;
@@ -179,12 +191,14 @@ export abstract class AppCommand implements BaseCommand {
         args?: string[],
         msg?: TextMessage | ButtonEventMessage,
         client?: KBotify
-    ): Promise<BaseSession | GuildSession> => {
+    ): Promise<BaseSession | GuildSession | PrivateSession> => {
         if (sessionOrCommand instanceof BaseSession) {
+            let session: BaseSession | GuildSession | PrivateSession =
+                sessionOrCommand;
             // try to change basesession to guildsession if guildid exists
             if (sessionOrCommand.msg.guildId) {
                 try {
-                    sessionOrCommand = await GuildSession.fromSession(
+                    session = await GuildSession.fromSession(
                         sessionOrCommand,
                         false
                     );
@@ -194,10 +208,12 @@ export abstract class AppCommand implements BaseCommand {
                         sessionOrCommand
                     );
                 }
+            } else if (sessionOrCommand.msg.channelType === 'PERSON') {
+                session = await PrivateSession.fromSession(sessionOrCommand);
             }
-            sessionOrCommand.command = this;
+            session.command = this;
 
-            return sessionOrCommand;
+            return session;
         } else {
             if (!args || !msg) {
                 throw new Error(

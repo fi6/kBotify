@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { ButtonEventMessage, TextMessage } from '../message';
 import { kBotifyLogger } from '../logger';
 import { MessageEmissions } from './types';
@@ -30,12 +29,12 @@ export class MessageProcessor extends EventEmitter {
         this.client = bot;
     }
 
-    process = (result: any, bot: KBotify) => {
+    process = (result: any, client: KBotify) => {
         const data = result.data;
         switch (result.type) {
             case 'textMessage':
             case 'kmarkdownMessage': {
-                const message = new TextMessage(data, bot);
+                const message = new TextMessage(data, client);
                 const userCollectors = this.client.collectors.user;
                 const collector = userCollectors.get(message.authorId);
                 try {
@@ -54,7 +53,10 @@ export class MessageProcessor extends EventEmitter {
             }
             case 'systemMessage':
                 if (data.type === 'buttonClick') {
-                    this.emit('buttonEvent', new ButtonEventMessage(data, bot));
+                    this.emit(
+                        'buttonEvent',
+                        new ButtonEventMessage(data, client)
+                    );
 
                     return;
                 }
