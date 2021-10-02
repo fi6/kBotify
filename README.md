@@ -1,41 +1,39 @@
 # kBotify
 
-基于 botRoot 的开黑啦 Bot 开发框架。
-
-同时具有 sdk/botFramework 模式，可以按需使用。[文档链接](https://fi6.github.io/kBotify/)
-
 [![npm version](https://badge.fury.io/js/kbotify.svg)](https://www.npmjs.com/package/kbotify)
 
-## 如何开始？
-
-你可以使用仓库模板：https://github.com/fi6/kBotify-template  
-参考其中的 src/commands/echo 文件夹即可。修改 src/configs 文件夹下 template-auth.ts 中的内容，并重命名为 auth.ts 即可开始使用。
+基于 [BotRoot](https://github.com/shugen002/BotRoot) 的 JavaScript / TypeScript 开黑啦 Bot 开发框架。
 
 ## 优势
 
-强大的交互功能，让你轻松完成各种需要大量交互的复杂功能。  
-完善的 API，稳定的迭代，让你专注开发，无需操心 SDK。  
-同时拥有 SDK 与命令框架模式，一行代码也能写 bot。
+- 强大的交互功能，让你轻松完成各种需要大量交互的复杂功能。
+- 完善的 API，稳定的迭代，让你专注开发，无需操心 SDK。
+- 同时拥有 SDK 与命令框架模式，一行代码也能写 Bot。
 
-## 更新历史
+## 快速开始
 
-### 0.2.3
+### 一个简单的示例
 
--   可以直接在 update message 中使用 card 了
--   将\_botInstance 重命名为 client，增加了 deprecate 标志
--   `Card.toString()`增加了选项，可以输出带有方括号或无方括号的 string。
+```ts
+import { KBotify } from "kbotify";
 
-### 0.2.1
+const bot = new KBotify({
+    mode: 'webhook', // Webhook 模式
+    port: 12345, // 回调监听端口
+    token: 'your token',
+    verifyToken: 'your verify token',
+    key: 'your encrypt key',
+    ignoreDecryptError: false, // 是否忽略消息解密错误 如果需要可以改为true
+});
 
--   更新了少量 API，0.2.2 版本将会覆盖 99%API
--   增加了`class Card`，废弃了之前使用 parser 的模式，提供更好的卡片消息操作性能。
--   增加了`GuildSession.awaitMessage`，允许开发者等待用户在当前频道的下一条消息。
--   增加了`collecter`，允许开发者在一定时间内收集频道内的消息，并且自定义停止的 trigger。
--   解决了由于 pr#5 带来的 mention、reply 错误的问题
+bot.connect(); // 启动 Bot
+```
 
-### 0.1.3
+### 从模板开始
 
--   替换 BaseData 为 BaseSession，简化了消息回复流程，增加对一次性文字 trigger 的支持。
+你也可以使用[仓库模板](https://github.com/fi6/kBotify-template)  
+参考其中的 src/commands/echo 文件夹即可。修改 src/configs 文件夹下 template-auth.ts 中的内容，并重命名为 auth.ts 即可开始使用。  
+可参考[文档链接](https://fi6.github.io/kBotify/)
 
 ## TODO
 
@@ -49,27 +47,10 @@
 -   [ ] 插件化
 -   [ ] aws lambda 接口
 
-## 简单说明
-
-请善用 ts 的自动补全。
-
-### Bot 用法
+### Bot 使用方法
 
 **当前仅支持用"." "。"和@机器人 三种开头方式。未来考虑增加多种前缀，但是为了方便统一前缀，这里可能不会做修改，需要大家自行修改。**
 `bot.processMsg=()=>{}`
-
-生成 Bot
-
-```ts
-const bot = new KBotify({
-    mode: 'webhook',
-    port: 12345,
-    token: 'your kaiheila token',
-    verifyToken: 'your kaiheila verify token',
-    key: 'your kaiheila encrypt key',
-    ignoreDecryptError: false, // 如果需要可以改为true
-});
-```
 
 添加 Command
 
@@ -137,14 +118,33 @@ export const echoAll = new EchoAll();
 
 ### 卡片消息相关
 
-官方提供的卡片消息编辑器：[点击使用](https://www.kaiheila.cn/tools/message-builder.html#/card)
+可以使用官方提供的[卡片消息编辑器](https://www.kaiheila.cn/tools/message-builder.html#/card)
 
 完成编辑后，复制右侧自动生成的代码，然后把每张卡片使用`const cardObject = new Card({...这里是卡片的内容})`进行生成即可，发送的时候使用`session.sendCard(cardObject)`或`session.sendCardTemp(cardObject)`进行发送。
 
 你也可以直接复制自动生成的代码，使用`session.sendCard([cardObjects])`进行发送，具体可参考 src/commands 文件夹下的示例。
 
+## 更新历史
+
+### 0.2.3
+
+-   可以直接在 `update message` 中使用 `card` 了
+-   将 `\_botInstance` 重命名为 `client`，增加了 `deprecate` 标志
+-   `Card.toString()` 增加了选项，可以输出带有方括号或无方括号的 string。
+
+### 0.2.1
+
+-   更新了少量 API，`0.2.2` 版本将会覆盖 99% API
+-   增加了 `class Card`，废弃了之前使用 `parser` 的模式，提供更好的卡片消息操作性能。
+-   增加了 `GuildSession.awaitMessage`，允许开发者等待用户在当前频道的下一条消息。
+-   增加了 `collecter`，允许开发者在一定时间内收集频道内的消息，并且自定义停止的 trigger。
+-   解决了由于 pr#5 带来的 `mention`、`reply` 错误
+
+### 0.1.3
+
+-   替换 `BaseData` 为 `BaseSession`，简化了消息回复流程，增加对一次性文字 trigger 的支持。
+
 ---
 
-特别感谢：树根
-本项目基于 BotRoot 开发
-https://github.com/shugen002/BotRoot
+特别感谢：[树根](https://github.com/shugen002)
+本项目基于 [BotRoot](https://github.com/shugen002/BotRoot) 开发
