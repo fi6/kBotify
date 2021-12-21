@@ -1,5 +1,8 @@
-import { MessageType, UserInGuildNonStandard } from 'kaiheila-bot-root';
-import { Channel as rawChannel } from 'kaiheila-bot-root';
+import {
+    MessageType,
+    UserInGuildNonStandard,
+    Channel as rawChannel,
+} from 'kaiheila-bot-root';
 import { BaseObject } from '../base/bot.object';
 import { KBotify } from '../kbotify';
 
@@ -45,11 +48,7 @@ export class GuildChannel extends BaseObject implements Partial<rawChannel> {
     }
 
     get mention(): string {
-        if (this.client.mentionWithSpace) {
-            return `(chn)${this.id}(chn) `;
-        } else {
-            return `(chn)${this.id}(chn)`;
-        }
+        return `(chn)${this.id}(chn)`;
     }
 
     static fromRaw = (
@@ -77,7 +76,7 @@ export class GuildChannel extends BaseObject implements Partial<rawChannel> {
         quote?: string,
         tempTargetId?: string
     ) => {
-        return await this.client.API.message.create(
+        return this.client.API.message.create(
             type,
             this.id,
             content,

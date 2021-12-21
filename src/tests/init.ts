@@ -24,7 +24,7 @@ const bot = new KBotify({
 bot.addCommands(echoMenu, echoKmd, testMenu);
 
 bot.messageSource.on('message', (e) => {
-    kBotifyLogger.debug(`received:`, e);
+    console.debug(`received:`, e);
 });
 
 // bot.addAlias(echoKmd, 'hello');

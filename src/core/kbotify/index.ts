@@ -62,8 +62,6 @@ export class KBotify extends KaiheilaBot {
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
         this.cache = new CacheManager(this);
-        this.mentionWithSpace =
-            config.mentionWithSpace === false ? false : true;
     }
 
     connect() {
