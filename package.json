@@ -52,6 +52,7 @@
         "bunyan": "^1.8.15",
         "dotenv": "^8.2.0",
         "kaiheila-bot-root": "^0.2.9",
+        "khl-voice": "^0.0.1",
         "lru-cache": "^6.0.0"
     },
     "files": [
