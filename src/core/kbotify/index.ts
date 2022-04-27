@@ -12,7 +12,7 @@ import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { CollectorManager } from './collector';
 import { API } from './api';
-import { createVoice } from '../voice';
+// import { createVoice } from '../voice';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -42,7 +42,7 @@ export class KBotify extends KaiheilaBot {
     logger = kBotifyLogger;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     API: API;
-    private voiceChild: any;
+    // private voiceChild: any;
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
@@ -97,20 +97,20 @@ export class KBotify extends KaiheilaBot {
         });
     }
 
-    async play(input: string, channel: string, repeat = true) {
-        this.voiceChild = createVoice(
-            this.config.token,
-            channel,
-            input,
-            repeat
-        );
-    }
+    // async play(input: string, channel: string, repeat = true) {
+    //     this.voiceChild = createVoice(
+    //         this.config.token,
+    //         channel,
+    //         input,
+    //         repeat
+    //     );
+    // }
 
-    async stop() {
-        try {
-            this.voiceChild.kill();
-        } catch (error) {}
-    }
+    // async stop() {
+    //     try {
+    //         this.voiceChild.kill();
+    //     } catch (error) {}
+    // }
     /**
      * Process the msg object and generate [command, ...args]
      *

@@ -54,7 +54,6 @@
         "dotenv": "^8.2.0",
         "ffmpeg-static": "^5.0.0",
         "kaiheila-bot-root": "^0.2.9",
-        "khl-voice": "^0.0.1",
         "lru-cache": "^6.0.0"
     },
     "files": [
