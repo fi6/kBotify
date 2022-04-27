@@ -4,7 +4,7 @@ import {
     FileMessage,
     AudioMessage,
     KMarkdownMessage,
-    ButtonClickEvent
+    ButtonClickEvent,
 } from 'kaiheila-bot-root';
 import { BotConfig as Cfg } from 'kaiheila-bot-root/dist/BotInstance';
 import { ButtonEventMessage, TextMessage } from '../message';
@@ -32,5 +32,8 @@ export interface RawEmissions {
 }
 
 export interface BotConfig extends Cfg {
+    /**
+     * @deprecated
+     */
     mentionWithSpace?: boolean;
 }

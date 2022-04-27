@@ -1,6 +1,6 @@
 {
     "name": "kbotify",
-    "version": "0.2.6",
+    "version": "0.2.10",
     "description": "kaiheila bot framework",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
@@ -30,6 +30,7 @@
     "homepage": "https://github.com/fi6/kBotify#readme",
     "devDependencies": {
         "@types/bunyan": "^1.8.6",
+        "@types/ffmpeg-static": "^3.0.1",
         "@types/lru-cache": "^5.1.0",
         "@typescript-eslint/eslint-plugin": "^4.28.2",
         "@typescript-eslint/eslint-plugin-tslint": "^4.28.2",
@@ -51,6 +52,7 @@
     "dependencies": {
         "bunyan": "^1.8.15",
         "dotenv": "^8.2.0",
+        "ffmpeg-static": "^5.0.0",
         "kaiheila-bot-root": "^0.2.9",
         "lru-cache": "^6.0.0"
     },

@@ -12,6 +12,7 @@ import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { CollectorManager } from './collector';
 import { API } from './api';
+// import { createVoice } from '../voice';
 
 export declare interface KBotify {
     on<K extends keyof RawEmissions>(event: K, listener: RawEmissions[K]): this;
@@ -35,22 +36,20 @@ export class KBotify extends KaiheilaBot {
      * @type {boolean}
      * @memberof KBotify
      */
-    mentionWithSpace: boolean;
+    mentionWithSpace = false;
     cache: CacheManager;
     collectors = new CollectorManager();
     logger = kBotifyLogger;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     API: API;
+    // private voiceChild: any;
     /**
      * Creates an instance of KBotify.
      * @param config the config of bot, please see readme.md
      * @param [default_process=true] Deprecated. if you want to process message yourself, please change the KBotify.defaultHandler() method.
      * @memberof KBotify
      */
-    constructor(
-        config: BotConfig & { debug?: boolean },
-        _defaultProcess = true
-    ) {
+    constructor(config: BotConfig & { debug?: boolean }, omit = true) {
         super(config);
         if (config.debug === true) {
             this.logger.addStream({
@@ -62,11 +61,9 @@ export class KBotify extends KaiheilaBot {
         this.message = new MessageProcessor(this);
         this.event = new EventProcessor(this);
         this.cache = new CacheManager(this);
-        this.mentionWithSpace =
-            config.mentionWithSpace === false ? false : true;
     }
 
-    connect() {
+    connect(): void {
         this.on('allMessages', (msg: any) => {
             this.message.process(msg, this);
             this.event.process(msg, this);
@@ -81,7 +78,7 @@ export class KBotify extends KaiheilaBot {
         });
     }
 
-    defaultHandler() {
+    defaultHandler(): void {
         this.message.on('text', (msg) => {
             const res = this.processMsg(msg);
             if (!res) {
@@ -100,6 +97,20 @@ export class KBotify extends KaiheilaBot {
         });
     }
 
+    // async play(input: string, channel: string, repeat = true) {
+    //     this.voiceChild = createVoice(
+    //         this.config.token,
+    //         channel,
+    //         input,
+    //         repeat
+    //     );
+    // }
+
+    // async stop() {
+    //     try {
+    //         this.voiceChild.kill();
+    //     } catch (error) {}
+    // }
     /**
      * Process the msg object and generate [command, ...args]
      *

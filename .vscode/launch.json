@@ -20,7 +20,7 @@
             "cwd": "${workspaceRoot}",
             "internalConsoleOptions": "openOnSessionStart",
             "console": "internalConsole",
-            "outputCapture": "std",
+            // "outputCapture": "std",
             "skipFiles": ["<node_internals>/**"],
             "resolveSourceMapLocations": [
                 "${workspaceFolder}/**",

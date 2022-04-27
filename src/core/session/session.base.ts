@@ -99,7 +99,7 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => Promise<string>)
             | CardObject[]
             | Card,
-        options: Omit<SendOptions, 'reply'>
+        options?: Omit<SendOptions, 'reply'>
     ) => {
         return this._sendCard(content, { ...options, reply: true });
     };
@@ -111,11 +111,14 @@ export class BaseSession extends BaseObject implements BaseData {
             | (() => Promise<string>)
             | CardObject[]
             | Card,
-        options: Omit<SendOptions, 'temp' | 'reply'>
+        options?: Omit<SendOptions, 'temp' | 'reply'>
     ) => {
         return this._sendCard(content, { ...options, temp: true, reply: true });
     };
 
+    /**
+     * Send message with quotation (no @ included)
+     */
     quote: SessionSendFunc = async (
         content,
         resultType = ResultTypes.SUCCESS
@@ -127,6 +130,9 @@ export class BaseSession extends BaseObject implements BaseData {
         });
     };
 
+    /**
+     * Send temporary message with quotation (no @ included)
+     */
     quoteTemp: SessionSendFunc = async (
         content,
         resultType = ResultTypes.SUCCESS

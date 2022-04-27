@@ -174,8 +174,8 @@ module.exports = {
         'no-empty': 'off',
         'no-eval': 'error',
         'no-extra-bind': 'error',
-        'no-fallthrough': 'error',
-        'no-invalid-this': 'error',
+        // 'no-fallthrough': 'error',
+        // 'no-invalid-this': 'error',
         'no-multiple-empty-lines': [
             'error',
             {
@@ -191,7 +191,7 @@ module.exports = {
         'no-return-await': 'error',
         'no-sequences': 'error',
         'no-shadow': [
-            'error',
+            'warn',
             {
                 hoist: 'never',
             },
@@ -220,7 +220,7 @@ module.exports = {
                 next: 'return',
             },
         ],
-        'prefer-arrow/prefer-arrow-functions': 'error',
+        // 'prefer-arrow/prefer-arrow-functions': 'error',
         'prefer-const': 'error',
         'prefer-object-spread': 'error',
         'prefer-template': 'error',

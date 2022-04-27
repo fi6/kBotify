@@ -4,7 +4,7 @@ import { KBotify } from '.';
 export const messageParser = (
     msg: TextMessage | ButtonEventMessage,
     client: KBotify
-) => {
+): string[] | void => {
     if (msg.content.startsWith('.') || msg.content.startsWith('。')) {
         // console.log(msg)
         return msg.content.slice(1).trim().split(/ +/);

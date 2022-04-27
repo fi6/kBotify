@@ -1,4 +1,3 @@
-import { ButtonClickEvent } from 'kaiheila-bot-root';
 import { MessageCreateResponseInternal } from 'kaiheila-bot-root/dist/api/message/message.types';
 import { KBotify } from '../..';
 import { ButtonEventMessage, TextMessage } from '../message';
@@ -46,16 +45,6 @@ export abstract class AppCommand implements BaseCommand {
     /**
      * 默认的触发命令，如果有上级菜单需要先触发菜单
      */
-    abstract trigger: string;
-    /**
-     * 接受的消息类型，默认为Button和Text，如有需要可以更改
-     *
-     * @memberof AppCommand
-     */
-    acceptMessageType: (typeof TextMessage | typeof ButtonEventMessage)[] = [
-        TextMessage,
-        ButtonEventMessage,
-    ];
 
     /**
      * 帮助文字，发送`.命令 帮助`时自动回复，kmarkdown消息
@@ -66,20 +55,34 @@ export abstract class AppCommand implements BaseCommand {
      */
     intro = 'intro';
     client: KBotify | undefined;
+
+    /**
+     * 接受的消息类型，默认为Button和Text，如有需要可以更改
+     *
+     * @memberof AppCommand
+     */
+    acceptMessageType: (typeof TextMessage | typeof ButtonEventMessage)[] = [
+        TextMessage,
+        ButtonEventMessage,
+    ];
+
+    parent: MenuCommand | null = null;
+
+    readonly type = CommandTypes.APP;
+
+    abstract trigger: string;
+
     get _botInstance(): KBotify | undefined {
         return this.client;
     }
 
-    parent: MenuCommand | null = null;
-    func: AppFunc<BaseSession | GuildSession> = async (_data) => {
-        throw new Error(`${this.code}的func尚未定义`);
-    };
-
-    readonly type = CommandTypes.APP;
-
     constructor() {
         //
     }
+
+    func: AppFunc<BaseSession | GuildSession> = async (_data) => {
+        throw new Error(`${this.code}的func尚未定义`);
+    };
 
     init = (bot: KBotify): void => {
         this.client = bot;
