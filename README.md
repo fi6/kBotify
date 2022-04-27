@@ -6,16 +6,16 @@
 
 ## 优势
 
-- 强大的交互功能，让你轻松完成各种需要大量交互的复杂功能。
-- 完善的 API，稳定的迭代，让你专注开发，无需操心 SDK。
-- 同时拥有 SDK 与命令框架模式，一行代码也能写 Bot。
+-   强大的交互功能，让你轻松完成各种需要大量交互的复杂功能。
+-   完善的 API，稳定的迭代，让你专注开发，无需操心 SDK。
+-   同时拥有 SDK 与命令框架模式，一行代码也能写 Bot。
 
 ## 快速开始
 
 ### 一个简单的示例
 
 ```ts
-import { KBotify } from "kbotify";
+import { KBotify } from 'kbotify';
 
 const bot = new KBotify({
     mode: 'webhook', // Webhook 模式
@@ -125,6 +125,13 @@ export const echoAll = new EchoAll();
 你也可以直接复制自动生成的代码，使用`session.sendCard([cardObjects])`进行发送，具体可参考 src/commands 文件夹下的示例。
 
 ## 更新历史
+
+### 0.2.10
+
+-   更新了文档
+-   不再强制需要对 Command 使用泛型，减少开发成本
+-   发送卡片消息时可以手动指定@、引用等选项了
+-   优化了代码结构，补充了部分 API 接口
 
 ### 0.2.3
 
