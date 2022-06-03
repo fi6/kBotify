@@ -85,7 +85,7 @@ export class PrivateSession extends BaseSession {
             }
         }
         try {
-            const msgSent = await this.client.API.directMessage.create(
+            const msgSent = await this.client.Api.directMessage.create(
                 msgType,
                 replyChannelId,
                 undefined,

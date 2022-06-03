@@ -1,5 +1,6 @@
 import { User, UserInGuild } from 'kaiheila-bot-root';
 import { BaseObject } from '../base/bot.object';
+import { BaseConnector } from '../../connector/base';
 import { KBotify } from '../kbotify';
 
 /**
@@ -19,7 +20,10 @@ export class BaseUser extends BaseObject implements User {
     bot: boolean;
     nickname?: string;
 
-    constructor(userObject: User | (User & UserInGuild), client: KBotify) {
+    constructor(
+        userObject: User | (User & UserInGuild),
+        client: BaseConnector
+    ) {
         super(client);
 
         this.id = userObject.id;
@@ -42,10 +46,10 @@ export class BaseUser extends BaseObject implements User {
     }
 
     grantRole = async (roleId: string | number, guildId: string) => {
-        return this.client.API.guildRole.grant(guildId, this.id, roleId);
+        return this.client.Api.role.grant(guildId, this.id, roleId);
     };
 
     revokeRole = async (roleId: string | number, guildId: string) => {
-        return this.client.API.guildRole.revoke(guildId, this.id, roleId);
+        return this.client.Api.role.revoke(guildId, this.id, roleId);
     };
 }

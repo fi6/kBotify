@@ -6,6 +6,7 @@ import { BaseCommand, ResultTypes, CommandTypes } from '../types';
 import { kBotifyLogger } from '../logger';
 import { AppFunc, FuncResult } from './types';
 import { MenuCommand } from './command.menu';
+import { BaseConnector } from '../../connector/base';
 
 export function initFuncResult<T>(
     data: T,
@@ -54,7 +55,7 @@ export abstract class AppCommand implements BaseCommand {
      * 命令介绍，自动生成菜单时调用
      */
     intro = 'intro';
-    client: KBotify | undefined;
+    client?: BaseConnector;
 
     /**
      * 接受的消息类型，默认为Button和Text，如有需要可以更改

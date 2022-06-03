@@ -66,7 +66,7 @@ export class PrivateChannel extends BaseObject implements Partial<rawChannel> {
     };
 
     full = async (): Promise<Required<PrivateChannel>> => {
-        const rawChannel = await this.client.API.channel.view(this.id);
+        const rawChannel = await this.client.Api.channel.view(this.id);
 
         return new PrivateChannel(
             rawChannel,
@@ -79,7 +79,7 @@ export class PrivateChannel extends BaseObject implements Partial<rawChannel> {
         content: string,
         quote?: string
     ) => {
-        return this.client.API.directMessage.create(
+        return this.client.Api.directMessage.create(
             type,
             this.id,
             undefined,

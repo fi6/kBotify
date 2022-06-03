@@ -11,7 +11,7 @@ class TestButton extends AppCommand {
         // console.debug(JSON.stringify([getCard()]));
         // if (!session.args.length) return session.replyCard(getCard());
         // console.log(session);
-        const userlist = await session.client.API.guild.userList(
+        const userlist = await session.client.Api.guild.userList(
             session.guildId as any
         );
         // console.log(userlist);

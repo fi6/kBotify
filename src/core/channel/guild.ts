@@ -62,7 +62,7 @@ export class GuildChannel extends BaseObject implements Partial<rawChannel> {
     };
 
     full = async (): Promise<Required<GuildChannel>> => {
-        const rawChannel = await this.client.API.channel.view(this.id);
+        const rawChannel = await this.client.Api.channel.view(this.id);
 
         return new GuildChannel(
             rawChannel,
@@ -76,7 +76,7 @@ export class GuildChannel extends BaseObject implements Partial<rawChannel> {
         quote?: string,
         tempTargetId?: string
     ) => {
-        return this.client.API.message.create(
+        return this.client.Api.message.create(
             type,
             this.id,
             content,
@@ -89,7 +89,7 @@ export class GuildChannel extends BaseObject implements Partial<rawChannel> {
         if (this.invite) {
             return this.invite;
         }
-        const result = await this.client.API.invite.create(undefined, this.id);
+        const result = await this.client.Api.invite.create(this.id);
 
         return result.url;
     };

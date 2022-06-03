@@ -11,7 +11,7 @@ import { BaseSession } from './session';
 export interface BaseCommand {
     readonly code: string;
     readonly trigger: string;
-    readonly type: CommandTypes;
+    // readonly type: CommandTypes;
     exec(...args: any): unknown;
 }
 
@@ -20,20 +20,20 @@ export type ResultHandler<T extends BaseSession> = (
     type: string | number
 ) => Promise<FuncResult<T>>;
 
-export enum CommandTypes {
-    MENU = 'MENU',
-    HELP = 'HELP',
-    APP = 'FUNCTION',
-}
+// export enum CommandTypes {
+//     menu = 'MENU',
+//     help = 'HELP',
+//     app = 'FUNCTION',
+// }
 
-export enum ResultTypes {
-    PENDING = 'PENDING',
-    SUCCESS = 'SUCCESS',
-    FAIL = 'FAIL',
-    ERROR = 'ERROR',
-    HELP = 'HELP',
-    WRONG_ARGS = 'WRONG_ARGS',
-}
+// export enum ResultTypes {
+//     pending = 'PENDING',
+//     success = 'SUCCESS',
+//     fail = 'FAIL',
+//     error = 'ERROR',
+//     help = 'HELP',
+//     wrongArgs = 'WRONG_ARGS',
+// }
 
 export interface MenuCommandParams {
     code: string;

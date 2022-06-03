@@ -7,7 +7,7 @@ import { createSession } from '../session';
 import { CacheManager } from '../cache/cache.manager';
 import { kBotifyLogger } from '../logger';
 import { BotConfig, RawEmissions } from './types';
-import { MessageProcessor } from './message.ee';
+import { MessageProcessor } from '../../connector/base/ee';
 import { EventProcessor } from './event.ee';
 import { messageParser } from './message.parse';
 import { CollectorManager } from './collector';

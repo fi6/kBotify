@@ -1,30 +1,13 @@
-import { EventEmitter } from 'events';
-import { ButtonEventMessage, TextMessage } from '../message';
-import { kBotifyLogger } from '../logger';
-import { MessageEmissions } from './types';
-import { KBotify } from '.';
-
-export declare interface MessageProcessor {
-    on<K extends keyof MessageEmissions>(
-        event: K,
-        listener: MessageEmissions[K]
-    ): this;
-
-    emit<K extends keyof MessageEmissions>(
-        event: K,
-        ...args: Parameters<MessageEmissions[K]>
-    ): boolean;
-
-    off<K extends keyof MessageEmissions>(
-        event: K,
-        listener: MessageEmissions[K]
-    ): this;
-}
+import { EventEmitter } from 'bunyan';
+import { BaseConnector } from '..';
+import { KBotify } from '../../../core/kbotify';
+import { kBotifyLogger } from '../../../core/logger';
+import { TextMessage, ButtonEventMessage } from '../../../core/message';
 
 // eslint-disable-next-line no-redeclare
-export class MessageProcessor extends EventEmitter {
+export class EventProcessor extends EventEmitter {
     client;
-    constructor(bot: KBotify) {
+    constructor(bot: BaseConnector) {
         super();
         this.client = bot;
     }

@@ -4,27 +4,26 @@ import {
     TextMessage as Text,
     User,
     UserInGuild,
-    UserInGuildNonStandard,
 } from 'kaiheila-bot-root';
+import { BaseConnector } from '../../connector/base';
 import { KBotify } from '../kbotify';
 
 export class TextMessage {
     type: MessageType.kMarkdown | MessageType.text;
     author: User & UserInGuild;
-    mention:
-        | {
-              user: string[];
-              roles: string[];
-              all: boolean;
-              here: boolean;
-              channels: string[];
-          }
-        | {
-              user: string[];
-              roles: string[];
-              all: boolean;
-              here: boolean;
-          };
+    mention: {
+        user: string[];
+        roles: string[];
+        all: boolean;
+        here: boolean;
+        channels?: string[];
+    };
+    // | {
+    //       user: string[];
+    //       roles: string[];
+    //       all: boolean;
+    //       here: boolean;
+    //   };
 
     channelName?: string;
     content: string;
@@ -35,7 +34,7 @@ export class TextMessage {
     guildId?: string;
     channelType: string;
     authorId: string;
-    client: KBotify;
+    client: BaseConnector;
 
     /**
      * Transfer message info class
@@ -43,7 +42,7 @@ export class TextMessage {
      * @param rawMessage TextMessageInterface, from kaiheila-bot-root
      * @param client
      */
-    constructor(rawMessage: Kmd | Text, client: KBotify) {
+    constructor(rawMessage: Kmd | Text, client: BaseConnector) {
         this.type = rawMessage.type;
         this.author = rawMessage.author;
         this.authorId = rawMessage.authorId;
@@ -59,20 +58,13 @@ export class TextMessage {
         this.client = client;
     }
 
-    async delete(): Promise<boolean> {
-        return this.client.API.message.delete(this.msgId);
+    async delete(): Promise<void> {
+        return this.client.Api.message.delete(this.msgId);
     }
 
-    async update(
-        content: string,
-        quote?: string,
-        tempTargetId?: string
-    ): Promise<boolean> {
-        return this.client.API.message.update(
-            this.msgId,
-            content,
-            quote,
-            tempTargetId
-        );
+    async update(content: string, config: unknown): Promise<void> {
+        await this.client.Api.message.update(this.msgId, content, config);
+
+        return;
     }
 }

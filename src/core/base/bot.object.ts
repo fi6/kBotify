@@ -1,8 +1,8 @@
-import { KBotify } from '../kbotify';
+import { BaseConnector } from '../../connector/base';
 
 export abstract class BaseObject {
-    client: KBotify;
-    constructor(client: KBotify) {
+    client: BaseConnector;
+    constructor(client: BaseConnector) {
         this.client = client;
     }
 
@@ -13,11 +13,11 @@ export abstract class BaseObject {
      * @type {KBotify}
      * @memberof BaseObject
      */
-    get _botInstance(): KBotify {
+    get _botInstance(): BaseConnector {
         return this.client;
     }
 
-    getBotInstance = (): KBotify => {
+    getBotInstance = (): BaseConnector => {
         return this.client;
     };
 }

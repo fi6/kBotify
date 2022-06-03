@@ -33,7 +33,7 @@ export class GuildUser extends BaseUser {
             guildId = this.guild.id;
         }
 
-        return this.client.API.guildRole.grant(guildId, this.id, roleId);
+        return this.client.Api.guildRole.grant(guildId, this.id, roleId);
     };
 
     revokeRole = async (roleId: string | number, guildId?: string) => {
@@ -41,7 +41,7 @@ export class GuildUser extends BaseUser {
             guildId = this.guild.id;
         }
 
-        return this.client.API.guildRole.revoke(guildId, this.id, roleId);
+        return this.client.Api.guildRole.revoke(guildId, this.id, roleId);
     };
 
     changeNickname = async (nickname: string, guildId?: string) => {
@@ -49,7 +49,7 @@ export class GuildUser extends BaseUser {
             guildId = this.guild.id;
         }
 
-        return this.client.API.guild.nickname(guildId, nickname, this.id);
+        return this.client.Api.guild.nickname(guildId, nickname, this.id);
     };
 }
 

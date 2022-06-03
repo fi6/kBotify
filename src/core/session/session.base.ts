@@ -227,7 +227,7 @@ export class BaseSession extends BaseObject implements BaseData {
         if (Array.isArray(content)) {
             content = JSON.stringify(content);
         }
-        const result = await this.client.API.message.update(
+        const result = await this.client.Api.message.update(
             messageId,
             content,
             quote,
@@ -354,7 +354,7 @@ export class BaseSession extends BaseObject implements BaseData {
             }
         }
         try {
-            const msgSent = await this.client.API.message.create(
+            const msgSent = await this.client.Api.message.create(
                 msgType,
                 replyChannelId,
                 content,
