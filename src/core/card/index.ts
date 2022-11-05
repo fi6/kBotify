@@ -1,11 +1,11 @@
+// noinspection JSUnusedGlobalSymbols
+
 import { kBotifyLogger } from '../logger';
 
-export interface CardObject {
-    type: 'card';
-    size: 'lg' | 'sm';
-    theme?: Theme;
-    color?: string;
-    modules: any[];
+export function kmarkdownEscape(strIn: unknown): string {
+    return Object(strIn)
+        .toString()
+        .replace(/[*~[\]\->():`\\]/g, '\\$&');
 }
 
 export type Theme =
@@ -15,30 +15,213 @@ export type Theme =
     | 'danger'
     | 'info'
     | 'secondary';
+export type Accessory = Button<ButtonEvent> | Image;
+export type AccessoryMode<A extends Accessory> = A extends Button<ButtonEvent>
+    ? 'right'
+    : 'left' | 'right';
+export type ButtonEvent = 'link' | 'return-val' | '';
+export type ButtonVal<E extends ButtonEvent> = E extends 'link'
+    ? URLString
+    : string;
+export type FileType = 'file' | 'audio' | 'video';
+export type Cover<T extends FileType> = T extends 'audio'
+    ? URLString
+    : undefined;
 
-export interface ModuleObject {
-    [key: string]: any;
-    type:
-        | 'section'
-        | 'image-group'
-        | 'header'
-        | 'divider'
-        | 'action-group'
-        | 'context'
-        | 'file'
-        | 'audio'
-        | 'video'
-        | 'countdown'
-        | 'invite';
+export type URLString = `${'http' | 'https'}://${string}`;
+export type NoneEmptyList<T> = { 0: T } & T[];
+export type Array1to4<T> = [T] | [T, T] | [T, T, T] | [T, T, T, T];
+export type Array1to5<T> = Array1to4<T> | [T, T, T, T, T];
+export type Array1to9<T> =
+    | Array1to5<T>
+    | [T, T, T, T, T, T]
+    | [T, T, T, T, T, T, T]
+    | [T, T, T, T, T, T, T, T]
+    | [T, T, T, T, T, T, T, T, T];
+export type Array1to10<T> = Array1to9<T> | [T, T, T, T, T, T, T, T, T, T];
+
+export type CardModule =
+    | Header
+    | Section<Accessory>
+    | ImageContainer
+    | ImageGroup
+    | ActionGroup
+    | Context
+    | Divider
+    | File<FileType>
+    | Countdown
+    | Invite;
+
+export interface Typed {
+    type: string;
 }
 
-export class Card implements CardObject {
-    type: 'card' = 'card';
-    size: 'lg' | 'sm' = 'lg';
-    theme?: Theme;
-    color?: string;
-    modules: ModuleObject[] = [];
-    constructor(content?: string | CardObject) {
+export class KMarkdown implements Typed {
+    readonly type = 'kmarkdown';
+
+    constructor(readonly content: string) {}
+
+    toJSON(): this {
+        if (this.content.length > 5000) {
+            kBotifyLogger.warn(
+                'kmarkdown length exceeds 5000, may cause problem for card'
+            );
+        }
+
+        return this;
+    }
+}
+
+type PlainText = PlainTextObject | string;
+
+export class PlainTextObject implements Typed {
+    readonly type = 'plain-text';
+
+    constructor(readonly content: string, readonly emoji?: boolean) {}
+
+    toJSON(): string | PlainTextObject {
+        if (this.content.length > 2000) {
+            kBotifyLogger.warn(
+                'plain-text length exceeds 2000, may cause problem for card'
+            );
+        }
+
+        return this.emoji !== true ? this.content : this;
+    }
+}
+
+export class Image implements Typed {
+    readonly type = 'image';
+
+    constructor(
+        readonly src: URLString,
+        readonly alt?: string,
+        readonly size?: 'sm' | 'lg',
+        readonly circle?: boolean
+    ) {}
+}
+
+export class Button<E extends ButtonEvent> implements Typed {
+    readonly type = 'button';
+
+    constructor(
+        readonly text: string,
+        readonly click?: E,
+        readonly value?: ButtonVal<E>,
+        readonly theme?: Theme
+    ) {}
+}
+
+export class Paragraph implements Typed {
+    readonly type = 'paragraph';
+
+    constructor(
+        readonly fields: readonly (KMarkdown | PlainText)[],
+        readonly cols?: 1 | 2 | 3
+    ) {}
+
+    toJSON(): this {
+        if (this.fields.length > 50) {
+            kBotifyLogger.warn(
+                'paragraph length exceeds 50, may cause problem for card'
+            );
+        }
+
+        return this;
+    }
+}
+
+export class Section<T extends Accessory> implements Typed {
+    readonly type = 'section';
+
+    constructor(
+        readonly text: Paragraph | KMarkdown | PlainText,
+        readonly accessory?: T,
+        readonly mode?: AccessoryMode<T>
+    ) {}
+}
+
+export class Header implements Typed {
+    readonly type = 'header';
+
+    constructor(readonly text: PlainText) {}
+}
+
+export class ImageGroup implements Typed {
+    readonly type = 'image-group';
+    readonly elements: readonly Image[];
+
+    constructor(elements: Array1to9<Image>) {
+        this.elements = elements;
+    }
+}
+
+export class ImageContainer implements Typed {
+    readonly type = 'container';
+    readonly elements: readonly Image[];
+
+    constructor(elements: Array1to9<Image>) {
+        this.elements = elements;
+    }
+}
+
+export class ActionGroup implements Typed {
+    readonly type = 'action-group';
+    readonly buttons: readonly Button<ButtonEvent>[];
+
+    constructor(buttons: Array1to4<Button<ButtonEvent>>) {
+        this.buttons = buttons;
+    }
+}
+
+export class Context implements Typed {
+    readonly type = 'context';
+    readonly elements: readonly (PlainText | KMarkdown | Image)[];
+
+    constructor(elements: Array1to10<PlainText | KMarkdown | Image>) {
+        this.elements = elements;
+    }
+}
+
+export class Divider implements Typed {
+    readonly type = 'divider';
+}
+
+export class File<T extends FileType> implements Typed {
+    constructor(
+        readonly type: FileType,
+        readonly src: URLString,
+        readonly title?: string,
+        readonly cover?: Cover<T>
+    ) {}
+}
+
+export class Countdown implements Typed {
+    readonly type = 'countdown';
+
+    constructor(
+        readonly endTime: number,
+        readonly startTime: number,
+        readonly mode: 'day' | 'hour' | 'second'
+    ) {}
+}
+
+export class Invite implements Typed {
+    readonly type = 'invite';
+
+    constructor(readonly code: string) {}
+}
+
+export class Card implements Typed, CardObject {
+    readonly type = 'card';
+    readonly modules: CardModule[] = [];
+
+    constructor(
+        content?: string | CardObject | Card,
+        public size: 'lg' | 'sm' = 'lg',
+        public color?: string,
+        public theme?: Theme
+    ) {
         if (content) {
             let card: CardObject;
             if (typeof content === 'string') {
@@ -66,7 +249,7 @@ export class Card implements CardObject {
         return true;
     }
 
-    setSize(size: CardObject['size']): this {
+    setSize(size: 'lg' | 'sm'): this {
         this.size = size;
 
         return this;
@@ -84,57 +267,104 @@ export class Card implements CardObject {
         return this;
     }
 
-    addTitle(title: string, emoji?: boolean): this {
-        this.modules.push({
-            type: 'header',
-            text: {
-                type: 'plain-text',
-                content: title,
-                emoji,
-            },
-        });
+    add(module: CardModule): this {
+        this.modules.push(module);
 
         return this;
     }
 
-    addImage(
-        source: string,
-        options?: {
-            alt?: string;
-            size?: CardObject['size'];
-            circle?: boolean;
-        }
+    addHeader(text: PlainText): this {
+        return this.add(new Header(text));
+    }
+
+    addSection<T extends Accessory>(
+        text: Paragraph | KMarkdown | PlainText,
+        accessory?: T,
+        accessoryMode?: AccessoryMode<T>
     ): this {
-        this.modules.push({
-            type: 'image-group',
-            elements: [{ type: 'image', src: source, ...options }],
-        });
-
-        return this;
+        return this.add(new Section(text, accessory, accessoryMode));
     }
 
-    addText(
+    addPlainText<T extends Accessory>(
         content: string,
-        emoji = true,
-        accessoryMode: 'right' | 'left' = 'right',
-        accessory: any = {}
+        emoji?: boolean,
+        accessory?: T,
+        accessoryMode?: AccessoryMode<T>
     ): this {
-        if (accessory?.type == 'button' && accessoryMode == 'left') {
-            throw new Error('button + mode: left is not valid');
-        }
-
-        this.modules.push({
-            type: 'section',
-            text: {
-                type: 'kmarkdown',
-                content,
-            },
-            emoji,
-            mode: accessoryMode,
+        return this.addSection(
+            new PlainTextObject(content, emoji),
             accessory,
-        });
+            accessoryMode
+        );
+    }
 
-        return this;
+    addKMarkdown<T extends Accessory>(
+        content: string,
+        accessory?: T,
+        accessoryMode?: AccessoryMode<T>
+    ): this {
+        return this.addSection(
+            new KMarkdown(content),
+            accessory,
+            accessoryMode
+        );
+    }
+
+    addParagraph<T extends Accessory>(
+        fields: readonly (PlainTextObject | KMarkdown)[],
+        cols?: 1 | 2 | 3,
+        accessory?: T,
+        accessoryMode?: AccessoryMode<T>
+    ): this {
+        return this.addSection(
+            new Paragraph(fields, cols),
+            accessory,
+            accessoryMode
+        );
+    }
+
+    addImageGroup(...elements: Array1to9<Image>): this {
+        return this.add(new ImageGroup(elements));
+    }
+
+    addImageContainer(...elements: Array1to9<Image>): this {
+        return this.add(new ImageContainer(elements));
+    }
+
+    addActionGroup(...buttons: Array1to4<Button<ButtonEvent>>): this {
+        return this.add(new ActionGroup(buttons));
+    }
+
+    addContext(...elements: Array1to10<PlainText | KMarkdown | Image>): this {
+        return this.add(new Context(elements));
+    }
+
+    addDivider(): this {
+        return this.add(new Divider());
+    }
+
+    addFile<T extends FileType>(
+        type: T,
+        src: URLString,
+        title?: string,
+        cover?: Cover<T>
+    ): this {
+        return this.add(new File(type, src, title, cover));
+    }
+
+    addInvite(code: string): this {
+        return this.add(new Invite(code));
+    }
+
+    addModule(module: ModuleObject): this {
+        return this.add(module as CardModule);
+    }
+
+    /**
+     * @deprecated use {@link addHeader} instead
+     */
+    addTitle(title: string, emoji?: boolean): this {
+        return this.add(new Header(new PlainTextObject(title, emoji)));
     }
 
     addCountdown(
@@ -142,71 +372,140 @@ export class Card implements CardObject {
         endTime: number | Date,
         startTime?: number | Date
     ): this {
-        startTime = startTime
+        const startTimeCleaned = startTime
             ? typeof startTime == 'number'
                 ? startTime
                 : startTime.valueOf()
             : new Date().valueOf();
-        endTime = typeof endTime == 'number' ? endTime : endTime.valueOf();
+        const endTimeCleaned =
+            typeof endTime == 'number' ? endTime : endTime.valueOf();
         if (endTime < new Date().valueOf()) {
             kBotifyLogger.warn(
                 'endTime < current Time, may cause problem for card'
             );
         }
-        this.modules.push({
-            type: 'countdown',
-            mode,
-            startTime,
-            endTime,
-        });
 
-        return this;
-    }
-
-    addDivider(): this {
-        this.modules.push({ type: 'divider' });
-
-        return this;
-    }
-
-    addModule(module: ModuleObject): this {
-        this.modules.push(module);
-
-        return this;
+        return this.add(new Countdown(endTimeCleaned, startTimeCleaned, mode));
     }
 
     /**
-     * Export card object to string. You can use this if you need stringified card with array bracket(usually used when sending single card).
-     *
-     * @param {boolean} [arrayBracket=true]
-     * @return {*}  {string}
-     * @memberof Card
+     * @deprecated use {@link addImageGroup} instead
+     */
+    addImage(
+        source: string,
+        options?: {
+            alt?: string;
+            size?: 'lg' | 'sm';
+            circle?: boolean;
+        }
+    ): this {
+        return this.addImageGroup(
+            new Image(
+                source as URLString,
+                options?.alt,
+                options?.size,
+                options?.circle
+            )
+        );
+    }
+
+    /**
+     * @deprecated use {@link addKMarkdown} instead
+     */
+    addText(
+        content: string,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        emoji = true,
+        accessoryMode: 'right' | 'left' = 'right',
+        accessory: any = {}
+    ): this {
+        if (accessory?.type === 'button' && accessoryMode === 'left') {
+            throw new Error('button + mode: left is not valid');
+        }
+
+        return this.addKMarkdown(content, accessory, accessoryMode);
+    }
+
+    /**
+     * @deprecated ignore this if {@link arrayBracket } is {@code false};
+     * otherwise, use {@link CardMessage#toString} instead
      */
     toString(arrayBracket = true): string {
-        const object = arrayBracket
-            ? [
-                  {
-                      type: 'card',
-                      theme: this.theme,
-                      size: this.size,
-                      modules: this.modules,
-                  },
-              ]
-            : {
-                  type: 'card',
-                  theme: this.theme,
-                  size: this.size,
-                  modules: this.modules,
-              };
+        return JSON.stringify(arrayBracket ? [this] : this);
+    }
 
-        return JSON.stringify(object);
+    toJSON(): this {
+        if (this.modules.length > 50) {
+            kBotifyLogger.warn(
+                'module number exceeds 50, may cause problem for card'
+            );
+        }
+
+        return this;
     }
 
     /**
-     *
      * @deprecated
      */
     stringify(): string {
         return this.toString();
     }
+}
+
+export class CardMessage {
+    constructor(readonly cards: Array1to5<Card>) {}
+
+    toString(): string {
+        return JSON.stringify(this.cards);
+    }
+
+    toJSON(): Card[] {
+        if (
+            this.cards
+                .map((card) => {
+                    return card.modules.length;
+                })
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                .reduce((p, c, _i, _a) => {
+                    return p + c;
+                }) > 50
+        ) {
+            kBotifyLogger.warn(
+                'module number exceeds 50, may cause problem for card'
+            );
+        }
+
+        return this.cards;
+    }
+}
+
+/**
+ * @deprecated use classes which implements {@link Typed}
+ */
+export interface ModuleObject {
+    [key: string]: any;
+
+    type:
+        | 'section'
+        | 'image-group'
+        | 'header'
+        | 'divider'
+        | 'action-group'
+        | 'context'
+        | 'file'
+        | 'audio'
+        | 'video'
+        | 'countdown'
+        | 'invite';
+}
+
+/**
+ * @deprecated use {@link Card}
+ */
+export interface CardObject {
+    type: 'card';
+    size: 'lg' | 'sm';
+    theme?: Theme;
+    color?: string;
+    modules: any[];
 }
