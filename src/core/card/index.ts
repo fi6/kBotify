@@ -1,11 +1,18 @@
 // noinspection JSUnusedGlobalSymbols
 
-import {kBotifyLogger, Theme} from 'kbotify';
+import {kBotifyLogger} from '../logger';
 
 export function kmarkdownEscape(strIn: unknown): string {
     return Object(strIn).toString().replace(/[*~[\]\->():`\\]/g, '\\$&');
 }
 
+export type Theme =
+    | 'primary'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'info'
+    | 'secondary';
 export type Accessory = Button<ButtonEvent> | Image;
 export type AccessoryMode<A extends Accessory> = A extends Button<ButtonEvent> ? 'right' : 'left' | 'right';
 export type ButtonEvent = 'link' | 'return-val' | '';
@@ -13,12 +20,12 @@ export type ButtonVal<E extends ButtonEvent> = E extends 'link' ? URLString : st
 export type FileType = 'file' | 'audio' | 'video';
 export type Cover<T extends FileType> = T extends 'audio' ? URLString : undefined;
 
-export type URLString = `${'http' | 'https'}://${string}`
+export type URLString = `${'http' | 'https'}://${string}`;
 export type NoneEmptyList<T> = { 0: T } & Array<T>;
 export type Array1to4<T> = [T] | [T, T] | [T, T, T] | [T, T, T, T];
 export type Array1to5<T> = Array1to4<T> | [T, T, T, T, T];
 export type Array1to9<T> =
-    Array1to5<T>
+    | Array1to5<T>
     | [T, T, T, T, T, T]
     | [T, T, T, T, T, T, T]
     | [T, T, T, T, T, T, T, T]
@@ -38,7 +45,7 @@ export type CardModule =
     | Invite;
 
 export interface Typed {
-    type: string
+    type: string;
 }
 
 export class KMarkdown implements Typed {
@@ -181,13 +188,57 @@ export class Invite implements Typed {
     }
 }
 
-export class Card implements Typed {
+export class Card implements Typed, CardObject {
     readonly type = 'card';
     readonly modules: CardModule[] = [];
 
-    constructor(public readonly size?: 'lg' | 'sm',
-                public readonly color?: string,
-                public readonly theme?: Theme) {
+    constructor(content?: string | CardObject | Card,
+                public size: 'lg' | 'sm' = 'lg',
+                public color?: string,
+                public theme?: Theme) {
+        if (content) {
+            let card: CardObject;
+            if (typeof content === 'string') {
+                card = JSON.parse(content);
+            } else {
+                card = content;
+            }
+            if (!Card.validate(card)) {
+                throw new Error(`card is not valid: ${content}`);
+            }
+            this.theme = card.theme ?? 'primary';
+            this.size = card.size;
+            this.color = card.color;
+            this.modules = [...card.modules];
+        }
+    }
+
+    static validate(content: CardObject): boolean {
+        for (const module of content.modules) {
+            if (Array.isArray(module)) {
+                return false;
+            } // TODO
+        }
+
+        return true;
+    }
+
+    setSize(size: 'lg' | 'sm'): this {
+        this.size = size;
+
+        return this;
+    }
+
+    setTheme(theme: Theme): this {
+        this.theme = theme;
+
+        return this;
+    }
+
+    setColor(color: string): this {
+        this.color = color;
+
+        return this;
     }
 
     add(module: CardModule): this {
@@ -243,13 +294,78 @@ export class Card implements Typed {
         return this.add(new Invite(code));
     }
 
-    toString(): string {
-        return JSON.stringify(this);
+    addModule(module: ModuleObject): this {
+        return this.add(module as CardModule);
+    }
+
+    /**
+     * @deprecated use {@link addHeader} instead
+     */
+    addTitle(title: string, emoji?: boolean): this {
+        return this.add(new Header(new PlainTextObject(title, emoji)));
+    }
+
+    addCountdown(mode: 'second' | 'hour' | 'day',
+                 endTime: number | Date,
+                 startTime?: number | Date): this {
+        startTime = startTime
+            ? typeof startTime == 'number'
+                ? startTime
+                : startTime.valueOf()
+            : new Date().valueOf();
+        endTime = typeof endTime == 'number' ? endTime : endTime.valueOf();
+        if (endTime < new Date().valueOf()) {
+            kBotifyLogger.warn(
+                'endTime < current Time, may cause problem for card'
+            );
+        }
+
+        return this.add(new Countdown(endTime, startTime, mode))
+    }
+
+    /**
+     * @deprecated use {@link addImageGroup} instead
+     */
+    addImage(source: string,
+             options?: {
+                 alt?: string;
+                 size?: 'lg' | 'sm';
+                 circle?: boolean;
+             }): this {
+        return this.addImageGroup(new Image(source as URLString, options?.alt, options?.size, options?.circle));
+    }
+
+    /**
+     * @deprecated use {@link addKMarkdown} instead
+     */
+    addText(content: string,
+            emoji = true,
+            accessoryMode: 'right' | 'left' = 'right',
+            accessory: any = {}): this {
+        if (accessory?.type == 'button' && accessoryMode == 'left') {
+            throw new Error('button + mode: left is not valid');
+        }
+        return this.addKMarkdown(content, accessory, accessoryMode);
+    }
+
+    /**
+     * @deprecated ignore this if {@link arrayBracket } is {@code false};
+     * otherwise, use {@link CardMessage#toString} instead
+     */
+    toString(arrayBracket = true): string {
+        return JSON.stringify(arrayBracket ? [this] : this);
     }
 
     toJSON(): this {
         if (this.modules.length > 50) kBotifyLogger.warn('module number exceeds 50, may cause problem for card');
         return this;
+    }
+
+    /**
+     * @deprecated
+     */
+    stringify(): string {
+        return this.toString();
     }
 }
 
@@ -258,7 +374,7 @@ export class CardMessage {
     }
 
     toString(): string {
-        return this.cards.toString();
+        return JSON.stringify(this.cards);
     }
 
     toJSON(): Card[] {
@@ -267,4 +383,35 @@ export class CardMessage {
         }
         return this.cards;
     }
+}
+
+/**
+ * @deprecated use classes which implements {@link Typed}
+ */
+export interface ModuleObject {
+    [key: string]: any;
+
+    type:
+        | 'section'
+        | 'image-group'
+        | 'header'
+        | 'divider'
+        | 'action-group'
+        | 'context'
+        | 'file'
+        | 'audio'
+        | 'video'
+        | 'countdown'
+        | 'invite';
+}
+
+/**
+ * @deprecated use {@link Card}
+ */
+export interface CardObject {
+    type: 'card';
+    size: 'lg' | 'sm';
+    theme?: Theme;
+    color?: string;
+    modules: any[];
 }
